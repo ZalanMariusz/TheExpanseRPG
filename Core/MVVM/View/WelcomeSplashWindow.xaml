@@ -1,0 +1,45 @@
+﻿<Window x:Class="TheExpanseRPG.Core.MVVM.View.WelcomeSplashWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+        xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown"
+        Style="{StaticResource ExpanseWindowStyle}"
+        >
+   
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="10"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="10"/>
+        </Grid.ColumnDefinitions>
+        <user:WindowHeaderWithLogo Grid.ColumnSpan="40"/>
+        <custom:CutCorner Grid.Row="1" Grid.Column="1" BorderCuts="1,1,1,1" HasShadow="0" Margin="0" BorderThickness="0">
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Margin="5">
+                <custom:CutCorner BorderCuts="1,0,0,1" Margin="5" BorderThickness="2">
+                    <Button Content="I am a Player" FontSize="20" Width="160" Height="50"
+                            Command="{Binding NavigateToPlayerMain}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                            />
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="0,1,1,0" Margin="5" BorderThickness="2">
+                    <Button Content="I am a GM" FontSize="20" Width="160" Height="50" 
+                            Command="{Binding NavigateToGmMain}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                            />
+                </custom:CutCorner>
+            </StackPanel>
+        </custom:CutCorner>
+    </Grid>
+</Window>

@@ -1,0 +1,43 @@
+﻿<Application x:Class="TheExpanseRPG.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TheExpanseRPG"
+             xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+    >
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="EXPLightBlueBrush" Color="#FF72FBFF"/>
+            <SolidColorBrush x:Key="EXPDarkBlueBrush" Color="#FF0B5879"/>
+            <SolidColorBrush x:Key="EXPDarkGreyBackGroundBrush" Color="#FF262626"/>
+            
+            <Style TargetType="{x:Type Label}">
+                <Setter Property="Foreground" Value="{StaticResource EXPLightBlueBrush}"/>
+            </Style>
+
+            <Style x:Key="ExpanseWindowStyle" TargetType="{x:Type Window}">
+                <Setter Property="Background" Value="{StaticResource EXPDarkGreyBackGroundBrush}"/>
+                <Setter Property="ResizeMode" Value="NoResize"/>
+                <Setter Property="WindowStyle" Value="None"/>
+            </Style>
+
+            <Style TargetType="{x:Type custom:CutCorner}">
+                <Setter Property="Fill" Value="{StaticResource EXPDarkBlueBrush}"/>
+                <Setter Property="BorderBrush" Value="#64ccc5"/>
+            </Style>
+
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!--<SolidColorBrush x:Key="EXPLightBlueBrush" Color="#FF72FBFF"/>-->
+            
+
+           
+           
+        </ResourceDictionary>
+
+            
+
+    </Application.Resources>
+</Application>
