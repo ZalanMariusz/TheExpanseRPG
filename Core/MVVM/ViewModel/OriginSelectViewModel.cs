@@ -14,7 +14,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public OriginSelectViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
-            NextPage = new RelayCommand(o => SelectedOrigin != null, o => NavigationService.NavigateToInnerView<AttributeRollViewModel>());
+            NextPage = new RelayCommand(o => SelectedOrigin != null, o => NavigationService.NavigateToInnerView<AttributeRollViewModel>(this));
         }
 
         private CharacterOrigin? _selectedOrigin;

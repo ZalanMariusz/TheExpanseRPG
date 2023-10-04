@@ -12,37 +12,32 @@ namespace TheExpanseRPG.Core.Services
     {
         private readonly IViewModelFactory _viewModelFactory;
         private readonly IViewFactory _viewFactory;
-        private List<IViewModelBase> _innerViewModels;
+        //private List<IViewModelBase> _innerViewModels;
 
-        private IViewModelBase? _currentViewModel;
-        public IViewModelBase CurrentViewModel
-        {
-            get { return _currentViewModel!; }
-            private set { _currentViewModel = value; OnPropertyChanged(); }
-        }
+        //private IViewModelBase? _currentViewModel;
+        //public IViewModelBase CurrentViewModel
+        //{
+        //    get { return _currentViewModel!; }
+        //    private set { _currentViewModel = value; OnPropertyChanged(); }
+        //}
 
         public NavigationService(IViewModelFactory viewModelFactory, IViewFactory viewFactory)
         {
             _viewModelFactory = viewModelFactory;
             _viewFactory = viewFactory;
-            _innerViewModels = new List<IViewModelBase>();
+            //_innerViewModels = new List<IViewModelBase>();
         }
-        public void NavigateToInnerView<TViewModelBase>() where TViewModelBase : IViewModelBase
+        public void NavigateToInnerView<TViewModelBase>(IViewModelBase owner) where TViewModelBase : IViewModelBase
         {
-            IViewModelBase viewModel = GetInnerViewModel<TViewModelBase>();
-            if (viewModel != null)
-            {
-                CurrentViewModel = viewModel;
-            }
-            else
-            {
-                CurrentViewModel = _viewModelFactory.GetInnerViewModel<TViewModelBase>();
-                _innerViewModels.Add(CurrentViewModel);
-            }
+            
+            IViewModelBase viewModel = owner.GetInnerViewModel<TViewModelBase>();
+            IViewModelBase CurrentViewModel = viewModel != null ? viewModel : _viewModelFactory.GetInnerViewModel<TViewModelBase>();
+            owner.AddInnerViewModel(CurrentViewModel);
+            owner.SetCurrentInnerViewModel(CurrentViewModel);
         }
         public void NavigateToNewWindow<TWindow>(Window? sender = null, bool closeWindow = false) where TWindow : Window
         {
-            _innerViewModels.Clear();
+            //_innerViewModels.Clear();
             ShowWindow<TWindow>(sender,closeWindow);
         }
         public void NavigateToModal<TWindow>() where TWindow : Window
@@ -70,9 +65,9 @@ namespace TheExpanseRPG.Core.Services
             }
         }
 
-        private IViewModelBase GetInnerViewModel<TViewModelBase>() where TViewModelBase : IViewModelBase
-        {
-            return _innerViewModels.FirstOrDefault(x => x.GetType() == typeof(TViewModelBase))!;
-        }
+        //private IViewModelBase GetInnerViewModel<TViewModelBase>() where TViewModelBase : IViewModelBase
+        //{
+        //    return _innerViewModels.FirstOrDefault(x => x.GetType() == typeof(TViewModelBase))!;
+        //}
     }
 }

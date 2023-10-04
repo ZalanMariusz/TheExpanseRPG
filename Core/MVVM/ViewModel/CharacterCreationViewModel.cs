@@ -20,13 +20,13 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public CharacterCreationViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
-            NavigationService.NavigateToInnerView<OriginSelectViewModel>();
+            NavigationService.NavigateToInnerView<OriginSelectViewModel>(this);
 
-            NavigateToOriginSelect = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<OriginSelectViewModel>());
-            NavigateToAttributeRoll = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<AttributeRollViewModel>());
-            NavigateToSocialAndBackground = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<SocialAndBackgroundViewModel>());
-            NavigateToCharacterProfessions = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<CharacterProfessionViewModel>());
-            NavigateToDriveAndGoals = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<DriveAndGoalsViewModel>());
+            NavigateToOriginSelect = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<OriginSelectViewModel>(this));
+            NavigateToAttributeRoll = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<AttributeRollViewModel>(this));
+            NavigateToSocialAndBackground = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<SocialAndBackgroundViewModel>(this));
+            NavigateToCharacterProfessions = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<CharacterProfessionViewModel>(this));
+            NavigateToDriveAndGoals = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<DriveAndGoalsViewModel>(this));
 
             NavigateBackToMain = new RelayCommand(o => true, ExecNavigationToPlayerMain);
         }

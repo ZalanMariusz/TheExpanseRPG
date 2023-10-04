@@ -7,17 +7,18 @@
              xmlns:enum="clr-namespace:TheExpanseRPG.Core.Enums"
              xmlns:converter="clr-namespace:TheExpanseRPG.Core.Converters"
              xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+             xmlns:vm="clr-namespace:TheExpanseRPG.Core.MVVM.ViewModel"
              
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    
+
     <UserControl.Resources>
         <converter:AttributeRollTypeToLabelContentConverter x:Key="AttributeRollTypeToLabelContentConverter"/>
         <converter:AttributeRollTypeToImageConverter x:Key="AttributeRollTypeToImageConverter"/>
-        <converter:AttributeRollToContentConverter x:Key="AttributeRollToContentConverter"/>
-        
-        
-        
+        <!--<converter:AttributeRollToContentConverter x:Key="AttributeRollToContentConverter"/>-->
+
+
+
         <ObjectDataProvider x:Key="RollTypeDataSource"
           ObjectType="{x:Type enum:AttributeRollType}"
           MethodName="GetValues">
@@ -30,11 +31,26 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+
     </UserControl.Resources>
 
-    
-    
-    <Grid >
+
+
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate DataType="{x:Type vm:AllRandomAttributeRollViewModel}">
+                <local:AllRandomAttributeRollView/>
+            </DataTemplate>
+            
+        <DataTemplate DataType="{x:Type vm:AssignAttributeRollViewModel}">
+            <local:AssignAttributeRollView/>
+        </DataTemplate>
+            
+        <DataTemplate DataType="{x:Type vm:DistributeAttributesViewModel}">
+            <local:DistributeAttributesView/>
+        </DataTemplate>
+            
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="44"/>
             <RowDefinition Height="auto"/>
@@ -45,6 +61,7 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>-->
+
         <ListBox SelectionMode="Single" 
                  ItemsSource="{Binding Source={StaticResource RollTypeDataSource}}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
@@ -55,7 +72,7 @@
                  HorizontalContentAlignment="Stretch"
                  Background="Transparent"
                  SelectedItem="{Binding SelectedAttributeRollType}"
-                 Margin="39,0,39,-2"
+                 Margin="39,0,39,-3"
                  
                   >
 
@@ -70,7 +87,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <custom:CutCorner HasShadow="0" CutSize="8" BorderThickness="0" BorderCuts="1,1,0,0" x:Name="cutcorner" >
+                                <custom:CutCorner HasShadow="0" CutSize="8" BorderThickness="1" BorderCuts="1,1,0,0" x:Name="cutcorner" >
                                     <Border x:Name="mainitemborder" ClipToBounds="True">
                                         <Grid>
                                             <Border x:Name ="shadowborder" 
@@ -81,7 +98,8 @@
                                                     <DropShadowEffect ShadowDepth="0" BlurRadius="10"/>
                                                 </Border.Effect>
                                             </Border>
-                                            <TextBlock  FontWeight="Medium" x:Name="textblock" HorizontalAlignment="Stretch" TextAlignment="Center" Padding="5"> 
+                                            <TextBlock
+                                                FontWeight="Medium" x:Name="textblock" HorizontalAlignment="Stretch" TextAlignment="Center" Padding="5"> 
                                             <Label Padding="0" 
                                                    x:Name="rollname" 
                                                    Content="{Binding Converter={StaticResource AttributeRollTypeToLabelContentConverter}}"
@@ -113,127 +131,10 @@
                     </Setter>
                 </Style>
             </ListBox.ItemContainerStyle>
-
-
         </ListBox>
-        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Margin="40,0" Padding="15,15,15,5" BorderThickness="0" HasShadow="0">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                    <RowDefinition Height ="35px"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="30px"/>
-                    <!--<ColumnDefinition/>-->
-                </Grid.ColumnDefinitions>
-                <Button Grid.Row="9" Content="🎲 Roll all 🎲" Grid.ColumnSpan="3" Command="{Binding RollAllRandomAbilityCommand}" 
-                        BorderThickness="1" BorderBrush="{StaticResource EXPLightBlueBrush}" Margin="0,5,0,5"/>
+        
+        <ContentControl Grid.Row="1" Content="{Binding CurrentInnerViewModel}" Height="400" Background="Red">
+        </ContentControl>
 
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" >
-                    <Grid>
-                        <Label Content="Accuracy" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding AccuracyRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="1" >
-                    <Grid>
-                        <Label Content="Constitution" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding ConstitutionRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="2" >
-                    <Grid>
-                        <Label Content="Fighting" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding FightingRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="3" >
-                    <Grid>
-                        <Label Content="Communication" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding CommunicationRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="4" >
-                    <Grid>
-                        <Label Content="Dexterity" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding DexterityRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="5" >
-                    <Grid>
-                        <Label Content="Intelligence" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding IntelligenceRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="6" >
-                    <Grid>
-                        <Label Content="Perception" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding PerceptionRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="7" >
-                    <Grid>
-                        <Label Content="Strength" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding StrengthRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="8" >
-                    <Grid>
-                        <Label Content="Willpower" HorizontalAlignment="Center"/>
-                        <Label Content="{Binding WillpowerRoll}" Foreground="Gray" HorizontalAlignment="Right"/>
-                    </Grid>
-                </custom:CutCorner>
-
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Accuracy}"/>
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Constitution}" />
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="2" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Fighting}" />
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="3" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Communication}" />
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="4" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Dexterity}" />
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="5" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Intelligence}" />
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="6" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Perception}" />
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="7" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Strength}" />
-                </custom:CutCorner>
-                <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="8" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0">
-                    <Label Foreground = "Black" Content="{Binding Willpower}"/>
-                </custom:CutCorner>
-                
-                
-                
-                <!--<Label Grid.Column ="3" Content="{Binding AccuracyRoll}" Grid.Row="1"/>
-                <Label Grid.Column ="3" Content="{Binding ConstitutionRoll}" Grid.Row="2"/>
-                <Label Grid.Column ="3" Content="{Binding FightingRoll}" Grid.Row="3"/>
-                <Label Grid.Column ="3" Content="{Binding CommunicationRoll}" Grid.Row="4"/>
-                <Label Grid.Column ="3" Content="{Binding DexterityRoll}" Grid.Row="5"/>
-                <Label Grid.Column ="3" Content="{Binding IntelligenceRoll}" Grid.Row="6"/>
-                <Label Grid.Column ="3" Content="{Binding PerceptionRoll}" Grid.Row="7"/>
-                <Label Grid.Column ="3" Content="{Binding StrengthRoll}" Grid.Row="8"/>
-                <Label Grid.Column ="3" Content="{Binding WillpowerRoll}" Grid.Row="9"/>-->
-            </Grid>
-
-        </custom:CutCorner>
     </Grid>
 </UserControl>
