@@ -21,7 +21,9 @@
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderCuts="{TemplateBinding BorderCuts}"
-                                    Fill="{TemplateBinding Background}">
+                                    Fill="{TemplateBinding Background}"
+                                    HasShadow="{Binding HasShadow, RelativeSource={RelativeSource TemplatedParent}}"
+                                    >
                                     <Button 
                                         Padding="{TemplateBinding Padding}" 
                                         Content="{TemplateBinding Content}" 
@@ -30,8 +32,8 @@
                                         Foreground="{TemplateBinding Foreground}"/>
                                 </custom:CutCorner>
                             </Grid>
-                            
-                            <ControlTemplate.Triggers>
+
+                            <!--<ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="true">
                                     <Setter Property="Fill" TargetName="CutBorder">
                                         <Setter.Value>
@@ -42,40 +44,11 @@
                                         </Setter.Value>
                                     </Setter>
                                 </Trigger>
-                            </ControlTemplate.Triggers>
+                            </ControlTemplate.Triggers>-->
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
-
-    <!--<Style TargetType="local:ButtonWithCutBorder">
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="local:ButtonWithCutBorder">
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" >
-                                        <Setter.Value>
-                                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                                <GradientStop Offset="0.75" Color="Blue"/>
-                                                <GradientStop Offset="1" Color="Aqua"/>
-                                            </LinearGradientBrush>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-        </ResourceDictionary>
-    </UserControl.Resources>-->
-
-    <!--<Grid>
-        <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="4" Fill="Red" BorderBrush="{Binding ElementName=ControlName, Path=BorderBrush}">
-            <Button Content="This is a button" Background="Transparent" BorderThickness="0"/>
-        </custom:CutCorner>
-    </Grid>-->
 </UserControl>

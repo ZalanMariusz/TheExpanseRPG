@@ -12,17 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TheExpanseRPG.Core.MVVM.ViewModel;
-using TheExpanseRPG.Core.MVVM.ViewModel.Interfaces;
 
 namespace TheExpanseRPG.Core.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for AttributeRollView.xaml
+    /// Interaction logic for DistributeAttributesView.xaml
     /// </summary>
-    public partial class AttributeRollView : UserControl
+    public partial class DistributeAttributesView : UserControl
     {
-        public AttributeRollView()
+        public DistributeAttributesView()
         {
             InitializeComponent();
         }

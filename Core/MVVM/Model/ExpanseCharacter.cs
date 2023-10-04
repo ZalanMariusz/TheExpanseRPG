@@ -1,13 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Web;
+using TheExpanseRPG.Core.Enums;
 
 namespace TheExpanseRPG.Core.MVVM.Model
 {
     public class ExpanseCharacter
     {
+        public string Name { get; }
+        public string Description { get; }
+        public CharacterAttributeBlock Attributes { get; }
+        public CharacterOrigin Origin {  get; }
+
+
         //public string CharacterName { get; set; }
         //public string Abilities { get; set; }
-        //public Origin CharacterOrigin{ get; set; }
+
         //public string BackGround { get; set; }
         //public string Profession { get; set; }
         //public string SocialClass { get; set; }

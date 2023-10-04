@@ -7,9 +7,7 @@ namespace TheExpanseRPG.UserControls
     public partial class ButtonWithCutBorder : UserControl
     {
         public ButtonWithCutBorder()
-        {
-            Button t = new Button();
-            
+        {   
             InitializeComponent();
         }
         static ButtonWithCutBorder()
@@ -27,5 +25,18 @@ namespace TheExpanseRPG.UserControls
             get { return (string)GetValue(BorderCutsProperty); }
             set { SetValue(BorderCutsProperty, value); }
         }
+
+
+        public string HasShadow
+        {
+            get { return (string)GetValue(HasShadowProperty); }
+            set { SetValue(HasShadowProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for HasShadow.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HasShadowProperty =
+            DependencyProperty.Register("HasShadow", typeof(string), typeof(ButtonWithCutBorder),new PropertyMetadata(string.Empty));
+
+
     }
 }

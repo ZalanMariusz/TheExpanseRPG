@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TheExpanseRPG.Core.MVVM.View;
 using TheExpanseRPG.Core.MVVM.ViewModel.Interfaces;
 
 namespace TheExpanseRPG.Core.MVVM.ViewModel
@@ -19,7 +20,14 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             services.AddTransient<SocialAndBackgroundViewModel>();
             services.AddTransient<CharacterProfessionViewModel>();
             services.AddTransient<DriveAndGoalsViewModel>();
+            services.AddTransient<AllRandomAttributeRollViewModel>();
+            services.AddTransient<DistributeAttributesViewModel>();
+            services.AddTransient<AssignAttributeRollViewModel>();
             
+
+
+
+
 
 
         }
