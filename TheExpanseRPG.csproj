@@ -8,52 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-bold.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-bolditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-compressed.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-compressedbold.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-compressedbolditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-compressedheavy.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-compressedheavyitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-compresseditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-compressedlight.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-compressedlightitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-condensed.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-condensedbold.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-condensedbolditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-condensedheavy.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-condensedheavyitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-condenseditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-condensedlight.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-condensedlightitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-expanded.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-expandedbold.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-expandedbolditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-expandedheavy.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-expandedheavyitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-expandeditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-expandedlight.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-expandedlightitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-extended.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-extendedbold.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-extendedbolditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-extendedheavy.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-extendedheavyitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-extendeditalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-extendedlight.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-extendedlightitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-heavy.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-heavyitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-italic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-light.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-lightitalic.otf" />
-    <None Remove="Fonts\Fontspring-DEMO-hyperspacerace-regular.otf" />
-    <None Remove="Fonts\hyperspaceracebold.otf" />
-    <None Remove="Images\CharacterOriginBelt.png" />
-    <None Remove="Images\CharacterOriginEarth.png" />
-    <None Remove="Images\CharacterOriginMars.png" />
-    <None Remove="Images\shutdown-icon.png" />
-    <None Remove="Resources\ExpanseTalentList.txt" />
+    
   </ItemGroup>
 
   <ItemGroup>

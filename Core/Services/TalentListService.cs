@@ -23,7 +23,7 @@ namespace TheExpanseRPG.Core.Services
 
         private void PopulateTalentList()
         {
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!, @"Resources\ExpanseTalentList.txt");
+            string path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory)!, @"Resources\ExpanseTalentList.txt");
             string[] talentListFile = File.ReadAllLines(path);
             List<string> talentBlock = new();
             foreach (string line in talentListFile)
