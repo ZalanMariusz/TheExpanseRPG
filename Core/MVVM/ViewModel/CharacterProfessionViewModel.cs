@@ -1,6 +1,6 @@
 ﻿namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
-    public class CharacterProfessionViewModel : ViewModelBase
+    public class CharacterProfessionViewModel : CharacterCreationViewModelBase
     {
     }
 }

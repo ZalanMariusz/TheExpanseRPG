@@ -18,7 +18,7 @@ namespace TheExpanseRPG.Core.Factories
             var enumDataSource = Enum.GetValues(typeof(CharacterOrigin));
             services.AddSingleton<IViewModelFactory, ViewModelFactory>();
             services.AddSingleton<IViewFactory, ViewFactory>();
-
+            services.AddSingleton<ScopedServiceFactory>();
             //services.AddSingleton<Func<IEnumerable<IViewModelBase>>>
             //  (provider => provider.GetRequiredService<IEnumerable<IViewModelBase>>);
 
@@ -28,6 +28,7 @@ namespace TheExpanseRPG.Core.Factories
 
             services.AddSingleton<Func<Type, Window>>(
                 provider => windowType => (Window)provider.GetRequiredService(windowType));
+
         }
     }
 }

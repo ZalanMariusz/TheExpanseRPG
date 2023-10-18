@@ -13,8 +13,7 @@ namespace TheExpanseRPG.Core.Factories
     {
         private Dictionary<Type, Type>? ViewModelAssociationDictionary;
 
-        //private readonly Func<IEnumerable<Type>> _viewModelStore;
-        private Func<Type, IViewModelBase> _factory;
+        private readonly Func<Type, IViewModelBase> _factory;
         private void PopulateViewModelAssociationDictionary()
         {
             ViewModelAssociationDictionary = new Dictionary<Type, Type>
@@ -22,14 +21,13 @@ namespace TheExpanseRPG.Core.Factories
                 { typeof(WelcomeSplashWindow), typeof(WelcomeSplashViewModel) },
                 { typeof(PlayerMainWindow), typeof(PlayerMainViewModel) },
                 { typeof(GmMainWindow), typeof(GmMainViewModel) },
-                { typeof(CharacterCreationWindow), typeof(CharacterCreationViewModel) }
-                //{ typeof(OriginSelectView), typeof(OriginSelectViewModel) }
+                { typeof(CharacterCreationWindow), typeof(CharacterCreationViewModel) },
+                { typeof(TalentListWindow), typeof(TalentListViewModel) }
             };
         }
 
-        public ViewModelFactory(/*Func<IEnumerable<Type>> viewModelStore,*/Func<Type, IViewModelBase> factory)
+        public ViewModelFactory(Func<Type, IViewModelBase> factory)
         {
-            //_viewModelStore = viewModelStore;
             _factory = factory;
             PopulateViewModelAssociationDictionary();
         }
@@ -42,7 +40,6 @@ namespace TheExpanseRPG.Core.Factories
         public IViewModelBase GetInnerViewModel<TViewModelType>() where TViewModelType : IViewModelBase
         {
             return _factory(typeof(TViewModelType));
-               // _viewModelStore().Where(x => x.GetType() == typeof(TViewModelType)).FirstOrDefault()!;
         }
     }
 }

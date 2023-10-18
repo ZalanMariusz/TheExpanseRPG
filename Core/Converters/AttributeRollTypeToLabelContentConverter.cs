@@ -12,14 +12,14 @@ namespace TheExpanseRPG.Core.Converters
             if (value == null)
                 return "";
 
-            AttributeRollType rollType = (AttributeRollType)Enum.Parse(typeof(AttributeRollType), value.ToString());
+            AbilityRollType rollType = (AbilityRollType)Enum.Parse(typeof(AbilityRollType), value.ToString()!);
             switch (rollType)
             {
-                case AttributeRollType.AllRandom:
+                case AbilityRollType.AllRandom:
                     return "All Random";
-                case AttributeRollType.RollAndAssign:
+                case AbilityRollType.RollAndAssign:
                     return "Roll and Assign";
-                case AttributeRollType.DistributePoints:
+                case AbilityRollType.DistributePoints:
                     return "Distribute points";
                 default:
                     break;

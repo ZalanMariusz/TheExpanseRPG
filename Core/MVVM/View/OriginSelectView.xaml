@@ -6,11 +6,15 @@
              xmlns:converter="clr-namespace:TheExpanseRPG.Core.Converters"
              xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
              xmlns:enum="clr-namespace:TheExpanseRPG.Core.Enums"
-             xmlns:ext="clr-namespace:TheExpanseRPG.Core.MarkupExtensions"
+             
              mc:Ignorable="d" 
              >
     <Control.Resources>
         <converter:OriginToImageConverter x:Key="OriginToImageConverter"/>
+        <converter:CharacterCreationStepLockInToButtonContentConverter x:Key="CharacterCreationStepLockInToButtonContentConverter"/>
+        <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converter:SelectedOriginToEnabledConverter x:Key="SelectedOriginToEnabledConverter"/>
+        
         <ObjectDataProvider x:Key="CharacterOriginDataSource"
                  ObjectType="{x:Type enum:CharacterOrigin}"
                  MethodName="GetValues">
@@ -24,85 +28,105 @@
     <Grid>
         <StackPanel>
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="504"/>
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <!--ItemsSource="{Binding Source={StaticResource CharacterOriginDataSource}}"-->
                 <Label Content="Select an origin from below, then press next" Grid.ColumnSpan="3" Background="White" FontStyle="Italic" Foreground="Gray" Height="18" Padding="0" Margin="0,0,0,5" HorizontalContentAlignment="Center"/>
-                <ListView Grid.Row="1" Grid.ColumnSpan="3"
-                          HorizontalAlignment="Center"
-                          
-                          ItemsSource="{Binding Source={StaticResource CharacterOriginDataSource}}"
-                          SelectionMode="Single" 
-                          SelectedItem="{Binding SelectedOrigin}"
-                          ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-                          Background="Transparent" 
-                          BorderThickness="0" 
-                          Grid.IsSharedSizeScope="True"
+                <Grid Grid.Row="1" HorizontalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView 
+                        Template="{DynamicResource ExpanseListViewTemplate}"
+                        Grid.ColumnSpan="3"
+                        HorizontalAlignment="Left"
+                        ItemsSource="{Binding Source={StaticResource CharacterOriginDataSource}}"
+                        SelectionMode="Single" 
+                        SelectedItem="{Binding SelectedOrigin}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        Grid.IsSharedSizeScope="True"
+                        IsEnabled="{Binding IsLockedIn, Converter={StaticResource InverseBooleanConverter}}"
                               >
-                    <ListView.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
-                        </ItemsPanelTemplate>
-                    </ListView.ItemsPanel>
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
 
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                        <Grid>
-  
-                                            <Border x:Name="contentborder" BorderBrush="Transparent" BorderThickness="1">
-                                                <StackPanel>
-                                                    <Image x:Name="ListboxImage" Height="480" Stretch="UniformToFill">
-                                                        <Image.Source>
-                                                            <FormatConvertedBitmap Source="{Binding Converter={StaticResource OriginToImageConverter}}" DestinationFormat="Gray8"/>
-                                                        </Image.Source>
-                                                    </Image>
-                                                    <custom:CutCorner HasShadow="0" BorderCuts="0,0,0,0" CutSize="4" BorderThickness="0">
-                                                        <Label Content="{Binding}" Height="20" Padding="0" Background="Transparent" VerticalAlignment="Center"
-                                                           HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <Grid>
+                                                <Border x:Name="contentborder" BorderBrush="Transparent" BorderThickness="1">
+                                                    <StackPanel>
+                                                        <Image x:Name="ListboxImage" Height="480" Stretch="UniformToFill">
+                                                            <Image.Source>
+                                                                <FormatConvertedBitmap Source="{Binding Converter={StaticResource OriginToImageConverter}}" DestinationFormat="Gray8"/>
+                                                            </Image.Source>
+                                                        </Image>
+                                                        <custom:CutCorner HasShadow="0" BorderCuts="0,0,0,0" CutSize="4" BorderThickness="0">
+                                                            <Label Content="{Binding}" Height="20" Padding="0" Background="Transparent" 
+                                                           VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                            Foreground="#FF72FBFF"/>
-                                                    </custom:CutCorner>
-                                                </StackPanel>
-                                            </Border>
-                                        </Grid>
-                                        <ControlTemplate.Triggers>
-                                            <Trigger Property="IsSelected" Value="True">
-                                                <Setter TargetName="ListboxImage" Property="Source" Value="{Binding Converter={StaticResource OriginToImageConverter}}"/>
-                                                <Setter TargetName="contentborder" Property="BorderBrush" Value="#FFFFFF00"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Source" TargetName="ListboxImage" Value="{Binding Converter={StaticResource OriginToImageConverter}}"/>
-                                            </Trigger>
-                                        </ControlTemplate.Triggers>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+                                                        </custom:CutCorner>
+                                                    </StackPanel>
+                                                </Border>
+                                            </Grid>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter TargetName="ListboxImage" Property="Source" Value="{Binding Converter={StaticResource OriginToImageConverter}}"/>
+                                                    <Setter TargetName="contentborder" Property="BorderBrush" Value="#FFFFFF00"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Source" TargetName="ListboxImage" Value="{Binding Converter={StaticResource OriginToImageConverter}}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
 
+                    <Grid Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding SelectedOriginDescription}" 
+                               Grid.Column="3"
+                               Margin="30,0,0,0"
+                               Background="Transparent" 
+                               Foreground="{StaticResource EXPLightBlueBrush}" 
+                               TextWrapping="Wrap" 
+                               TextAlignment="Left" 
+                               FontWeight="DemiBold" />
+                        <custom:CutCorner  Margin="30,0,0,3" BorderCuts="1,1,1,1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" >
+                            <ToggleButton 
+                                BorderThickness="0"
+                                Style="{DynamicResource ExpanseToggleButton}" 
+                                Content="{Binding IsLockedIn, Converter={StaticResource CharacterCreationStepLockInToButtonContentConverter}}" 
+                                
+                                IsEnabled ="{Binding SelectedOrigin,Converter={StaticResource SelectedOriginToEnabledConverter}}"
+                                IsChecked="{Binding IsLockedIn}"/>
+                        </custom:CutCorner>
+                        <!--Command="{Binding ToggleLockCommand}"-->
+                    </Grid>
+                </Grid>
                 <!--<Rectangle Fill="Red" Grid.Row="2" Grid.ColumnSpan="3" />-->
-                <custom:CutCorner Padding="4" BorderCuts="0,0,1,0" Grid.Row="2" Grid.ColumnSpan="3" Margin="8">
-                    <TextBlock Text="{Binding SelectedOriginDescription}"
-                               Background="Transparent" Foreground="{StaticResource EXPLightBlueBrush}" TextWrapping="Wrap" TextAlignment="Left" FontWeight="DemiBold" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
-                </custom:CutCorner>
+                
 
 
-                <custom:CutCorner Width="120" BorderCuts="1,1,1,1" Grid.Row="3" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right">
-                    <Button Content="Next" Command="{Binding NextPage}"/>
-                </custom:CutCorner>
-
+    
 
 
 

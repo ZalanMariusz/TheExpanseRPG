@@ -1,17 +1,28 @@
 ﻿using System.Collections.Generic;
-using System.Web;
+using System.Net.Http.Headers;
 using TheExpanseRPG.Core.Enums;
 
 namespace TheExpanseRPG.Core.MVVM.Model
 {
     public class ExpanseCharacter
     {
-        public string Name { get; }
-        public string Description { get; }
-        public CharacterAttributeBlock Attributes { get; }
-        public CharacterOrigin Origin {  get; }
-
-
+        public ExpanseCharacter()
+        {
+            Talents = new List<CharacterTalent>();
+            Focuses = new List<AbilityFocus>();
+        }
+        public int Level { get; private set; } = 1;
+        public string? Name { get; set; }
+        public string? Description { get; }
+        public CharacterAbilityBlock? Abilities { get; }
+        public CharacterOrigin? Origin { get; }
+        public CharacterBackGround? Background { get; }
+        public List<AbilityFocus> Focuses { get; }
+        public List<CharacterTalent> Talents { get; }
+        public bool CanLearnTalent(CharacterTalent talent)
+        {
+            return talent.RequirementsMet(Abilities!);
+        }
         //public string CharacterName { get; set; }
         //public string Abilities { get; set; }
 

@@ -53,6 +53,7 @@
     <None Remove="Images\CharacterOriginEarth.png" />
     <None Remove="Images\CharacterOriginMars.png" />
     <None Remove="Images\shutdown-icon.png" />
+    <None Remove="Resources\ExpanseTalentList.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -79,6 +80,24 @@
     <Resource Include="Images\CharacterOriginEarth.png" />
     <Resource Include="Images\CharacterOriginMars.png" />
     <Resource Include="Images\shutdown-icon.png" />
+    <Content Include="Resources\ExpanseTalentList.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\TalentList.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TalentList.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\TalentList.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TalentList.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

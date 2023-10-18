@@ -34,7 +34,7 @@
             BorderThickness="1" BorderBrush="{StaticResource EXPLightBlueBrush}" Margin="0,5,0,5"/>-->
 
                 <Label Content="Available Points:" HorizontalAlignment="Right" Grid.Row="9"/>
-                <Label Content="{Binding AttributePool}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="Transparent" Grid.Row="9"/>
+                <Label Content="{Binding AbilityPool}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="Transparent" Grid.Row="9"/>
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="0">
                     <Label Content="Accuracy" HorizontalAlignment="Center"/>
@@ -65,66 +65,66 @@
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="0" BorderThickness="0"  BorderCuts="0,0,1,0" HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Accuracy"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Accuracy"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0" Fill="Black" Grid.Column ="1" Grid.Row="0" BorderThickness="0" BorderCuts="1,0,0,0"  HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Accuracy"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Accuracy"/>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="1" BorderThickness="0"  BorderCuts="0,0,1,0" HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Constitution"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Constitution"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0"  Fill="Black" Grid.Column ="1" Grid.Row="1" BorderThickness="0" BorderCuts="1,0,0,0"  HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Constitution"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Constitution"/>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="2" BorderThickness="0"   BorderCuts="0,0,1,0" HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Fighting"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Fighting"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0" Fill="Black" Grid.Column ="1" Grid.Row="2" BorderThickness="0" BorderCuts="1,0,0,0" HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Fighting"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Fighting"/>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="3" BorderThickness="0" BorderCuts="0,0,1,0" HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Communication"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Communication"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0" Fill="Black" Grid.Column ="1" Grid.Row="3" BorderThickness="0" BorderCuts="1,0,0,0" HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Communication"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Communication"/>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="4" BorderThickness="0" BorderCuts="0,0,1,0" HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Dexterity"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Dexterity"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0"  Fill="Black" Grid.Column ="1" Grid.Row="4" BorderThickness="0" BorderCuts="1,0,0,0"  HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Dexterity"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Dexterity"/>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="5" BorderThickness="0"   BorderCuts="0,0,1,0"  HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Intelligence"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Intelligence"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0"  Fill="Black" Grid.Column ="1" Grid.Row="5" BorderThickness="0" BorderCuts="1,0,0,0" HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Intelligence"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Intelligence"/>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="6" BorderThickness="0"  BorderCuts="0,0,1,0" HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Perception"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Perception"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0"  Fill="Black" Grid.Column ="1" Grid.Row="6" BorderThickness="0" BorderCuts="1,0,0,0"  HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Perception"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Perception"/>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="7" BorderThickness="0"  BorderCuts="0,0,1,0" HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Strength"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Strength"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0"  Fill="Black" Grid.Column ="1" Grid.Row="7" BorderThickness="0" BorderCuts="1,0,0,0"  HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Strength"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Strength"/>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="8" BorderThickness="0" BorderCuts="0,0,1,0"  HasShadow ="0">
-                    <Button Content="+" Command="{Binding IncreaseAttributeValue}" CommandParameter="Willpower"/>
+                    <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Willpower"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="5,5,0,0"  Fill="Black" Grid.Column ="1" Grid.Row="8" BorderThickness="0" BorderCuts="1,0,0,0" HasShadow ="0">
-                    <Button Content="-" Command="{Binding DecreaseAttributeValue}" CommandParameter="Willpower"/>
+                    <Button Content="-" Command="{Binding DecreaseAbilityValue}" CommandParameter="Willpower"/>
                 </custom:CutCorner>
 
 
