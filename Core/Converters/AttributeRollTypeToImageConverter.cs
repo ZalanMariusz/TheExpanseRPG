@@ -12,14 +12,14 @@ namespace TheExpanseRPG.Core.Converters
             if (value == null)
                 return "";
 
-            AttributeRollType rollType = (AttributeRollType)Enum.Parse(typeof(AttributeRollType), value.ToString());
+            AbilityRollType rollType = (AbilityRollType)Enum.Parse(typeof(AbilityRollType), value.ToString()!);
             switch (rollType)
             {
-                case AttributeRollType.AllRandom:
+                case AbilityRollType.AllRandom:
                     return "🎲 ??? 💪";
-                case AttributeRollType.RollAndAssign:
+                case AbilityRollType.RollAndAssign:
                     return "🎲 🢂 💪";
-                case AttributeRollType.DistributePoints:
+                case AbilityRollType.DistributePoints:
                     return "➕ 💪 ➖";
                 default:
                     break;
@@ -29,7 +29,7 @@ namespace TheExpanseRPG.Core.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return AttributeRollType.AllRandom;
+            return AbilityRollType.AllRandom;
         }
     }
 }

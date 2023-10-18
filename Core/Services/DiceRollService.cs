@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using TheExpanseRPG.Core.MVVM.Model;
+using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.Core.Services
 {
-    public class DiceRollService
+    public class DiceRollService : IExpanseService
     {
         //public int RollModifier { get; set; } = 0;
         public static RollResult Roll3D6(List<int>? rollModifier = null, bool hasDramaDie = false)

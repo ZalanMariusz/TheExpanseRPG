@@ -1,6 +1,6 @@
 ﻿namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
-    public class DriveAndGoalsViewModel : ViewModelBase
+    public class DriveAndGoalsViewModel : CharacterCreationViewModelBase
     {
     }
 }

@@ -24,6 +24,8 @@ namespace TheExpanseRPG
             RegisterFactories.Register(_services);
             RegisterServices.Register(_services);
 
+            
+
             //_services.AddSingleton(
             //    provider => new WelcomeSplashWindow
             //    {

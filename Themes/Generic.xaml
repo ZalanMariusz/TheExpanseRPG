@@ -3,11 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
+
         <ResourceDictionary Source="/CustomControls/CutCornerStyle.xaml"/>
         <ResourceDictionary Source="/CustomControls/CutCornerButtonStyle.xaml"/>
         <ResourceDictionary Source="/Themes/ButtonStyle.xaml"/>
         <ResourceDictionary Source="/Themes/OriginSelectorRadioStyle.xaml"/>
-        
+        <ResourceDictionary Source="/Themes/ExpanseListViewStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/ExpanseToggleButtonStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/ExpanseComboboxStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/ExpanseComboBoxItemControlTemplate.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
     

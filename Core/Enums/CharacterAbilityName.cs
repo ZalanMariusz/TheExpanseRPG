@@ -1,6 +1,6 @@
 ﻿namespace TheExpanseRPG.Core.Enums
 {
-    public enum CharacterAttributeName
+    public enum CharacterAbilityName
     {
         Accuracy,
         Constitution,

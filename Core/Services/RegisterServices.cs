@@ -9,6 +9,13 @@ namespace TheExpanseRPG.Core.Services
         {
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<DiceRollService>();
+            services.AddSingleton<TalentListService>();
+            services.AddSingleton<CharacterBackgroundListService>();
+            services.AddSingleton<AbilityFocusListService>();
+            services.AddSingleton<CharacterProfessionListService>();
+
+            services.AddScoped<CharacterCreationService>();
+            
         }
     }
 }

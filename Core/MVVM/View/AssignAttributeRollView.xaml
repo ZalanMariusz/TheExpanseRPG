@@ -8,10 +8,10 @@
              xmlns:conv="clr-namespace:TheExpanseRPG.Core.Converters"
              
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
     <Grid>
         <Grid.Resources>
-            <conv:AttributeIsNullToClearButtonConverter x:Key="AttributeIsNullToClearButtonConverter"/>
+            <conv:NullToHiddenVisibilityConverter x:Key="AttributeIsNullToClearButtonConverter"/>
         </Grid.Resources>
         <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Margin="40,0" Padding="15,15,15,5" BorderThickness="0" HasShadow="0">
             <Grid>
@@ -33,7 +33,7 @@
                     <!--<ColumnDefinition/>-->
                 </Grid.ColumnDefinitions>
 
-                <ListBox Grid.Row="9" Margin="0,5,0,5" ItemsSource="{Binding RolledAttributes}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent" BorderBrush="{StaticResource EXPLightBlueBrush}"
+                <ListBox Grid.Row="9" Margin="0,5,0,5" ItemsSource="{Binding AssignableAbilityValues}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent" BorderBrush="{StaticResource EXPLightBlueBrush}"
                          HorizontalContentAlignment="Stretch"
 >
                     <ListBox.ItemsPanel>
@@ -49,13 +49,13 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <Button Grid.Row="9" Content="🎲" Grid.Column="2" Command="{Binding RollAttributeValues}" BorderThickness="1" BorderBrush="{StaticResource EXPLightBlueBrush}" Margin="0,5,0,5"/>
+                <Button Grid.Row="9" Content="🎲" Grid.Column="2" Command="{Binding RollAbilityValues}" BorderThickness="1" BorderBrush="{StaticResource EXPLightBlueBrush}" Margin="0,5,0,5"/>
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" >
                     <Grid>
                         <Label Content="Accuracy" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAttribute}" CommandParameter="Accuracy" 
+                                Command="{Binding ClearAbility}" CommandParameter="Accuracy" 
                                 Visibility="{Binding Accuracy, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
                                 />
                     </Grid>
@@ -64,7 +64,7 @@
                     <Grid>
                         <Label Content="Constitution" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAttribute}" CommandParameter="Constitution"
+                                Command="{Binding ClearAbility}" CommandParameter="Constitution"
                                 Visibility="{Binding Constitution, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
                                 />
                     </Grid>
@@ -73,7 +73,7 @@
                     <Grid>
                         <Label Content="Fighting" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" VerticalContentAlignment="Center"
-                                Command="{Binding ClearAttribute}" CommandParameter="Fighting"
+                                Command="{Binding ClearAbility}" CommandParameter="Fighting"
                                 Visibility="{Binding Fighting, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
         />
                     </Grid>
@@ -82,7 +82,7 @@
                     <Grid>
                         <Label Content="Communication" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAttribute}" CommandParameter="Communication"
+                                Command="{Binding ClearAbility}" CommandParameter="Communication"
                                 Visibility="{Binding Communication, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
         />
                     </Grid>
@@ -91,7 +91,7 @@
                     <Grid>
                         <Label Content="Dexterity" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAttribute}" CommandParameter="Dexterity"
+                                Command="{Binding ClearAbility}" CommandParameter="Dexterity"
                                 Visibility="{Binding Dexterity, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
         />
                     </Grid>
@@ -100,7 +100,7 @@
                     <Grid>
                         <Label Content="Intelligence" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAttribute}" CommandParameter="Intelligence"
+                                Command="{Binding ClearAbility}" CommandParameter="Intelligence"
                                 Visibility="{Binding Intelligence, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
         />
                     </Grid>
@@ -109,7 +109,7 @@
                     <Grid>
                         <Label Content="Perception" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAttribute}" CommandParameter="Perception"
+                                Command="{Binding ClearAbility}" CommandParameter="Perception"
                                 Visibility="{Binding Perception, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
         />
                     </Grid>
@@ -118,7 +118,7 @@
                     <Grid>
                         <Label Content="Strength" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAttribute}" CommandParameter="Strength"
+                                Command="{Binding ClearAbility}" CommandParameter="Strength"
                                 Visibility="{Binding Strength, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
         />
                     </Grid>
@@ -127,38 +127,38 @@
                     <Grid>
                         <Label Content="Willpower" HorizontalAlignment="Center"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAttribute}" CommandParameter="Willpower"
+                                Command="{Binding ClearAbility}" CommandParameter="Willpower"
                                 Visibility="{Binding Willpower, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
                                 />
                     </Grid>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Accuracy, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Accuracy, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Constitution, Mode=TwoWay}" AllowDrop="True"  Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Constitution, Mode=TwoWay}" AllowDrop="True"  Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="2" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Fighting, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Fighting, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="3" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Communication, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Communication, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="4" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Dexterity, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Dexterity, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="5" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Intelligence, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Intelligence, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="6" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Perception, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Perception, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="7" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Foreground = "Black" Content="{Binding Strength, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Strength, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="8" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0">
-                    <Label Foreground = "Black" Content="{Binding Willpower, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Willpower, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
 
 

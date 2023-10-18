@@ -1,6 +1,6 @@
 ﻿namespace TheExpanseRPG.Core.Enums
 {
-    public enum AttributeRollType
+    public enum AbilityRollType
     {
         AllRandom,
         RollAndAssign,
