@@ -21,7 +21,7 @@ namespace TheExpanseRPG.Core.MVVM.Model
         public List<CharacterTalent> Talents { get; }
         public bool CanLearnTalent(CharacterTalent talent)
         {
-            return talent.RequirementsMet(Abilities!);
+            return talent.AreRequirementsMet(Abilities!);
         }
         //public string CharacterName { get; set; }
         //public string Abilities { get; set; }

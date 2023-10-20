@@ -156,7 +156,7 @@
                                             </Grid.RowDefinitions>
                                             <Grid x:Name="backgroundheader" Width="580">
                                                 <Label x:Name="backgroundNameLabel" Content="{Binding BackgroundName}" HorizontalAlignment="Left"/>
-                                                <Label x:Name="backgroundAbilityBonusLabel" Content="{Binding AttributeBonus}" ContentStringFormat="+1 {0}" HorizontalAlignment="Right"/>
+                                                <Label x:Name="backgroundAbilityBonusLabel" Content="{Binding AbilityBonus}" ContentStringFormat="+1 {0}" HorizontalAlignment="Right"/>
                                             </Grid>
                                             <TextBlock Text="{Binding BackgroundDescription}" Grid.Row="1"
                                                        x:Name="backgroundDescription"

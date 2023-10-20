@@ -21,7 +21,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             get { return CharacterCreationService.ChosenCharacterBackground; } 
             set { CharacterCreationService.ChosenCharacterBackground = value; ClearChosenBonuses(); OnPropertyChanged(); } 
         }
-        public IBackgroundOrProfessionBenefit? ChosenBenefit
+        public ICharacterCreationBonus? ChosenBenefit
         {
             get { return CharacterCreationService.ChosenCharacterBackgroundBenefit; }
             set { CharacterCreationService.ChosenCharacterBackgroundBenefit = value; OnPropertyChanged(); }

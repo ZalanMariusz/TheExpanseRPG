@@ -278,3 +278,46 @@ novicedescription:Your weapon and the power of your attacks force foes to yield 
 expertdescription:You strike fearsome blows with your weapon. You can perform the Vicious Blow stunt for 1 SP when wielding a heavy weapon.
 masterdescription:You and your weapon are as one. When you are wielding a heavy weapon and gain SP, you gain +2 SP to use exclusively for the following stunts: Expose, Knock Prone, Shock and Awe, Skirmish, and Wound.
 endtalent
+
+
+,('Academic','F','5:Art')
+,('Academic','F','5:Business')
+,('Academic','F','5:Cryptography')
+,('Academic','F','5:Current Affairs')
+,('Academic','F','5:Demolitions')
+,('Academic','F','5:Engineering')
+,('Academic','F','5:Evaluation')
+,('Academic','F','5:History')
+,('Academic','F','5:Law')
+,('Academic','F','5:Medicine')
+,('Academic','F','5:Navigation')
+,('Academic','F','5:Research')
+,('Academic','F','5:Science')
+,('Academic','F','5:Security')
+,('Academic','F','5:Tactics')
+,('Academic','F','5:Technology')
+
+
+,('Bohemian','F','3:Bargaining')
+,('Bohemian','F','3:Deception')
+,('Bohemian','F','3:Disguise')
+,('Bohemian','F','3:Etiquette')
+,('Bohemian','F','3:Expression')
+,('Bohemian','F','3:Gambling')
+,('Bohemian','F','3:Investigation')
+,('Bohemian','F','3:Leadership')
+,('Bohemian','F','3:Performing')
+,('Bohemian','F','3:Persuasion')
+,('Bohemian','F','3:Seduction')
+
+
+,('Suburban','F','6:Empathy')
+,('Suburban','F','6:Hearing')
+,('Suburban','F','6:Intuition')
+,('Suburban','F','6:Searching')
+,('Suburban','F','6:Seeing')
+,('Suburban','F','6:Smelling')
+,('Suburban','F','6:Survival')
+,('Suburban','F','6:Tasting')
+,('Suburban','F','6:Touching')
+,('Suburban','F','6:Tracking')

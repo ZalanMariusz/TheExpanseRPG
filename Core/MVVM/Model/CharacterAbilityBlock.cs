@@ -21,15 +21,11 @@ namespace TheExpanseRPG.Core.MVVM.Model
                 AbilityList.Add(new CharacterAbility(ability));
             }
         }
-        //private List<CharacterAbility> CreateAbilities(List<CharacterAbility> abilityList)
-        //{
-        //    List<CharacterAbility> retAbilities = new();
-        //    foreach (var tupleItem in abilityTupleList)
-        //    {
-        //        retAbilities.Add(new CharacterAbility(tupleItem.Item1, tupleItem.Item2));
-        //    }
-        //    return retAbilities;
-        //}
+        public bool HasFocus(AbilityFocus focus)
+        {
+            return GetAbility(focus.AbilityName).Focuses.Exists(x => x.FocusName == focus.FocusName);
+        }
+
         #region character attribute getters
         public CharacterAbility GetAbility(CharacterAbilityName attributeName)
         {

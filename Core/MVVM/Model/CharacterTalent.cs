@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using TheExpanseRPG.Core.Enums;
+using TheExpanseRPG.Core.MVVM.Model.Interfaces;
 using TheExpanseRPG.Core.Services;
 
 namespace TheExpanseRPG.Core.MVVM.Model
@@ -16,7 +17,7 @@ namespace TheExpanseRPG.Core.MVVM.Model
     {
         public string TalentName { get; }
         public TalentDegree? Degree { get; private set; }
-        public List<List<CharacterAbility>> Requirements { get; }
+        public List<List<ICharacterCreationBonus>> Requirements { get; }
 
         public string Description { get; }
         public string NoviceDescription { get; }
@@ -25,7 +26,7 @@ namespace TheExpanseRPG.Core.MVVM.Model
         public string RequirementString { get; }
         public CharacterTalent(
             string talentName,
-            List<List<CharacterAbility>> requirements,
+            List<List<ICharacterCreationBonus>> requirements,
             string description,
             string noviceDescription,
             string expertDescription,
@@ -44,32 +45,33 @@ namespace TheExpanseRPG.Core.MVVM.Model
         private string ParseRequirementString()
         {
             string retval = "";
-            foreach (List<CharacterAbility> item in Requirements)
+            foreach (List<ICharacterCreationBonus> requirementItem in Requirements)
             {
                 if (retval!="")
                 {
-                    retval = String.Concat(retval, " and ");
+                    retval = string.Concat(retval, " and ");
                 }
 
                 string? partialRequirementSting = null;
 
-                foreach (CharacterAbility ability in item)
+                foreach (ICharacterCreationBonus benefit in requirementItem)
                 {
                     if (!string.IsNullOrEmpty(partialRequirementSting)) 
                     {
                         partialRequirementSting = string.Concat(partialRequirementSting, " or ");
                     }
-                    partialRequirementSting = string.Concat(partialRequirementSting, ability.AbilityName);
-                    if (ability.Focuses.Count==0)
+                    
+                    if (benefit is CharacterAbility)
                     {
-                        partialRequirementSting = string.Concat(partialRequirementSting, " ",ability.BaseValue, " or higher");
-                    } 
-                    else 
+                        partialRequirementSting = 
+                            string.Concat(partialRequirementSting, ((CharacterAbility)benefit).AbilityName, " ", ((CharacterAbility)benefit).BaseValue, " or higher");
+                    }
+                    else
                     {
-                        partialRequirementSting = string.Concat(partialRequirementSting, "(", ability.Focuses[0].FocusName, ")");
+                        partialRequirementSting = 
+                            string.Concat(partialRequirementSting, ((AbilityFocus)benefit).AbilityName, "(", ((AbilityFocus)benefit).FocusName, ")");
                     }
                 }
-
                 if (!string.IsNullOrEmpty(partialRequirementSting))
                 {
                     retval = string.Concat(retval,partialRequirementSting);
@@ -83,26 +85,27 @@ namespace TheExpanseRPG.Core.MVVM.Model
             return retval;
         }
 
-        public bool RequirementsMet(CharacterAbilityBlock ability)
+        public bool AreRequirementsMet(CharacterAbilityBlock abilityBlock)
         {
             List<bool> evaluations = new();
             bool retval = true;
             if (Requirements != null)
             {
-                foreach (List<CharacterAbility> list in Requirements)
+                foreach (List<ICharacterCreationBonus> list in Requirements)
                 {
                     bool partialRequirement = false;
-                    foreach (CharacterAbility requirement in list)
+                    foreach (ICharacterCreationBonus requirement in list)
                     {
                         List<bool> partialPartialReq = new();
-                        CharacterAbility abilityToTest = ability.GetAbility(requirement.AbilityName);
-                        if (requirement.Focuses?.Count != 0)
+                        
+                        if (requirement is CharacterAbility)
                         {
-                            partialPartialReq.Add(abilityToTest.Focuses.FirstOrDefault(x => x.FocusName == requirement.Focuses?[0].FocusName) != null);
+                            CharacterAbility requirementItem = abilityBlock.GetAbility(((CharacterAbility)requirement).AbilityName);
+                            partialPartialReq.Add(requirementItem.BaseValue >= abilityBlock.GetAbility(requirementItem.AbilityName).BaseValue);
                         }
                         else
                         {
-                            partialPartialReq.Add(abilityToTest.BaseValue >= requirement.BaseValue);
+                            partialPartialReq.Add(abilityBlock.HasFocus((AbilityFocus)requirement));
                         }
 
                         foreach (var item in partialPartialReq)
@@ -112,13 +115,13 @@ namespace TheExpanseRPG.Core.MVVM.Model
                     }
                     evaluations.Add(partialRequirement);
                 }
-                foreach (var item in evaluations)
+                foreach (bool partialRequirement in evaluations)
                 {
-                    retval = retval && item;
+                    retval = retval && partialRequirement;
                 }
                 return retval;
             }
-            return false;
+            return true;
         }
     }
 }
