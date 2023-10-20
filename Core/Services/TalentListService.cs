@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Data;
 using System.Linq;
-using System.Printing;
-using System.Reflection;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.MVVM.Model;
+using TheExpanseRPG.Core.MVVM.Model.Interfaces;
 using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.Core.Services
@@ -13,121 +12,73 @@ namespace TheExpanseRPG.Core.Services
     public class TalentListService : IExpanseService
     {
         public List<CharacterTalent> TalentList { get; }
-        AbilityFocusListService FocusListService { get; }
-        public TalentListService(AbilityFocusListService focusListService)
+        public AbilityFocusListService FocusListService { get; }
+        private SqliteDatabaseConnectorService DBConnector { get; }
+        public TalentListService(AbilityFocusListService focusListService, SqliteDatabaseConnectorService connectorService)
         {
             TalentList = new List<CharacterTalent>();
             FocusListService = focusListService;
-            PopulateTalentList();
+            DBConnector = connectorService;
+            PopulateTalentList(DBConnector.GetTalents(), DBConnector.GetTalentRequirements());
         }
 
-        private void PopulateTalentList()
+        private void PopulateTalentList(DataTable talentList, DataTable talentRequirementList)
         {
-            string path = Path.Combine(Path.GetDirectoryName(AppContext.BaseDirectory)!, @"Resources\ExpanseTalentList.txt");
-            string[] talentListFile = File.ReadAllLines(path);
-            List<string> talentBlock = new();
-            foreach (string line in talentListFile)
+            foreach (DataRow row in talentList.Rows)
             {
-                if (line == "endtalent")
-                {
-                    TalentList.Add(ParseTalent(talentBlock));
-                    talentBlock.Clear();
-                }
-                else
-                {
-                    talentBlock.Add(line);
-                }
+                EnumerableRowCollection requirements = talentRequirementList.AsEnumerable()
+                    .Where(x => x.Field<string>("TalentName") == row[0].ToString());
+
+                TalentList.Add(new CharacterTalent(
+                    row[0].ToString()!,
+                    ParseRequirements(requirements),
+                    row[1].ToString()!,
+                    row[2].ToString()!,
+                    row[3].ToString()!,
+                    row[4].ToString()!)
+                    );
             }
         }
 
-        private CharacterTalent ParseTalent(List<string> talentBlock)
+        private List<List<ICharacterCreationBonus>> ParseRequirements(EnumerableRowCollection talentRequirements)
         {
-            return new CharacterTalent(
-                ParseTalentName(talentBlock[0]),
-                ParseTalentRequirement(talentBlock[1]),
-                ParseTalentDescription(talentBlock[2]),
-                ParseTalentNoviceDescription(talentBlock[3]),
-                ParseTalentExpertDescription(talentBlock[4]),
-                ParseTalentMasterDescription(talentBlock[5])
-                );
-        }
 
-        private static string ParseTalentName(string line)
-        {
-            int listIndex = line.IndexOf(':');
-            return line[(listIndex + 1)..];
-        }
-        
-        //ok, i guess
-        private List<List<CharacterAbility>> ParseTalentRequirement(string line)
-        {
-            int listIndex = line.IndexOf(':');
-            string requirementsString = line[(listIndex + 1)..];
-            List<List<CharacterAbility>> requirementList = new();
-            List<string> partialRequirementStringList = new(requirementsString.Split("|"));
-
-            foreach (var partialRequirementString in partialRequirementStringList)
+            List<List<ICharacterCreationBonus>> fullRequirements = new();
+            foreach (DataRow row in talentRequirements)
             {
-                List<CharacterAbility> partialRequirement = new();
-                List<string> partialPartialRequirementStringList = new(partialRequirementString.Split(","));
-
-                foreach (var partialPartialStringRequirement in partialPartialRequirementStringList)
+                List<ICharacterCreationBonus> partialRequirement = new List<ICharacterCreationBonus>();
+                string[] requirementStringArray = row[1].ToString()!.Split(",");
+                foreach (string requirementString in requirementStringArray)
                 {
-                    CharacterAbility requirementItem;
-                    string[] abilityRequirement = partialPartialStringRequirement.Split(":");
-                    string abilityName = abilityRequirement[0];
-                    if (abilityName != "none")
-                    {
-                        if (int.TryParse(abilityRequirement[1], out int score))
-                        {
-                            requirementItem = new CharacterAbility(Enum.Parse<CharacterAbilityName>(abilityName), score);
-                        }
-                        else
-                        {
-                            string? abilityFocus = abilityRequirement[1];
-                            requirementItem = new CharacterAbility(Enum.Parse<CharacterAbilityName>(abilityName));
-                            AbilityFocus? focusToAdd = FocusListService.GetFocusByName(requirementItem.AbilityName, abilityFocus);
-                            if (focusToAdd!=null)
-                            {
-                                requirementItem.Focuses.Add(focusToAdd);
-                            }
-                        }
-                        partialRequirement.Add(requirementItem);
-                    }
+                    partialRequirement.Add(ParseRequirementString(requirementString));
                 }
-                requirementList.Add(partialRequirement);
+                fullRequirements.Add(partialRequirement);
             }
-            return requirementList;
+            return fullRequirements;
         }
 
-        private static string ParseTalentDescription(string line)
+        private ICharacterCreationBonus ParseRequirementString(string requirementString)
         {
+            string[] requirement = requirementString.Split(":");
+            CharacterAbilityName abilityName = (CharacterAbilityName)int.Parse(requirement[1]);
 
-            int listIndex = line.IndexOf(':');
-            return line[(listIndex + 1)..];
+            if (requirement[0] == "A")
+            {
+                return new CharacterAbility(abilityName, int.Parse(requirement[2]));
+            }
+            else if (requirement[0] == "F")
+            {
+                return FocusListService.GetFocusByName(abilityName, requirement[2]);
+            }
+
+            throw new FormatException($"{requirementString} cannot be parsed");
         }
 
-        private static string ParseTalentNoviceDescription(string line)
-        {
-            int listIndex = line.IndexOf(':');
-            return line[(listIndex + 1)..];
-        }
 
-        private static string ParseTalentExpertDescription(string line)
-        {
-            int listIndex = line.IndexOf(':');
-            return line[(listIndex + 1)..];
-        }
-
-        private static string ParseTalentMasterDescription(string line)
-        {
-            int listIndex = line.IndexOf(':');
-            return line[(listIndex + 1)..];
-        }
         public CharacterTalent GetTalent(string talentName)
         {
             CharacterTalent? playerTalent = TalentList.Find(x => x.TalentName == talentName);
-            return playerTalent ?? throw new KeyNotFoundException($"{talentName} Talent not found ");
+            return playerTalent ?? throw new KeyNotFoundException($"{talentName} Talent not found");
         }
     }
 }

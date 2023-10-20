@@ -3,9 +3,9 @@ using TheExpanseRPG.Core.MVVM.Model.Interfaces;
 
 namespace TheExpanseRPG.Core.MVVM.Model
 {
-    public class AbilityFocus : IBackgroundOrProfessionBenefit
+    public class AbilityFocus : ICharacterCreationBonus
     {
-        public CharacterAbilityName? AbilityName { get; }
+        public CharacterAbilityName AbilityName { get; }
         public string? FocusName {  get; }
         public bool IsImproved { get; private set; } = false;
         public bool IsEmptyFocus { get; private set; } = false;

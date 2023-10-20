@@ -1,6 +1,6 @@
 ﻿namespace TheExpanseRPG.Core.MVVM.Model.Interfaces
 {
-    public interface IBackgroundOrProfessionBenefit
+    public interface ICharacterCreationBonus
     {
         public string BenefitName { get; }
     }

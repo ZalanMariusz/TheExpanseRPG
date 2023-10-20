@@ -6,7 +6,7 @@ using TheExpanseRPG.Core.MVVM.Model.Interfaces;
 
 namespace TheExpanseRPG.Core.MVVM.Model
 {
-    public class CharacterAbility : IBackgroundOrProfessionBenefit
+    public class CharacterAbility : ICharacterCreationBonus
     {
         public int? BaseValue { get; set; }
         public int? Modifier { get; set; } = 0;
@@ -25,13 +25,13 @@ namespace TheExpanseRPG.Core.MVVM.Model
         public CharacterAbility(CharacterAbilityName abilityName)
         {
             AbilityName = abilityName;
-            Focuses = new List<AbilityFocus>();
+            Focuses = new();
         }
         public CharacterAbility(CharacterAbilityName abilityName, int? baseScore)
         {
             AbilityName = abilityName;
             BaseValue = baseScore;
-            Focuses = new List<AbilityFocus>();
+            Focuses = new();
         }
         public void AddFocus(AbilityFocus focus)
         {

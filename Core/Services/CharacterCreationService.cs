@@ -14,7 +14,7 @@ namespace TheExpanseRPG.Core.Services
         public const int ABILITYPOOL = 12;
         public CharacterSocialClass[] PossibleCharacterSocialClass { get; set; } = new CharacterSocialClass[12];
         public CharacterBackGround? ChosenCharacterBackground { get; set; }
-        public IBackgroundOrProfessionBenefit? ChosenCharacterBackgroundBenefit { get; set; }
+        public ICharacterCreationBonus? ChosenCharacterBackgroundBenefit { get; set; }
         public CharacterAbilityBlock CharacterAbilityBlock { get; set; } = new();
         public TalentListService TalentListService { get; set; }
         public AbilityFocusListService FocusListService { get; set; }

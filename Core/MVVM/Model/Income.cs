@@ -2,7 +2,7 @@
 
 namespace TheExpanseRPG.Core.MVVM.Model
 {
-    public class Income : IBackgroundOrProfessionBenefit
+    public class Income : ICharacterCreationBonus
     {
         public int Value { get; set; }
         public string BenefitName { get { return $"+{Value} Income"; } }

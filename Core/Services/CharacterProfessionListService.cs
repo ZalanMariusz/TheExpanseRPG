@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.MVVM.Model;
-using TheExpanseRPG.Resources;
 
 namespace TheExpanseRPG.Core.Services
 {
