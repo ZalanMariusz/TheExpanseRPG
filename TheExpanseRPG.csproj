@@ -32,9 +32,6 @@
     <Resource Include="Images\CharacterOriginEarth.png" />
     <Resource Include="Images\CharacterOriginMars.png" />
     <Resource Include="Images\shutdown-icon.png" />
-    <Content Include="Resources\ExpanseTalentList.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="TheExpanseRPGDB.db">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

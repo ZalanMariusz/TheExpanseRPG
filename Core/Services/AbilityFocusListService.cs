@@ -24,11 +24,11 @@ namespace TheExpanseRPG.Core.Services
             foreach (DataRow row in rawdata.Rows)
             {
                 CharacterAbilityName abilityFocusName = IntToAbilityName(Convert.ToInt32(row[rawdata.Columns[0]]));
-                FocusList.Add(new AbilityFocus(abilityFocusName, row[rawdata.Columns[1]].ToString()));
+                FocusList.Add(new AbilityFocus(abilityFocusName, row[rawdata.Columns[1]].ToString()!));
             }
         }
 
-        private CharacterAbilityName IntToAbilityName(int n)
+        private static CharacterAbilityName IntToAbilityName(int n)
         {
             return (CharacterAbilityName)n;
         }

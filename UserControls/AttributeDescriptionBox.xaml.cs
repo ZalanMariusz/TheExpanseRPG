@@ -32,25 +32,6 @@ namespace TheExpanseRPG.UserControls
 
         // Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
         public new static readonly DependencyProperty ContentProperty =
-            DependencyProperty.Register("Content", typeof(string), typeof(AttributeDescriptionBox), new PropertyMetadata(string.Empty));
-
-
-
-
-
-
-
-        //public string Content
-        //{
-        //    get { return (string)GetValue(ContentProperty); }
-        //    set { SetValue(ContentProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for Content.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty ContentProperty =
-        //    DependencyProperty.Register("Content", typeof(string), typeof(AttributeDescriptionBox), new PropertyMetadata(string.Empty()));
-
-
-
+            DependencyProperty.Register(nameof(Content), typeof(string), typeof(AttributeDescriptionBox), new PropertyMetadata(string.Empty));
     }
 }

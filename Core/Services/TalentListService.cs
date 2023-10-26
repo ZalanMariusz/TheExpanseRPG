@@ -46,7 +46,7 @@ namespace TheExpanseRPG.Core.Services
             List<List<ICharacterCreationBonus>> fullRequirements = new();
             foreach (DataRow row in talentRequirements)
             {
-                List<ICharacterCreationBonus> partialRequirement = new List<ICharacterCreationBonus>();
+                List<ICharacterCreationBonus> partialRequirement = new();
                 string[] requirementStringArray = row[1].ToString()!.Split(",");
                 foreach (string requirementString in requirementStringArray)
                 {

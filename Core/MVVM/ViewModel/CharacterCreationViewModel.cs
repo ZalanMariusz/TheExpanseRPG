@@ -47,7 +47,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         private void ExecNavigationToPlayerMain(object sender)
         {
             NavigationService.NavigateToNewWindow<PlayerMainWindow>((Window)sender, true);
-            foreach (Control openModal in OpenModals)
+            foreach (Control openModal in OpenModals!)
             {
                 if (openModal is Window window)
                 {
