@@ -15,6 +15,10 @@ namespace TheExpanseRPG.Core.Services
         private const string BACKGROUNDTALENTQUERY = "SELECT BackgroundName, TalentName FROM BackgroundTalent";
         private const string BACKGROUNDBENEFITQUERY = "SELECT BackgroundName, BenefitTypeFlag, BenefitString FROM BackgroundBenefit";
 
+        private const string PROFESSIONQUERY = "SELECT ProfessionName,ProfessionDescription,SocialClassId FROM Profession";
+        private const string PROFESSIOFOCUSQUERY = "SELECT ProfessionName,AbilityId,FocusName FROM ProfessionFocus";
+        private const string PROFESSIOTALENTQUERY = "SELECT ProfessionName,TalentName FROM ProfessionTalent";
+
         private SQLiteConnection Connection { get; }
         public SqliteDatabaseConnectorService()
         {
@@ -43,7 +47,7 @@ namespace TheExpanseRPG.Core.Services
 
         public DataSet GetBackgrounds()
         {
-            DataSet retval = new DataSet();
+            DataSet retval = new();
             DataTable backgrounds = ExecuteQuery(BACKGROUNDQUERY);
             DataTable backgroundFocuses = ExecuteQuery(BACKGROUNDFOCUSQUERY);
             DataTable backgroundTalents = ExecuteQuery(BACKGROUNDTALENTQUERY);
@@ -58,6 +62,24 @@ namespace TheExpanseRPG.Core.Services
             retval.Tables.Add(backgroundFocuses);
             retval.Tables.Add(backgroundTalents);
             retval.Tables.Add(backgroundBenefits);
+
+            return retval;
+        }
+
+        public DataSet GetProfessions()
+        {
+            DataSet retval = new();
+            DataTable professions = ExecuteQuery(PROFESSIONQUERY);
+            DataTable professionFocuses = ExecuteQuery(PROFESSIOFOCUSQUERY);
+            DataTable professionTalents = ExecuteQuery(PROFESSIOTALENTQUERY);
+
+            professions.TableName = "Professions";
+            professionFocuses.TableName = "ProfessionFocuses";
+            professionTalents.TableName = "ProfessionTalents";
+
+            retval.Tables.Add(professions);
+            retval.Tables.Add(professionFocuses);
+            retval.Tables.Add(professionTalents);
 
             return retval;
         }

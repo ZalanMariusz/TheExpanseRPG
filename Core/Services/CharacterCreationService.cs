@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Navigation;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.MVVM.Model;
@@ -15,11 +16,13 @@ namespace TheExpanseRPG.Core.Services
         public CharacterSocialClass[] PossibleCharacterSocialClass { get; set; } = new CharacterSocialClass[12];
         public CharacterBackGround? ChosenCharacterBackground { get; set; }
         public ICharacterCreationBonus? ChosenCharacterBackgroundBenefit { get; set; }
+        public CharacterProfession? ChosenCharacterProfession { get; set; }
         public CharacterAbilityBlock CharacterAbilityBlock { get; set; } = new();
         public TalentListService TalentListService { get; set; }
         public AbilityFocusListService FocusListService { get; set; }
         public DiceRollService DiceRollService { get; set; }
         public CharacterProfessionListService ProfessionListService { get; set; }
+        public CharacterBackgroundListService BackgroundListService { get; set; }
         private CharacterOrigin? _characterOrigin;
         public CharacterOrigin? CharacterOrigin { get => _characterOrigin; set { _characterOrigin = value; PopulatePossibleSocialClass(); } }
         public AbilityRollType AbilityRollType { get; set; }
@@ -29,6 +32,7 @@ namespace TheExpanseRPG.Core.Services
         public CharacterCreationService(
             TalentListService talentListService,
             AbilityFocusListService focusListService,
+            CharacterBackgroundListService backgroundListService,
             DiceRollService diceRollService,
             CharacterProfessionListService professionListService
             )
@@ -37,8 +41,39 @@ namespace TheExpanseRPG.Core.Services
             FocusListService = focusListService;
             DiceRollService = diceRollService;
             ProfessionListService = professionListService;
+            BackgroundListService = backgroundListService;
 
             AbilityRollType = AbilityRollType.AllRandom;
+        }
+        public bool HasFocusConflict(AbilityFocus toAdd)
+        {
+            return
+                HasChosenBackgroundFocusConflict(toAdd) 
+                || HasChosenBackgroundBenefitConflict(toAdd) 
+                || HasChosenProfessionFocusConflict(toAdd);
+        }
+
+        private bool HasChosenProfessionFocusConflict(AbilityFocus toAdd)
+        {
+            return ChosenCharacterProfession?.ChosenFocus?.AbilityName == toAdd.AbilityName
+                && ChosenCharacterProfession?.ChosenFocus?.FocusName == toAdd.FocusName;
+        }
+
+        private bool HasChosenBackgroundBenefitConflict(AbilityFocus toAdd)
+        {
+            AbilityFocus? benefitFocus = (ChosenCharacterBackground?.ChosenBenefit as AbilityFocus);
+            if (benefitFocus == null)
+            {
+                return false;
+            }
+            return benefitFocus.AbilityName == toAdd.AbilityName
+                && benefitFocus.FocusName == toAdd.FocusName;
+        }
+
+        private bool HasChosenBackgroundFocusConflict(AbilityFocus toAdd)
+        {
+            return ChosenCharacterBackground?.ChosenFocus?.AbilityName == toAdd.AbilityName 
+                && ChosenCharacterBackground?.ChosenFocus?.FocusName == toAdd.FocusName;
         }
 
         public void PopulatePossibleSocialClass()

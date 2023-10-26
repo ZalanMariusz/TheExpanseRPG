@@ -24,8 +24,8 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             protected set { _innerViewModels = value; OnPropertyChanged(); }
         }
 
-        private List<Control> _openModals;
-        public List<Control> OpenModals { get { return _openModals; } set { _openModals = value; OnPropertyChanged(); } }
+        private List<Control>? _openModals;
+        public List<Control>? OpenModals { get { return _openModals; } set { _openModals = value; OnPropertyChanged(); } }
 
         public IViewModelBase? GetInnerViewModel<TViewModelBase>() where TViewModelBase : IViewModelBase
         {

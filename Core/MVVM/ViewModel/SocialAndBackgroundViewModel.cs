@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using TheExpanseRPG.Core.Commands;
 using TheExpanseRPG.Core.Enums;
@@ -11,61 +12,64 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
     public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     {
-        public CharacterSocialClass? SelectedCharacterSocialClass 
-        { 
-            get { return CharacterCreationService.CharacterSocialClass; } 
-            set { CharacterCreationService.CharacterSocialClass = value; OnPropertyChanged(); RefreshAvailableBackgrounds(); ChangeSelectedSocialClass(); } 
+        public CharacterSocialClass? SelectedCharacterSocialClass
+        {
+            get { return CharacterCreationService.CharacterSocialClass; }
+            set { CharacterCreationService.CharacterSocialClass = value; OnPropertyChanged(); RefreshAvailableBackgrounds(); ChangeSelectedSocialClass(); ClearChosenProfession(); }
         }
-        public CharacterBackGround? SelectedBackground 
-        { 
-            get { return CharacterCreationService.ChosenCharacterBackground; } 
-            set { CharacterCreationService.ChosenCharacterBackground = value; ClearChosenBonuses(); OnPropertyChanged(); } 
+        public CharacterBackGround? SelectedBackground
+        {
+            get { return CharacterCreationService.ChosenCharacterBackground; }
+            set { CharacterCreationService.ChosenCharacterBackground = value; ClearChosenBonuses(); OnPropertyChanged(); }
         }
         public ICharacterCreationBonus? ChosenBenefit
         {
             get { return CharacterCreationService.ChosenCharacterBackgroundBenefit; }
             set { CharacterCreationService.ChosenCharacterBackgroundBenefit = value; OnPropertyChanged(); }
         }
-
-
-        public CharacterBackgroundListService BackgroundListService { get; set; }
-        private ObservableCollection<CharacterBackGround> _availableBackgrounds;
-        public string SocialClassDescription { get; set; }
-        public ObservableCollection<CharacterBackGround> AvailableBackgrounds
+        private ObservableCollection<CharacterBackGround>? _availableBackgrounds;
+        public ObservableCollection<CharacterBackGround>? AvailableBackgrounds
         {
-            get
-            {
-                return _availableBackgrounds;
-            }
+            get { return _availableBackgrounds; }
             set { _availableBackgrounds = value; }
         }
-        //private CharacterBackGround _selectedBackground;
+        private AbilityFocus? _chosenBackgroundFocus;
+        public AbilityFocus? ChosenBackgroundFocus
+        {
+            get { return _chosenBackgroundFocus; }
+            set { _chosenBackgroundFocus = value; OnPropertyChanged(); }
+        }
+        private CharacterTalent? _chosenBackgroundTalent;
+        public CharacterTalent? ChosenBackgroundTalent
+        {
+            get { return _chosenBackgroundTalent; }
+            set { _chosenBackgroundTalent = value; OnPropertyChanged(); }
+        }
+        private string? _selectedCharacterSocialClassDescription;
+        public string? SelectedCharacterSocialClassDescription
+        {
+            get { return _selectedCharacterSocialClassDescription; }
+            set { _selectedCharacterSocialClassDescription = value; OnPropertyChanged(); }
+        }
+        public CharacterBackgroundListService BackgroundListService { get; set; }
+        public RelayCommand ChangeSelectedSocialClassCommand { get; set; }
 
+        public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory)
+        {
+            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
+            BackgroundListService = CharacterCreationService.BackgroundListService;
 
-
+            CharacterCreationService.PopulatePossibleSocialClass();
+            ChangeSelectedSocialClassCommand = new RelayCommand(o => true, o => ChangeSelectedSocialClass());
+        }
         private void ClearChosenBonuses()
         {
             ChosenBackgroundFocus = null;
             ChosenBackgroundTalent = null;
+            ChosenBenefit = null;
             OnPropertyChanged(nameof(ChosenBackgroundFocus));
             OnPropertyChanged(nameof(ChosenBackgroundTalent));
-        }
-
-        private AbilityFocus? _chosenBackgroundFocus;
-        private CharacterTalent? _chosenBackgroundTalent;
-        public AbilityFocus? ChosenBackgroundFocus { get { return _chosenBackgroundFocus; } set { _chosenBackgroundFocus = value; OnPropertyChanged(); } }
-        public CharacterTalent? ChosenBackgroundTalent { get { return _chosenBackgroundTalent; } set { _chosenBackgroundTalent = value; OnPropertyChanged(); } }
-        private string? _selectedTalentDescription;
-        public string? SelectedCharacterSocialClassDescription { get { return _selectedTalentDescription; } set { _selectedTalentDescription = value; OnPropertyChanged(); } }
-        public RelayCommand ChangeSelectedSocialClassCommand { get; set; }
-
-        public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory, CharacterBackgroundListService characterBackgroundListService)
-        {
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
-            BackgroundListService = characterBackgroundListService;
-
-            CharacterCreationService.PopulatePossibleSocialClass();
-            ChangeSelectedSocialClassCommand = new RelayCommand(o => true, o => ChangeSelectedSocialClass());
+            OnPropertyChanged(nameof(ChosenBenefit));
         }
         private void RefreshAvailableBackgrounds()
         {
@@ -95,5 +99,17 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
                 OnPropertyChanged(nameof(SelectedCharacterSocialClassDescription));
             }
         }
+
+        private void ClearChosenProfession()
+        {
+            if (CharacterCreationService.ChosenCharacterProfession != null)
+            {
+                if (CharacterCreationService.ChosenCharacterProfession.ProfessionSocialClass > SelectedCharacterSocialClass)
+                {
+                    CharacterCreationService.ChosenCharacterProfession = null;
+                }
+            }
+        }
+
     }
 }

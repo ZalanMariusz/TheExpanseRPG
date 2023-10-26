@@ -4,9 +4,132 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TheExpanseRPG.Core.MVVM.View"
+             xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+             xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
+             xmlns:conv="clr-namespace:TheExpanseRPG.Core.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <UserControl.Resources>
+        <conv:SocialClassToProfessionSelectorIsEnabledConverter x:Key="SocialClassToProfessionSelectorIsEnabledConverter"/>
+        <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Label Background="White" Height="20" Padding="0" VerticalAlignment="Top" 
+               HorizontalContentAlignment="Center" 
+               VerticalContentAlignment="Center"
+               Foreground="Gray"
+               Grid.ColumnSpan="2" 
+               FontStyle="Italic"
+               Content="Select a profession for your character, then select the bonuses. You can only choose a profession from a social class that is equal to or lower than your selected social class."/>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <!--GotFocus="ProfessionSelectorList_GotFocus"-->
+            <user:ProfessionSelectorList
+                IsEnabled="{Binding CharacterCreationService.CharacterSocialClass,
+                    Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
+                    ConverterParameter=Outsider}"
+                ProfessionName="Outsider"
+                GotFocus="ProfessionSelectorList_GotFocus"
+                ItemsSource ="{Binding OutsiderProfessions}"
+                SelectedItem ="{Binding SelectedProfession, Mode=TwoWay}"
+                />
+
+            <user:ProfessionSelectorList Grid.Row="1"
+                 IsEnabled="{Binding CharacterCreationService.CharacterSocialClass,
+                    Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
+                    ConverterParameter=Lower}"
+                 ProfessionName="Lower"
+                GotFocus="ProfessionSelectorList_GotFocus"
+                 ItemsSource ="{Binding LowerclassProfessions}"
+                 SelectedItem ="{Binding SelectedProfession, Mode=TwoWay}"
+                />
+
+            <user:ProfessionSelectorList Grid.Row="2"
+                IsEnabled="{Binding CharacterCreationService.CharacterSocialClass,
+                    Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
+                    ConverterParameter=Middle}"
+                ProfessionName="Middle"
+                GotFocus="ProfessionSelectorList_GotFocus"
+                ItemsSource ="{Binding MiddleclassProfessions}"
+                SelectedItem ="{Binding SelectedProfession, Mode=TwoWay}"
+             />
+
+            <user:ProfessionSelectorList Grid.Row="3" 
+                IsEnabled="{Binding CharacterCreationService.CharacterSocialClass,
+                    Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
+                    ConverterParameter=Upper}"
+                ProfessionName= "Upper"
+                GotFocus="ProfessionSelectorList_GotFocus"
+                ItemsSource = "{Binding UpperclassProfessions}"
+                SelectedItem = "{Binding SelectedProfession, Mode=TwoWay}"
+         />
+        </Grid>
+
+        <StackPanel Grid.Column="1" Margin="0,5,0,0">
+            <custom:CutCorner Margin="25,25,25,5" Padding="5" HasShadow="0" BorderThickness="0" BorderCuts="1,0,1,0" Grid.Row="1" VerticalAlignment="Top" 
+                              Visibility="{Binding SelectedProfession, Converter={StaticResource NullToHiddenVisibilityConverter}}">
+                
+                <StackPanel>
+                    <DockPanel Margin="5" >
+                        <Label Content="Choose a Focus:" Width="120"/>
+                        <ComboBox Template="{DynamicResource ExpanseComboBoxTemplate}"
+                              DockPanel.Dock="Top"
+                              VerticalContentAlignment="Center"
+                              ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle}"
+                              ItemsSource="{Binding SelectedProfession.FocusChoices}" 
+                              SelectedItem="{Binding DataContext.ChosenFocus, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                              Background="Transparent"
+                              Foreground="{StaticResource EXPDarkBlueBrush}"
+                              SelectionChanged="bg_SelectionChanged"
+                              FontWeight="Semibold"
+                            >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding BenefitName}" x:Name="talenttext" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </DockPanel>
+                    
+                    <DockPanel Margin="5" >
+                        <Label Content="Choose a Talent:" Width="120"/>
+                        <ComboBox Template="{DynamicResource ExpanseComboBoxTemplate}"
+                              DockPanel.Dock="Top"
+                              VerticalContentAlignment="Center"
+                              ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle}"
+                              ItemsSource="{Binding SelectedProfession.TalentChoices}" 
+                              SelectedItem="{Binding DataContext.ChosenTalent, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                              Background="Transparent"
+                              Foreground="{StaticResource EXPDarkBlueBrush}"
+                              SelectionChanged="bg_SelectionChanged"                                     
+                              FontWeight="Semibold"
+                        >
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                    </DockPanel>
+                </StackPanel>
+            </custom:CutCorner>
+
+
+            <TextBlock Margin="30,0,30,0" 
+                Text="{Binding SelectedProfession.ProfessionDescription}" TextWrapping="Wrap"
+                Foreground="{StaticResource EXPLightBlueBrush}" FontWeight="SemiBold"
+           />
+        </StackPanel>
     </Grid>
+
+
 </UserControl>

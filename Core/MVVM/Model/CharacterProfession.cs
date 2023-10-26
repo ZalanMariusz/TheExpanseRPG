@@ -9,9 +9,9 @@ namespace TheExpanseRPG.Core.MVVM.Model
         public string ProfessionDescription { get; }
         public CharacterSocialClass ProfessionSocialClass { get; }
         public List<AbilityFocus> FocusChoices { get; }
-        public AbilityFocus ChosenFocus { get; set; }
+        public AbilityFocus? ChosenFocus { get; set; }
         public List<CharacterTalent> TalentChoices { get; }
-        public CharacterTalent ChosenTalent { get; set; }
+        public CharacterTalent? ChosenTalent { get; set; }
 
         public CharacterProfession(
             string professionName,
