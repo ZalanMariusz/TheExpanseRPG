@@ -3,18 +3,17 @@ using System.Linq;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Factories;
 using TheExpanseRPG.Core.MVVM.Model;
-using TheExpanseRPG.Core.MVVM.Model.Interfaces;
 using TheExpanseRPG.Core.Services;
 
 namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
     public class CharacterProfessionViewModel : CharacterCreationViewModelBase
     {
-        public CharacterProfessionListService ProfessionListService { get; set; }
-        public ObservableCollection<CharacterProfession> OutsiderProfessions { get; set; }
-        public ObservableCollection<CharacterProfession> LowerclassProfessions { get; set; }
-        public ObservableCollection<CharacterProfession> MiddleclassProfessions { get; set; }
-        public ObservableCollection<CharacterProfession> UpperclassProfessions { get; set; }
+        public CharacterProfessionListService ProfessionListService { get; }
+        public ObservableCollection<CharacterProfession> OutsiderProfessions { get; }
+        public ObservableCollection<CharacterProfession> LowerclassProfessions { get; }
+        public ObservableCollection<CharacterProfession> MiddleclassProfessions { get; }
+        public ObservableCollection<CharacterProfession> UpperclassProfessions { get; }
         public CharacterTalent? ChosenTalent
         {
             get { return SelectedProfession?.ChosenTalent; }

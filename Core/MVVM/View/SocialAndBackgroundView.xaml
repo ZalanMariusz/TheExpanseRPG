@@ -20,7 +20,6 @@
         </ObjectDataProvider>
 
         <conv:SocialClassToDescriptionConverter x:Key="SocialClassToDescriptionConverter"/>
-        <conv:AnyFocusToContentConverter x:Key="AnyFocusToContentConverter"/>
         <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
 
     </UserControl.Resources>
