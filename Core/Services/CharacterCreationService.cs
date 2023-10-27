@@ -18,23 +18,30 @@ namespace TheExpanseRPG.Core.Services
         public ICharacterCreationBonus? ChosenCharacterBackgroundBenefit { get; set; }
         public CharacterProfession? ChosenCharacterProfession { get; set; }
         public CharacterAbilityBlock CharacterAbilityBlock { get; set; } = new();
-        public TalentListService TalentListService { get; set; }
-        public AbilityFocusListService FocusListService { get; set; }
-        public DiceRollService DiceRollService { get; set; }
-        public CharacterProfessionListService ProfessionListService { get; set; }
-        public CharacterBackgroundListService BackgroundListService { get; set; }
+        public TalentListService TalentListService { get; }
+        public AbilityFocusListService FocusListService { get; }
+        public DiceRollService DiceRollService { get; }
+        public CharacterProfessionListService ProfessionListService { get; }
+        public CharacterBackgroundListService BackgroundListService { get; }
+        public CharacterDriveListService CharacterDriveListService { get; }
         private CharacterOrigin? _characterOrigin;
         public CharacterOrigin? CharacterOrigin { get => _characterOrigin; set { _characterOrigin = value; PopulatePossibleSocialClass(); } }
         public AbilityRollType AbilityRollType { get; set; }
         public CharacterSocialClass? CharacterSocialClass { get; set; }
         public List<int?> AttributeValuesToAssign { get; set; } = new();
         public int PointsToDistribute { get; private set; } = ABILITYPOOL;
+        
+        public CharacterDrive? ChosenDrive { get; set; }
+        public CharacterTalent? ChosenDriveFocus { get; set; }
+        public IDriveBonus? ChosenDriveBonus { get; set; }
+
         public CharacterCreationService(
             TalentListService talentListService,
             AbilityFocusListService focusListService,
             CharacterBackgroundListService backgroundListService,
             DiceRollService diceRollService,
-            CharacterProfessionListService professionListService
+            CharacterProfessionListService professionListService,
+            CharacterDriveListService characterTalentListService
             )
         {
             TalentListService = talentListService;
@@ -42,7 +49,7 @@ namespace TheExpanseRPG.Core.Services
             DiceRollService = diceRollService;
             ProfessionListService = professionListService;
             BackgroundListService = backgroundListService;
-
+            CharacterDriveListService = characterTalentListService;
             AbilityRollType = AbilityRollType.AllRandom;
         }
         public bool HasFocusConflict(AbilityFocus toAdd)
@@ -217,7 +224,5 @@ namespace TheExpanseRPG.Core.Services
             int? propertyValue = CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
             return PointsToDistribute < ABILITYPOOL && (propertyValue > MINABILITYVALUE || propertyValue == null);
         }
-
-
     }
 }

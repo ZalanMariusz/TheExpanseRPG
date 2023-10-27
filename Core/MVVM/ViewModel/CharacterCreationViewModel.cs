@@ -26,7 +26,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             NavigateToAttributeRoll = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<AbilityRollViewModel>(this));
             NavigateToSocialAndBackground = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<SocialAndBackgroundViewModel>(this));
             NavigateToCharacterProfessions = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<CharacterProfessionViewModel>(this));
-            NavigateToDriveAndGoals = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<DriveAndGoalsViewModel>(this));
+            NavigateToDrives = new RelayCommand(o => true, o => NavigationService.NavigateToInnerView<DrivesViewModel>(this));
 
             NavigateBackToMain = new RelayCommand(o => true, ExecNavigationToPlayerMain);
             ShowTalentListCommand = new RelayCommand(o => true, ShowTalenList);
@@ -42,7 +42,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public RelayCommand NavigateToAttributeRoll { get; set; }
         public RelayCommand NavigateToSocialAndBackground { get; set; }
         public RelayCommand NavigateToCharacterProfessions { get; set; }
-        public RelayCommand NavigateToDriveAndGoals { get; set; }
+        public RelayCommand NavigateToDrives { get; set; }
         public RelayCommand NavigateBackToMain { get; set; }
         private void ExecNavigationToPlayerMain(object sender)
         {

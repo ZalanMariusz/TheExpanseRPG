@@ -29,8 +29,8 @@
                 <DataTemplate DataType="{x:Type vm:CharacterProfessionViewModel}">
                     <local:CharacterProfessionView/>
                 </DataTemplate>
-                <DataTemplate DataType="{x:Type vm:DriveAndGoalsViewModel}">
-                    <local:DriveAndGoalsView/>
+                <DataTemplate DataType="{x:Type vm:DrivesViewModel}">
+                    <local:DrivesView/>
                 </DataTemplate>
             </Grid.Resources>
             <Grid.RowDefinitions>
@@ -68,7 +68,7 @@
                     <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Professions" Command="{Binding NavigateToCharacterProfessions}" />
                 </custom:CutCorner>
                 <custom:CutCorner BorderCuts="0,0,0,1" Grid.Column="4" Margin="10">
-                    <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Drive and Goals" Command="{Binding NavigateToDriveAndGoals}" />
+                    <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Drives" Command="{Binding NavigateToDrives}" />
                 </custom:CutCorner>
                 <custom:CutCorner BorderCuts="0,1,1,0"  Grid.Column="5" Margin="10">
                     <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Save, and back to main" />

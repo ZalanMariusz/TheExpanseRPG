@@ -13,6 +13,7 @@ namespace TheExpanseRPG.Core.Services
             services.AddSingleton<CharacterBackgroundListService>();
             services.AddSingleton<AbilityFocusListService>();
             services.AddSingleton<CharacterProfessionListService>();
+            services.AddSingleton<CharacterDriveListService>();
             services.AddSingleton<SqliteDatabaseConnectorService>();
 
             

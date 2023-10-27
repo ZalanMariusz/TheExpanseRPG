@@ -19,7 +19,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             services.AddTransient<AbilityRollViewModel>();
             services.AddTransient<SocialAndBackgroundViewModel>();
             services.AddTransient<CharacterProfessionViewModel>();
-            services.AddTransient<DriveAndGoalsViewModel>();
+            services.AddTransient<DrivesViewModel>();
             services.AddTransient<AllRandomAbilityRollViewModel>();
             services.AddTransient<DistributeAbilitiesViewModel>();
             services.AddTransient<AssignAbilityRollViewModel>();

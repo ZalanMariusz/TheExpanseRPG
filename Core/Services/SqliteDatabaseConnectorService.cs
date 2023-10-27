@@ -14,10 +14,11 @@ namespace TheExpanseRPG.Core.Services
         private const string BACKGROUNDFOCUSQUERY = "SELECT BackgroundName, AbilityId, FocusName FROM BackgroundFocus";
         private const string BACKGROUNDTALENTQUERY = "SELECT BackgroundName, TalentName FROM BackgroundTalent";
         private const string BACKGROUNDBENEFITQUERY = "SELECT BackgroundName, BenefitTypeFlag, BenefitString FROM BackgroundBenefit";
-
         private const string PROFESSIONQUERY = "SELECT ProfessionName,ProfessionDescription,SocialClassId FROM Profession";
-        private const string PROFESSIOFOCUSQUERY = "SELECT ProfessionName,AbilityId,FocusName FROM ProfessionFocus";
-        private const string PROFESSIOTALENTQUERY = "SELECT ProfessionName,TalentName FROM ProfessionTalent";
+        private const string PROFESSIONFOCUSQUERY = "SELECT ProfessionName,AbilityId,FocusName FROM ProfessionFocus";
+        private const string PROFESSIONTALENTQUERY = "SELECT ProfessionName,TalentName FROM ProfessionTalent";
+        private const string DRIVEQUERY = "SELECT DriveName,DriveDescription,DriveQuality,DriveDownfall,DriveQualityDescription,DriveDownfallDescription FROM Drive";
+        private const string DRIVETALENTQUERY = "SELECT DriveName,TalentName FROM DriveTalent";
 
         private SQLiteConnection Connection { get; }
         public SqliteDatabaseConnectorService()
@@ -70,8 +71,8 @@ namespace TheExpanseRPG.Core.Services
         {
             DataSet retval = new();
             DataTable professions = ExecuteQuery(PROFESSIONQUERY);
-            DataTable professionFocuses = ExecuteQuery(PROFESSIOFOCUSQUERY);
-            DataTable professionTalents = ExecuteQuery(PROFESSIOTALENTQUERY);
+            DataTable professionFocuses = ExecuteQuery(PROFESSIONFOCUSQUERY);
+            DataTable professionTalents = ExecuteQuery(PROFESSIONTALENTQUERY);
 
             professions.TableName = "Professions";
             professionFocuses.TableName = "ProfessionFocuses";
@@ -80,6 +81,20 @@ namespace TheExpanseRPG.Core.Services
             retval.Tables.Add(professions);
             retval.Tables.Add(professionFocuses);
             retval.Tables.Add(professionTalents);
+
+            return retval;
+        }
+        public DataSet GetDrives()
+        {
+            DataSet retval = new();
+            DataTable drives = ExecuteQuery(DRIVEQUERY);
+            DataTable driveTalents = ExecuteQuery(DRIVETALENTQUERY);
+
+            drives.TableName = "Drives";
+            driveTalents.TableName = "DriveTalents";
+
+            retval.Tables.Add(drives);
+            retval.Tables.Add(driveTalents);
 
             return retval;
         }
