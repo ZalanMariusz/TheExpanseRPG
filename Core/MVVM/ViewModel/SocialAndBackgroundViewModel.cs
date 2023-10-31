@@ -54,12 +54,9 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public CharacterBackgroundListService BackgroundListService { get; set; }
         public RelayCommand ChangeSelectedSocialClassCommand { get; set; }
 
-        public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory)
+        public SocialAndBackgroundViewModel(CharacterBackgroundListService backGroundListService)
         {
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
-            BackgroundListService = CharacterCreationService.BackgroundListService;
-
-            CharacterCreationService.PopulatePossibleSocialClass();
+            BackgroundListService = backGroundListService;
             ChangeSelectedSocialClassCommand = new RelayCommand(o => true, o => ChangeSelectedSocialClass());
         }
         private void ClearChosenBonuses()

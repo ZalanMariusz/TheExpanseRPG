@@ -56,6 +56,7 @@
                                  Style="{DynamicResource ExpanseToggleButton}" 
                                  Content="Origin" Command="{Binding NavigateToOriginSelect}"
                                  VerticalContentAlignment="Center"
+                                 IsChecked="True"
                                  BorderThickness="0"/>
                 </custom:CutCorner>
                 <custom:CutCorner BorderCuts="1,0,0,0" Grid.Column="1" Margin="10">

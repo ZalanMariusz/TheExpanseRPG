@@ -9,7 +9,6 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public RelayCommand IncreaseAbilityValue { get; set; }
         public RelayCommand DecreaseAbilityValue { get; set; }
         public int _abilityPool;
-        private readonly ScopedServiceFactory _scopeFactory;
         public int? Accuracy { get { return GetCharacterAbilityValue(); } }
         public int? Constitution { get { return GetCharacterAbilityValue(); } }
         public int? Fighting { get { return GetCharacterAbilityValue(); } }
@@ -20,10 +19,8 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public int? Strength { get { return GetCharacterAbilityValue(); } }
         public int? Willpower { get { return GetCharacterAbilityValue(); } }
         public int AbilityPool { get { return CharacterCreationService.PointsToDistribute; } }
-        public DistributeAbilitiesViewModel(ScopedServiceFactory serviceScopeFactory)
+        public DistributeAbilitiesViewModel()
         {
-            _scopeFactory = serviceScopeFactory;
-            CharacterCreationService = (CharacterCreationService)_scopeFactory.GetScopedService<CharacterCreationService>();
             IncreaseAbilityValue = new RelayCommand(CanIncrease, Increase);
             DecreaseAbilityValue = new RelayCommand(CanDecrease, Decrease);
         }

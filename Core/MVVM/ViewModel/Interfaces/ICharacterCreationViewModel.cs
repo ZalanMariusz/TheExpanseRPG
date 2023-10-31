@@ -6,9 +6,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel.Interfaces
 {
     public interface ICharacterCreationViewModel : IViewModelBase
     {
-        CharacterCreationService CharacterCreationService { get; }
-        public void AddCharacterCreationService(CharacterCreationService characterCreationService);
+        CharacterCreationService CharacterCreationService { get; set; }
         public int? GetCharacterAbilityValue([CallerMemberName] string abilityName = "");
-        //public void SetCharacterAbilityValue(int? value, [CallerMemberName] string abilityName = "");
     }
 }

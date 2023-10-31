@@ -8,24 +8,17 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
     public class OriginSelectViewModel : CharacterCreationViewModelBase
     {
-        private bool _isLockedIn;
-        public bool IsLockedIn { get { return _isLockedIn; } set { _isLockedIn = value; OnPropertyChanged(); } }
-        public RelayCommand ToggleLockCommand { get; set; }
-        public OriginSelectViewModel(INavigationService navigationService, ScopedServiceFactory serviceScopeFactory)
-        {
-            _scopeFactory = serviceScopeFactory;
-            CharacterCreationService = (CharacterCreationService)_scopeFactory.GetScopedService<CharacterCreationService>();
-            NavigationService = navigationService;
-            ToggleLockCommand = new RelayCommand(o => CanLockIn(), o => ToggleLock());
-        }
+        public string? _selectedOriginDescription;
 
-        private bool CanLockIn()
+        public string? SelectedOriginDescription
         {
-            return SelectedOrigin != null;
+            get { return _selectedOriginDescription; }
+            set { _selectedOriginDescription = value; OnPropertyChanged(); }
         }
-        private void ToggleLock()
+        public OriginSelectViewModel(INavigationService navigationService)
         {
-            IsLockedIn = !IsLockedIn;
+            NavigationService = navigationService;
+           
         }
         public CharacterOrigin? SelectedOrigin
         {
@@ -34,15 +27,6 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             {
                 CharacterCreationService.CharacterOrigin = value; OnPropertyChanged(); ChangeOriginDescription();
             }
-        }
-
-        public string? _selectedOriginDescription;
-        private readonly ScopedServiceFactory _scopeFactory;
-
-        public string? SelectedOriginDescription
-        {
-            get { return _selectedOriginDescription; }
-            set { _selectedOriginDescription = value; OnPropertyChanged(); }
         }
         private void ChangeOriginDescription()
         {

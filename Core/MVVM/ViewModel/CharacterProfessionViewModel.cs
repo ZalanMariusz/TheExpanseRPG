@@ -36,7 +36,6 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
                     SelectedProfession.ChosenFocus = value; OnPropertyChanged();
                 }
             }
-
         }
 
         public CharacterProfession? SelectedProfession
@@ -55,10 +54,9 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             }
         }
 
-        public CharacterProfessionViewModel(ScopedServiceFactory scopedServiceFactory)
+        public CharacterProfessionViewModel(CharacterProfessionListService professionListService)
         {
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
-            ProfessionListService = CharacterCreationService.ProfessionListService;
+            ProfessionListService = professionListService;
 
             OutsiderProfessions = new ObservableCollection<CharacterProfession>(
                 ProfessionListService.ProfessionList.Where(x => x.ProfessionSocialClass == CharacterSocialClass.Outsider));

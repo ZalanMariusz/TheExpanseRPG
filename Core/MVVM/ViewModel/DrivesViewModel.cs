@@ -9,12 +9,11 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
     public class DrivesViewModel : CharacterCreationViewModelBase
     {
-        private ScopedServiceFactory ScopedServiceFactory { get; }
         public CharacterDriveListService DriveListService { get; }
         public ObservableCollection<CharacterDrive> DriveList { get; }
         public ObservableCollection<IDriveBonus> DriveBonuses { get; }
-        private ObservableCollection<CharacterTalent> _driveTalents;
-        public ObservableCollection<CharacterTalent> DriveTalents { get { return _driveTalents; } set { _driveTalents = value; OnPropertyChanged(); } }
+        private ObservableCollection<CharacterTalent>? _driveTalents;
+        public ObservableCollection<CharacterTalent>? DriveTalents { get { return _driveTalents; } set { _driveTalents = value; OnPropertyChanged(); } }
 
         public CharacterDrive? ChosenCharacterDrive
         {
@@ -48,11 +47,9 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 
         }
 
-        public DrivesViewModel(ScopedServiceFactory scopedServiceFactory)
+        public DrivesViewModel(CharacterDriveListService characterDriveListService)
         {
-            ScopedServiceFactory = scopedServiceFactory;
-            CharacterCreationService = (CharacterCreationService)ScopedServiceFactory.GetScopedService<CharacterCreationService>();
-            DriveListService = CharacterCreationService.CharacterDriveListService;
+            DriveListService = characterDriveListService;
             DriveList = new(DriveListService.DriveList);
             DriveBonuses = new(DriveListService.DriveBonuses);
         }

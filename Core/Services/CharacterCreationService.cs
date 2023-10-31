@@ -138,9 +138,9 @@ namespace TheExpanseRPG.Core.Services
                 CharacterSocialClass = PossibleCharacterSocialClass[rollValue - 1];
             }
         }
-        internal void ClearAbilities()
+        internal void ClearAbilities(AbilityRollType abilityRollType)
         {
-            int? valueToResetTo = AbilityRollType == AbilityRollType.DistributePoints ? 0 : null;
+            int? valueToResetTo = abilityRollType == AbilityRollType.DistributePoints ? 0 : null;
             CharacterAbilityBlock.AbilityList.ForEach(x => x.BaseValue = valueToResetTo);
             PointsToDistribute = ABILITYPOOL;
         }
@@ -154,7 +154,7 @@ namespace TheExpanseRPG.Core.Services
             }
         }
 
-        private static int GetAttributeValueFromRoll(int rollResult)
+        public static int GetAttributeValueFromRoll(int rollResult)
         {
             return rollResult switch
             {
@@ -170,7 +170,7 @@ namespace TheExpanseRPG.Core.Services
 
         public void RollAssignableAbilityList()
         {
-            ClearAbilities();
+            ClearAbilities(AbilityRollType.RollAndAssign);
             AttributeValuesToAssign.Clear();
             PopulateScoreList();
         }

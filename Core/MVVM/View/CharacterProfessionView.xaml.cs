@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -23,10 +20,10 @@ namespace TheExpanseRPG.Core.MVVM.View
             List<Control> selectors = parent.FindControlsOfType<ProfessionSelectorList>();
             foreach (Control selector in selectors)
             {
-                var t = selector.FindControlsOfType<ListBox>().FirstOrDefault();
-                if (t.IsEnabled)
+                Control? listBox = selector.FindControlsOfType<ListBox>().FirstOrDefault();
+                if (listBox != null && listBox.IsEnabled)
                 {
-                    (t as ListBox)!.UnselectAll();
+                    (listBox as ListBox)!.UnselectAll();
                 }
             }
         }
@@ -34,16 +31,16 @@ namespace TheExpanseRPG.Core.MVVM.View
 
         private void bg_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender is ComboBox)
+            if (sender is ComboBox combo)
             {
-                if (((ComboBox)sender).SelectedItem == null)
+                if (combo.SelectedItem == null)
                 {
-                    ((ComboBox)sender).Background = Brushes.Transparent;
+                    combo.Background = Brushes.Transparent;
                 }
                 else
                 {
                     var brush = new SolidColorBrush(Color.FromArgb(255, 25, 188, 71));
-                    ((ComboBox)sender).Background = brush;
+                    combo.Background = brush;
                 }
             }
         }

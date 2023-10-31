@@ -12,8 +12,6 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
     public class AllRandomAbilityRollViewModel : CharacterCreationViewModelBase
     {
-        private readonly ScopedServiceFactory _scopeFactory;
-
         public RelayCommand RollAllRandomAbilityCommand { get; set; }
         public int? Accuracy { get { return GetCharacterAbilityValue(); } }
         public int? Constitution { get { return GetCharacterAbilityValue(); } }
@@ -25,10 +23,9 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public int? Strength { get { return GetCharacterAbilityValue(); } }
         public int? Willpower { get { return GetCharacterAbilityValue(); } }
 
-        public AllRandomAbilityRollViewModel(ScopedServiceFactory serviceScopeFactory)
+        public AllRandomAbilityRollViewModel()
         {
-            _scopeFactory = serviceScopeFactory;
-            CharacterCreationService = (CharacterCreationService)_scopeFactory.GetScopedService<CharacterCreationService>();
+            //CharacterCreationService = characterCreationService;
             RollAllRandomAbilityCommand = new RelayCommand(o => true, o => RollAllRandom());
         }
         public void RollAllRandom()

@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
 using TheExpanseRPG.Core.Factories;
@@ -23,15 +24,6 @@ namespace TheExpanseRPG
             RegisterViews.Register(_services);
             RegisterFactories.Register(_services);
             RegisterServices.Register(_services);
-
-            
-
-            //_services.AddSingleton(
-            //    provider => new WelcomeSplashWindow
-            //    {
-            //        DataContext = _serviceProvider!.GetRequiredService<WelcomeSplashViewModel>()
-            //    });
-
             _serviceProvider = _services.BuildServiceProvider();
         }
         protected override void OnStartup(StartupEventArgs e)
@@ -39,7 +31,6 @@ namespace TheExpanseRPG
             INavigationService navigationService = _serviceProvider.GetRequiredService<INavigationService>();
             navigationService.NavigateToNewWindow<WelcomeSplashWindow>();
             base.OnStartup(e);
-
         }
     }
 }
