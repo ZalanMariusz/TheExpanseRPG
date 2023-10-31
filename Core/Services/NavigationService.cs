@@ -31,12 +31,12 @@ namespace TheExpanseRPG.Core.Services
         }
         public void NavigateToModal<TWindow>(IViewModelBase sender, bool isDialog = true) where TWindow : Window
         {
-            Window? modal = (Window?)sender.OpenModals.FirstOrDefault(x => x.GetType() == typeof(TWindow));
+            Window? modal = (Window?)sender.OpenModals?.FirstOrDefault(x => x.GetType() == typeof(TWindow));
             if (modal == null)
             {
                 var window = _viewFactory.GetWindow<TWindow>();
                 window.DataContext = _viewModelFactory.GetWindowViewModel<TWindow>();
-                sender.OpenModals.Add(window);
+                sender?.OpenModals?.Add(window);
                 if (isDialog)
                 {
                     window.ShowDialog();
@@ -45,7 +45,6 @@ namespace TheExpanseRPG.Core.Services
                 {
                     window.Show();
                 }
-                //window.Closed += { sender.OpenModals.Remove(window); };
             }
             else
             {
@@ -65,20 +64,17 @@ namespace TheExpanseRPG.Core.Services
 
         private static void CleanPreviousModals(Window? sender)
         {
-            if (sender != null)
+            List<Control>? openModals = (sender?.DataContext as IViewModelBase)?.OpenModals;
+            if (openModals != null)
             {
-                List<Control> openModals = ((IViewModelBase)sender.DataContext).OpenModals;
-                if (openModals != null)
+                foreach (Control openModal in openModals)
                 {
-                    foreach (Control openModal in openModals)
+                    if (openModal is Window window)
                     {
-                        if (openModal is Window window)
-                        {
-                            window.Close();
-                        }
+                        window.Close();
                     }
-                    ((IViewModelBase)sender.DataContext).OpenModals.Clear();
                 }
+                openModals.Clear();
             }
         }
         private static void CloseSender(Window? sender, bool closeWindow)

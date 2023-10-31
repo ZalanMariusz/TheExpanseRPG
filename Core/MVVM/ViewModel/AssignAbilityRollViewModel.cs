@@ -19,8 +19,6 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         private ObservableCollection<int?> _rolledAbilities = new();
         public ObservableCollection<int?> AssignableAbilityValues { get { return _rolledAbilities; } set { _rolledAbilities = value; OnPropertyChanged(); } }
 
-        private readonly ScopedServiceFactory _scopeFactory;
-
         public int? Accuracy { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
         public int? Constitution { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
         public int? Fighting { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
@@ -31,11 +29,8 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public int? Strength { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
         public int? Willpower { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
 
-        public AssignAbilityRollViewModel(ScopedServiceFactory serviceScopeFactory)
+        public AssignAbilityRollViewModel()
         {
-            _scopeFactory = serviceScopeFactory;
-            CharacterCreationService = (CharacterCreationService)_scopeFactory.GetScopedService<CharacterCreationService>();
-
             AssignableAbilityValues = new ObservableCollection<int?>();
             RollAbilityValues = new RelayCommand(o => true, o => RollAssignableList());
             ClearAbility = new RelayCommand(o => true, ClearAbilityValue);

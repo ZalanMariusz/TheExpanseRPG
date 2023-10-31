@@ -102,7 +102,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding SelectedOriginDescription}" 
+                        <TextBlock Text="{Binding SelectedOriginDescription}" 
                                Grid.Column="3"
                                Margin="30,0,0,0"
                                Background="Transparent" 
@@ -110,34 +110,8 @@
                                TextWrapping="Wrap" 
                                TextAlignment="Left" 
                                FontWeight="DemiBold" />
-                        <custom:CutCorner  Margin="30,0,0,3" BorderCuts="1,1,1,1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" >
-                            <ToggleButton 
-                                BorderThickness="0"
-                                Style="{DynamicResource ExpanseToggleButton}" 
-                                Content="{Binding IsLockedIn, Converter={StaticResource CharacterCreationStepLockInToButtonContentConverter}}" 
-                                
-                                IsEnabled ="{Binding SelectedOrigin,Converter={StaticResource SelectedOriginToEnabledConverter}}"
-                                IsChecked="{Binding IsLockedIn}"/>
-                        </custom:CutCorner>
-                        <!--Command="{Binding ToggleLockCommand}"-->
                     </Grid>
                 </Grid>
-                <!--<Rectangle Fill="Red" Grid.Row="2" Grid.ColumnSpan="3" />-->
-                
-
-
-    
-
-
-
-
-
-                <!--<RadioButton Grid.Column="1" Template="{StaticResource OriginSelectorRadio}">
-                    <Image Source="/Images/CharacterOriginBelt.png" Stretch="UniformToFill"/>
-                </RadioButton>
-                <RadioButton Grid.Column="2" Template="{StaticResource OriginSelectorRadio}">
-                    <Image Source="/Images/CharacterOriginMars.png" Stretch="UniformToFill"/>
-                </RadioButton>-->
             </Grid>
         </StackPanel>
 

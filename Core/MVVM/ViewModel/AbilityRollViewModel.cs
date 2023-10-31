@@ -1,5 +1,8 @@
-﻿using TheExpanseRPG.Core.Enums;
+﻿using System;
+using System.Runtime.CompilerServices;
+using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Factories;
+using TheExpanseRPG.Core.MVVM.ViewModel.Interfaces;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Core.Services.Interfaces;
 
@@ -7,49 +10,60 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
     public class AbilityRollViewModel : CharacterCreationViewModelBase
     {
-        private readonly ScopedServiceFactory _scopeFactory;
-
+        private AbilityRollType _abilityRollType;
         public AbilityRollType SelectedAbilityRollType
         {
-            get
-            {
-                return CharacterCreationService.AbilityRollType;
-            }
-            set
-            {
-                CharacterCreationService.AbilityRollType = value;
-                ChangeRollType();
-            }
+            get { return _abilityRollType; }
+            set { _abilityRollType = value; ChangeRollType(); }
         }
 
         private void ChangeRollType()
         {
             OnPropertyChanged("SelectedAttributeRollType");
-
             switch (SelectedAbilityRollType)
             {
                 case AbilityRollType.AllRandom:
-                    NavigationService.NavigateToInnerView<AllRandomAbilityRollViewModel>(this);
+                    NavigateToRollType<AllRandomAbilityRollViewModel>();
                     break;
                 case AbilityRollType.RollAndAssign:
-                    NavigationService.NavigateToInnerView<AssignAbilityRollViewModel>(this);
+                    NavigateToRollType<AssignAbilityRollViewModel>();
                     break;
                 case AbilityRollType.DistributePoints:
-                    NavigationService.NavigateToInnerView<DistributeAbilitiesViewModel>(this);
+                    NavigateToRollType<DistributeAbilitiesViewModel>();
                     break;
                 default:
                     break;
             }
-            CharacterCreationService.ClearAbilities();
+            CharacterCreationService?.ClearAbilities(SelectedAbilityRollType);
         }
 
-        public AbilityRollViewModel(INavigationService navigationService, ScopedServiceFactory serviceScopeFactory)
+        private void NavigateToRollType<TViewModelBase>() where TViewModelBase : ICharacterCreationViewModel 
+        {
+            MapServiceFromViewModel();
+            NavigationService.NavigateToInnerView<TViewModelBase>(this);
+            MapViewModelToService();
+        }
+
+        private void MapServiceFromViewModel()
+        {
+            if (CurrentInnerViewModel != null)
+            {
+                CharacterCreationService = ((ICharacterCreationViewModel)CurrentInnerViewModel).CharacterCreationService;
+            }
+        }
+        private void MapViewModelToService()
+        {
+            if (CurrentInnerViewModel != null)
+            {
+                ((ICharacterCreationViewModel)CurrentInnerViewModel).CharacterCreationService = CharacterCreationService;
+            }
+        }
+
+        public AbilityRollViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
-            _scopeFactory = serviceScopeFactory;
-            CharacterCreationService = (CharacterCreationService)_scopeFactory.GetScopedService<CharacterCreationService>();
-            NavigationService.NavigateToInnerView<AllRandomAbilityRollViewModel>(this);
-            //SelectedAttributeRollType = AttributeRollType.AllRandom;
+            SelectedAbilityRollType = AbilityRollType.AllRandom;
+            //NavigateToRollType<AllRandomAbilityRollViewModel>();
         }
     }
 }

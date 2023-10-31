@@ -131,7 +131,7 @@ namespace TheExpanseRPG.CustomControls
             var content = Child;
             if (content != null)
             {
-                PathFigure pathFigure = new PathFigure(GetBorderStartingPoint(), segments, true);
+                PathFigure pathFigure = new(GetBorderStartingPoint(), segments, true);
 
                 content.Clip = new PathGeometry(new List<PathFigure>() { pathFigure });
             }
