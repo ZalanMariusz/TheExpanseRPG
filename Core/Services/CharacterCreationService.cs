@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Navigation;
+﻿using System.Collections.Generic;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.MVVM.Model;
 using TheExpanseRPG.Core.MVVM.Model.Interfaces;
@@ -30,7 +28,7 @@ namespace TheExpanseRPG.Core.Services
         public CharacterSocialClass? CharacterSocialClass { get; set; }
         public List<int?> AttributeValuesToAssign { get; set; } = new();
         public int PointsToDistribute { get; private set; } = ABILITYPOOL;
-        
+
         public CharacterDrive? ChosenDrive { get; set; }
         public CharacterTalent? ChosenDriveFocus { get; set; }
         public IDriveBonus? ChosenDriveBonus { get; set; }
@@ -55,8 +53,8 @@ namespace TheExpanseRPG.Core.Services
         public bool HasFocusConflict(AbilityFocus toAdd)
         {
             return
-                HasChosenBackgroundFocusConflict(toAdd) 
-                || HasChosenBackgroundBenefitConflict(toAdd) 
+                HasChosenBackgroundFocusConflict(toAdd)
+                || HasChosenBackgroundBenefitConflict(toAdd)
                 || HasChosenProfessionFocusConflict(toAdd);
         }
 
@@ -79,7 +77,7 @@ namespace TheExpanseRPG.Core.Services
 
         private bool HasChosenBackgroundFocusConflict(AbilityFocus toAdd)
         {
-            return ChosenCharacterBackground?.ChosenFocus?.AbilityName == toAdd.AbilityName 
+            return ChosenCharacterBackground?.ChosenFocus?.AbilityName == toAdd.AbilityName
                 && ChosenCharacterBackground?.ChosenFocus?.FocusName == toAdd.FocusName;
         }
 
@@ -170,7 +168,6 @@ namespace TheExpanseRPG.Core.Services
 
         public void RollAssignableAbilityList()
         {
-            ClearAbilities(AbilityRollType.RollAndAssign);
             AttributeValuesToAssign.Clear();
             PopulateScoreList();
         }

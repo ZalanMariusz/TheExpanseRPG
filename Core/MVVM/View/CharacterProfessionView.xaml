@@ -32,7 +32,6 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <!--GotFocus="ProfessionSelectorList_GotFocus"-->
             <user:ProfessionSelectorList
                 IsEnabled="{Binding CharacterCreationService.CharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
@@ -89,7 +88,7 @@
                               SelectedItem="{Binding DataContext.ChosenFocus, RelativeSource={RelativeSource AncestorType=UserControl}}"
                               Background="Transparent"
                               Foreground="{StaticResource EXPDarkBlueBrush}"
-                              SelectionChanged="bg_SelectionChanged"
+                              SelectionChanged="Combo_SelectionChanged"
                               FontWeight="Semibold"
                             >
                             <ComboBox.ItemTemplate>
@@ -110,7 +109,7 @@
                               SelectedItem="{Binding DataContext.ChosenTalent, RelativeSource={RelativeSource AncestorType=UserControl}}"
                               Background="Transparent"
                               Foreground="{StaticResource EXPDarkBlueBrush}"
-                              SelectionChanged="bg_SelectionChanged"                                     
+                              SelectionChanged="Combo_SelectionChanged"                                     
                               FontWeight="Semibold"
                         >
                             <ComboBox.ItemTemplate>

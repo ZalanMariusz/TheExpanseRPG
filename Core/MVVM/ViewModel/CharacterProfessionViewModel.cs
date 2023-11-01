@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using TheExpanseRPG.Core.Enums;
-using TheExpanseRPG.Core.Factories;
 using TheExpanseRPG.Core.MVVM.Model;
 using TheExpanseRPG.Core.Services;
 

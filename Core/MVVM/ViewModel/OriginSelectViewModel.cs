@@ -1,7 +1,4 @@
-﻿using TheExpanseRPG.Core.Commands;
-using TheExpanseRPG.Core.Enums;
-using TheExpanseRPG.Core.Factories;
-using TheExpanseRPG.Core.Services;
+﻿using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.Core.MVVM.ViewModel
@@ -9,23 +6,19 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
     public class OriginSelectViewModel : CharacterCreationViewModelBase
     {
         public string? _selectedOriginDescription;
-
         public string? SelectedOriginDescription
         {
             get { return _selectedOriginDescription; }
             set { _selectedOriginDescription = value; OnPropertyChanged(); }
         }
-        public OriginSelectViewModel(INavigationService navigationService)
-        {
-            NavigationService = navigationService;
-           
-        }
         public CharacterOrigin? SelectedOrigin
         {
-            get { return CharacterCreationService.CharacterOrigin; }
+            get { return CharacterCreationService!.CharacterOrigin; }
             set
             {
-                CharacterCreationService.CharacterOrigin = value; OnPropertyChanged(); ChangeOriginDescription();
+                CharacterCreationService!.CharacterOrigin = value;
+                OnPropertyChanged();
+                ChangeOriginDescription();
             }
         }
         private void ChangeOriginDescription()

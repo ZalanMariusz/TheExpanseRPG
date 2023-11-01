@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using TheExpanseRPG.Core.Factories;
+﻿using System.Collections.ObjectModel;
 using TheExpanseRPG.Core.MVVM.Model;
 using TheExpanseRPG.Core.MVVM.Model.Interfaces;
 using TheExpanseRPG.Core.Services;
@@ -17,10 +15,10 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 
         public CharacterDrive? ChosenCharacterDrive
         {
-            get { return CharacterCreationService.ChosenDrive; }
+            get { return CharacterCreationService!.ChosenDrive; }
             set
             {
-                CharacterCreationService.ChosenDrive = value;
+                CharacterCreationService!.ChosenDrive = value;
                 OnPropertyChanged();
                 RefreshDriveTalents();
             }
@@ -28,20 +26,20 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 
         public IDriveBonus? ChosenDriveBonus
         {
-            get { return CharacterCreationService.ChosenDriveBonus; }
+            get { return CharacterCreationService!.ChosenDriveBonus; }
             set
             {
-                CharacterCreationService.ChosenDriveBonus = value;
+                CharacterCreationService!.ChosenDriveBonus = value;
                 OnPropertyChanged();
             }
         }
 
         public CharacterTalent? ChosenFocus
         {
-            get { return CharacterCreationService.ChosenDriveFocus; }
+            get { return CharacterCreationService!.ChosenDriveFocus; }
             set
             {
-                CharacterCreationService.ChosenDriveFocus = value;
+                CharacterCreationService!.ChosenDriveFocus = value;
                 OnPropertyChanged();
             }
 
