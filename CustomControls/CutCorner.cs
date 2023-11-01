@@ -17,7 +17,7 @@ namespace TheExpanseRPG.CustomControls
         }
         public CutCorner()
         {
-            segments = new List<LineSegment>();
+            _segments = new List<LineSegment>();
             _borderGeometry = new PathGeometry();
         }
         private int GetCornerParameter(int cornerIndex)
@@ -131,21 +131,21 @@ namespace TheExpanseRPG.CustomControls
             var content = Child;
             if (content != null)
             {
-                PathFigure pathFigure = new(GetBorderStartingPoint(), segments, true);
+                PathFigure pathFigure = new(GetBorderStartingPoint(), _segments, true);
 
                 content.Clip = new PathGeometry(new List<PathFigure>() { pathFigure });
             }
         }
 
 
-        private List<LineSegment> segments;
+        private readonly List<LineSegment> _segments;
         private void RecalculateBorder()
         {
             CalculateSegments();
         }
         private void DrawBorder(DrawingContext drawingContext)
         {
-            _borderGeometry = new PathGeometry(new[] { new PathFigure(GetBorderStartingPoint(), segments, true) });
+            _borderGeometry = new PathGeometry(new[] { new PathFigure(GetBorderStartingPoint(), _segments, true) });
             drawingContext.DrawGeometry(Fill, new Pen(BorderBrush, BorderThickness), _borderGeometry);
         }
 
@@ -155,7 +155,7 @@ namespace TheExpanseRPG.CustomControls
         }
         private void CalculateSegments()
         {
-            segments.Clear();
+            _segments.Clear();
             AddTopBorder();
             AddTopRightCorner();
             AddRightBorder();
@@ -167,45 +167,45 @@ namespace TheExpanseRPG.CustomControls
 
         private void AddTopBorder()
         {
-            segments.Add(new LineSegment(new Point(ActualWidth - (GetCornerParameter(1) * CutSize), 0), true));
+            _segments.Add(new LineSegment(new Point(ActualWidth - (GetCornerParameter(1) * CutSize), 0), true));
         }
 
         private void AddTopRightCorner()
         {
             if (GetCornerParameter(1) != 0)
             {
-                segments.Add(new LineSegment(new Point(ActualWidth, CutSize), true));
+                _segments.Add(new LineSegment(new Point(ActualWidth, CutSize), true));
             }
         }
 
         private void AddRightBorder()
         {
-            segments.Add(new LineSegment(new Point(ActualWidth, ActualHeight - (GetCornerParameter(2) * CutSize)), true));
+            _segments.Add(new LineSegment(new Point(ActualWidth, ActualHeight - (GetCornerParameter(2) * CutSize)), true));
         }
 
         private void AddBottomRightCorner()
         {
             if (GetCornerParameter(2) != 0)
             {
-                segments.Add(new LineSegment(new Point(ActualWidth - CutSize, ActualHeight), true));
+                _segments.Add(new LineSegment(new Point(ActualWidth - CutSize, ActualHeight), true));
             }
         }
         private void AddBottomBorder()
         {
-            segments.Add(new LineSegment(new Point(GetCornerParameter(3) * CutSize, ActualHeight), true));
+            _segments.Add(new LineSegment(new Point(GetCornerParameter(3) * CutSize, ActualHeight), true));
         }
 
         private void AddBottomLeftCorner()
         {
             if (GetCornerParameter(3) != 0)
             {
-                segments.Add(new LineSegment(new Point(0, ActualHeight - CutSize), true));
+                _segments.Add(new LineSegment(new Point(0, ActualHeight - CutSize), true));
             }
         }
 
         private void AddLeftBorder()
         {
-            segments.Add(new LineSegment(new Point(0, GetCornerParameter(0) * CutSize), true));
+            _segments.Add(new LineSegment(new Point(0, GetCornerParameter(0) * CutSize), true));
         }
 
 

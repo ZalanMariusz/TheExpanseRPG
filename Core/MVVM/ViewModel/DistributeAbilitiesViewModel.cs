@@ -1,6 +1,4 @@
 ﻿using TheExpanseRPG.Core.Commands;
-using TheExpanseRPG.Core.Factories;
-using TheExpanseRPG.Core.Services;
 
 namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
@@ -18,7 +16,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public int? Perception { get { return GetCharacterAbilityValue(); } }
         public int? Strength { get { return GetCharacterAbilityValue(); } }
         public int? Willpower { get { return GetCharacterAbilityValue(); } }
-        public int AbilityPool { get { return CharacterCreationService.PointsToDistribute; } }
+        public int AbilityPool { get { return CharacterCreationService!.PointsToDistribute; } }
         public DistributeAbilitiesViewModel()
         {
             IncreaseAbilityValue = new RelayCommand(CanIncrease, Increase);
@@ -26,25 +24,25 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         }
         private void Increase(object abilityName)
         {
-            CharacterCreationService.IncreaseAttributeFromPool(abilityName.ToString()!);
+            CharacterCreationService!.IncreaseAttributeFromPool(abilityName.ToString()!);
             OnPropertyChanged(nameof(AbilityPool));
             OnPropertyChanged(abilityName.ToString()!);
         }
         private void Decrease(object abilityName)
         {
-            CharacterCreationService.DecreaseAttributeFromPool(abilityName.ToString()!);
+            CharacterCreationService!.DecreaseAttributeFromPool(abilityName.ToString()!);
             OnPropertyChanged(nameof(AbilityPool));
             OnPropertyChanged(abilityName.ToString()!);
         }
 
         private bool CanIncrease(object abilityName)
         {
-            return CharacterCreationService.CanIncrease(abilityName.ToString()!);
+            return CharacterCreationService!.CanIncrease(abilityName.ToString()!);
         }
 
         private bool CanDecrease(object abilityName)
         {
-            return CharacterCreationService.CanDecrease(abilityName.ToString()!);
+            return CharacterCreationService!.CanDecrease(abilityName.ToString()!);
         }
     }
 }

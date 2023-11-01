@@ -23,13 +23,13 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             switch (SelectedAbilityRollType)
             {
                 case AbilityRollType.AllRandom:
-                    NavigateToRollType<AllRandomAbilityRollViewModel>();
+                    base.NavigateToInnerView<AllRandomAbilityRollViewModel>();
                     break;
                 case AbilityRollType.RollAndAssign:
-                    NavigateToRollType<AssignAbilityRollViewModel>();
+                    base.NavigateToInnerView<AssignAbilityRollViewModel>();
                     break;
                 case AbilityRollType.DistributePoints:
-                    NavigateToRollType<DistributeAbilitiesViewModel>();
+                    base.NavigateToInnerView<DistributeAbilitiesViewModel>();
                     break;
                 default:
                     break;
@@ -37,33 +37,10 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             CharacterCreationService?.ClearAbilities(SelectedAbilityRollType);
         }
 
-        private void NavigateToRollType<TViewModelBase>() where TViewModelBase : ICharacterCreationViewModel 
-        {
-            MapServiceFromViewModel();
-            NavigationService.NavigateToInnerView<TViewModelBase>(this);
-            MapViewModelToService();
-        }
-
-        private void MapServiceFromViewModel()
-        {
-            if (CurrentInnerViewModel != null)
-            {
-                CharacterCreationService = ((ICharacterCreationViewModel)CurrentInnerViewModel).CharacterCreationService;
-            }
-        }
-        private void MapViewModelToService()
-        {
-            if (CurrentInnerViewModel != null)
-            {
-                ((ICharacterCreationViewModel)CurrentInnerViewModel).CharacterCreationService = CharacterCreationService;
-            }
-        }
-
         public AbilityRollViewModel(INavigationService navigationService)
         {
             NavigationService = navigationService;
             SelectedAbilityRollType = AbilityRollType.AllRandom;
-            //NavigateToRollType<AllRandomAbilityRollViewModel>();
         }
     }
 }

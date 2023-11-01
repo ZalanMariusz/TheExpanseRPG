@@ -1,12 +1,6 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
 using TheExpanseRPG.Core.Commands;
 using TheExpanseRPG.Core.Enums;
-using TheExpanseRPG.Core.Factories;
-using TheExpanseRPG.Core.MVVM.Model;
-using TheExpanseRPG.Core.Services;
 
 namespace TheExpanseRPG.Core.MVVM.ViewModel
 {
@@ -25,7 +19,6 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 
         public AllRandomAbilityRollViewModel()
         {
-            //CharacterCreationService = characterCreationService;
             RollAllRandomAbilityCommand = new RelayCommand(o => true, o => RollAllRandom());
         }
         public void RollAllRandom()

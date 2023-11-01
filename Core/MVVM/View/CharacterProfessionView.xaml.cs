@@ -29,7 +29,7 @@ namespace TheExpanseRPG.Core.MVVM.View
         }
 
 
-        private void bg_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Combo_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is ComboBox combo)
             {

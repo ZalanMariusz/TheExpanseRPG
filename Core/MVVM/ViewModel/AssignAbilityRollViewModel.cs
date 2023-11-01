@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
+﻿using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using TheExpanseRPG.Core.Commands;
 using TheExpanseRPG.Core.Enums;
-using TheExpanseRPG.Core.Factories;
 using TheExpanseRPG.Core.MVVM.Model;
 using TheExpanseRPG.Core.Services;
 
@@ -16,8 +11,8 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
     {
         public RelayCommand RollAbilityValues { get; set; }
         public RelayCommand ClearAbility { get; set; }
-        private ObservableCollection<int?> _rolledAbilities = new();
-        public ObservableCollection<int?> AssignableAbilityValues { get { return _rolledAbilities; } set { _rolledAbilities = value; OnPropertyChanged(); } }
+        private ObservableCollection<int?> _assignableAbilityValues = new();
+        public ObservableCollection<int?> AssignableAbilityValues { get { return _assignableAbilityValues; } set { _assignableAbilityValues = value; OnPropertyChanged(); } }
 
         public int? Accuracy { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
         public int? Constitution { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
@@ -38,7 +33,7 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
 
         private void AssignAbilityScore(int? newValue, [CallerMemberName] string abilityName = "")
         {
-            RefreshObservableList(abilityName, newValue);
+            RefreshAssignableValuesList(abilityName, newValue);
             CharacterCreationService.AssignAbilityScore(abilityName, newValue);
             OnPropertyChanged(abilityName);
 
@@ -52,14 +47,14 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
         public void RollAssignableList()
         {
             CharacterCreationService.RollAssignableAbilityList();
+            CharacterCreationService.ClearAbilities(AbilityRollType.RollAndAssign);
             AssignableAbilityValues = new ObservableCollection<int?>(CharacterCreationService.AttributeValuesToAssign);
             foreach (CharacterAbility ability in CharacterCreationService.CharacterAbilityBlock.AbilityList)
             {
                 OnPropertyChanged(ability.AbilityName.ToString());
             }
-            OnPropertyChanged(nameof(AssignableAbilityValues));
         }
-        private void RefreshObservableList(string abilityName, int? newValue)
+        private void RefreshAssignableValuesList(string abilityName, int? newValue)
         {
             int? abilityPropertyValue = (int?)GetType().GetProperty(abilityName)!.GetValue(this);
             if (abilityPropertyValue.HasValue)
@@ -67,7 +62,6 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
                 AssignableAbilityValues.Add(abilityPropertyValue);
             }
             AssignableAbilityValues.Remove(newValue);
-            OnPropertyChanged(nameof(AssignableAbilityValues));
         }
 
     }

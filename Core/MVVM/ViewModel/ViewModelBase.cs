@@ -36,7 +36,6 @@ namespace TheExpanseRPG.Core.MVVM.ViewModel
             get { return _openModals; }
             set { _openModals = value; OnPropertyChanged(); }
         }
-
         public IViewModelBase? GetInnerViewModel<TViewModelBase>() where TViewModelBase : IViewModelBase
         {
             return InnerViewModels.FirstOrDefault(x => x.GetType() == typeof(TViewModelBase));
