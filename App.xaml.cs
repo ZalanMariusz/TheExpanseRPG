@@ -1,13 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
-using TheExpanseRPG.Core.Factories;
-using TheExpanseRPG.Core.MVVM.Model;
-using TheExpanseRPG.Core.MVVM.View;
-using TheExpanseRPG.Core.MVVM.ViewModel;
-using TheExpanseRPG.Core.Services;
-using TheExpanseRPG.Core.Services.Interfaces;
+using TheExpanseRPG.Core;
+using TheExpanseRPG.MVVM.View;
+using TheExpanseRPG.Services.Interfaces;
 
 namespace TheExpanseRPG
 {
@@ -18,12 +14,9 @@ namespace TheExpanseRPG
         public App()
         {
             _services = new ServiceCollection();
-
-            RegisterModels.Register(_services);
-            RegisterViewModels.Register(_services);
-            RegisterViews.Register(_services);
-            RegisterFactories.Register(_services);
-            RegisterServices.Register(_services);
+            _services.RegisterCoreDepdendencies();
+            _services.RegisterMVVMDependencies();
+            //RegisterServices.Register(_services);
             _serviceProvider = _services.BuildServiceProvider();
         }
         protected override void OnStartup(StartupEventArgs e)

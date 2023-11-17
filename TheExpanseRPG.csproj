@@ -8,34 +8,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
+    <None Remove="Images\CharacterOriginBelt.png" />
+    <None Remove="Images\CharacterOriginEarth.png" />
+    <None Remove="Images\CharacterOriginMars.png" />
+    <None Remove="Images\shutdown-icon.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Fonts\Fontspring-DEMO-hyperspacerace-compressedbold.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Fonts\Fontspring-DEMO-hyperspacerace-compressedbolditalic.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Fonts\Fontspring-DEMO-hyperspacerace-compresseditalic.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Fonts\Fontspring-DEMO-hyperspacerace-compressedlight.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Fonts\Fontspring-DEMO-hyperspacerace-compressedlightitalic.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
+    <PackageReference Include="xunit" Version="2.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TheExpanseRPG.Core\TheExpanseRPG.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\CharacterOriginBelt.png" />
     <Resource Include="Images\CharacterOriginEarth.png" />
     <Resource Include="Images\CharacterOriginMars.png" />
     <Resource Include="Images\shutdown-icon.png" />
-    <Content Include="TheExpanseRPGDB.db">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>

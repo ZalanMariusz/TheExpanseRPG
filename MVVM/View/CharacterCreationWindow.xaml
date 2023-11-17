@@ -1,0 +1,107 @@
+﻿<Window x:Class="TheExpanseRPG.MVVM.View.CharacterCreationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TheExpanseRPG.MVVM.View"
+        xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+        xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel" 
+        xmlns:usercontrols="clr-namespace:TheExpanseRPG.UserControls" 
+        d:DataContext="{d:DesignInstance Type=vm:CharacterCreationViewModel}"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown"
+        Style="{StaticResource ExpanseWindowStyle}"
+        Topmost="False"
+        
+        Title="CharacterCreationWindow" Height="710" Width="1200">
+
+    <Border BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="3">
+        <Grid>
+            <Grid.Resources>
+                <DataTemplate DataType="{x:Type vm:OriginSelectViewModel}">
+                    <local:OriginSelectView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:AbilityRollViewModel}">
+                    <local:AbilityRollView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:SocialAndBackgroundViewModel}">
+                    <local:SocialAndBackgroundView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:CharacterProfessionViewModel}">
+                    <local:CharacterProfessionView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:DrivesViewModel}">
+                    <local:DrivesView/>
+                </DataTemplate>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <usercontrols:WindowHeaderWithLogo Grid.ColumnSpan="10"/>
+            <Border Grid.Row="2" BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="0,3"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <custom:CutCorner BorderCuts="1,0,0,1" Grid.Column="0" Margin="10">
+                    <RadioButton HorizontalContentAlignment="Center" GroupName="creationSteps" 
+                                 Style="{DynamicResource ExpanseToggleButton}" 
+                                 Content="Origin" Command="{Binding NavigateToOriginSelect}"
+                                 VerticalContentAlignment="Center"
+                                 IsChecked="True"
+                                 BorderThickness="0"/>
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="0,1,0,0" Grid.Column="1" Margin="10">
+                    <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Social Class and Background" Command="{Binding NavigateToSocialAndBackground}"  />
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="0,0,1,0" Grid.Column="2" Margin="10">
+                    <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Professions" Command="{Binding NavigateToCharacterProfessions}" />
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="0,0,0,1" Grid.Column="3" Margin="10">
+                    <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Drives" Command="{Binding NavigateToDrives}" />
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="1,0,0,0" Grid.Column="4" Margin="10">
+                    <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Abilities" Command="{Binding NavigateToAttributeRoll}"  />
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="0,1,1,0"  Grid.Column="5" Margin="10">
+                    <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Content="Save, and back to main" />
+                </custom:CutCorner>
+            </Grid>
+            
+            <Grid VerticalAlignment="Center" Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="1" Grid.Row="0" Margin="5">
+                    <Button Content="Focuses"/>
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="1" Grid.Row="1" Margin="5">
+                    <Button Content="Talents" Command="{Binding ShowTalentListCommand}"/>
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="1" Grid.Row="2" Margin="5">
+                    <Button Content="Back to main" 
+                            Command="{Binding NavigateBackToMain}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                            />
+                </custom:CutCorner>
+            </Grid>
+
+
+            <ContentControl Content="{Binding CurrentInnerViewModel}" Grid.Row="2" Margin="5">
+
+            </ContentControl>
+        </Grid>
+    </Border>
+</Window>
