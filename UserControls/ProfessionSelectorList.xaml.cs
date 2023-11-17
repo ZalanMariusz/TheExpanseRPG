@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using TheExpanseRPG.Core.MVVM.Model;
+using TheExpanseRPG.Core.Model;
 
 namespace TheExpanseRPG.UserControls
 {
