@@ -1,9 +1,6 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
-using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Services;
-using TheExpanseRPG.Core.Services.Interfaces;
 using TheExpanseRPG.Factories;
 
 namespace TheExpanseRPG.MVVM.ViewModel
@@ -31,6 +28,14 @@ namespace TheExpanseRPG.MVVM.ViewModel
             {
                 CharacterCreationService.SelectedProfessionFocus = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(HasProfessionFocusConflict));
+
+                EventAggregator.PublishLinkedPropertyChanged("HasOriginSelectionConflict");
+                EventAggregator.PublishLinkedPropertyChanged("HasSocialOrBackgroundSelectionConflict");
+                EventAggregator.PublishLinkedPropertyChanged("HasProfessionSelectionConflict");
+                EventAggregator.PublishLinkedPropertyChanged("OriginConflicts");
+                EventAggregator.PublishLinkedPropertyChanged("SocialOrBackgroundConflicts");
+                EventAggregator.PublishLinkedPropertyChanged("ProfessionConflicts");
             }
         }
 
@@ -48,8 +53,14 @@ namespace TheExpanseRPG.MVVM.ViewModel
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(SelectedFocus));
                     OnPropertyChanged(nameof(SelectedTalent));
+                    EventAggregator.PublishLinkedPropertyChanged();
                 }
             }
+        }
+
+        public bool HasProfessionFocusConflict
+        {
+            get { return CharacterCreationService.HasProfessionConflict(); }
         }
 
         public CharacterProfessionViewModel(ScopedServiceFactory scopedServiceFactory)

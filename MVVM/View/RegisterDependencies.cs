@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TheExpanseRPG.MVVM.View;
+using TheExpanseRPG.MVVM.ViewModel;
 
 namespace TheExpanseRPG.Core.MVVM.View
 {
@@ -10,6 +11,7 @@ namespace TheExpanseRPG.Core.MVVM.View
             services.AddSingleton<WelcomeSplashWindow>();
             services.AddSingleton<PlayerMainWindow>();
             services.AddSingleton<GmMainWindow>();
+            services.AddTransient<TalentInfoWindow>();
 
             services.AddTransient<CharacterCreationWindow>();
             services.AddTransient<TalentListWindow>();

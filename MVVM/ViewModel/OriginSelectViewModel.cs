@@ -12,15 +12,22 @@ namespace TheExpanseRPG.MVVM.ViewModel
         }
         public CharacterOrigin? SelectedOrigin
         {
-            get { return CharacterCreationService!.CharacterOrigin; }
+            get { return CharacterCreationService!.SelectedCharacterOrigin; }
             set
             {
-                CharacterCreationService.CharacterOrigin = value;
+                CharacterCreationService.SelectedCharacterOrigin = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SelectedOriginDescription));
+                EventAggregator.PublishLinkedPropertyChanged();
+                EventAggregator.PublishLinkedPropertyChanged("HasOriginSelectionConflict");
+                EventAggregator.PublishLinkedPropertyChanged("HasSocialOrBackgroundSelectionConflict");
+                EventAggregator.PublishLinkedPropertyChanged("HasProfessionSelectionConflict");
+                EventAggregator.PublishLinkedPropertyChanged("OriginConflicts");
+                EventAggregator.PublishLinkedPropertyChanged("SocialOrBackgroundConflicts");
+                EventAggregator.PublishLinkedPropertyChanged("ProfessionConflicts");
             }
         }
-       
+
         public OriginSelectViewModel(ScopedServiceFactory scopedServiceFactory)
         {
             CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();

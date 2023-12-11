@@ -1,5 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
+using TheExpanseRPG.MVVM.ViewModel;
 
 namespace TheExpanseRPG.MVVM.View
 {
@@ -13,23 +17,23 @@ namespace TheExpanseRPG.MVVM.View
             InitializeComponent();
         }
 
-        private void bg_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (sender is ComboBox)
+
+            if (sender is ComboBox box)
             {
-                if (((ComboBox)sender).SelectedItem == null)
+                if (box.SelectedItem == null)
                 {
-                    ((ComboBox)sender).Background = Brushes.Transparent;
+                    box.Background = Brushes.Transparent;
+                    
                 }
                 else
                 {
                     //19BC47
                     var brush = new SolidColorBrush(Color.FromArgb(255, 25, 188, 71));
-                    ((ComboBox)sender).Background = brush;
+                    box.Background = brush;
                 }
             }
         }
-
-
     }
 }

@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TheExpanseRPG"
              xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
-        
              >
     <Application.Resources>
 
@@ -27,9 +26,12 @@
 
             <Style TargetType="{x:Type custom:CutCorner}">
                 <Setter Property="Fill" Value="{StaticResource EXPDarkBlueBrush}"/>
-                <Setter Property="BorderBrush" Value="#64ccc5"/>
+                <Setter Property="BorderBrush" Value="{StaticResource EXPLightBlueBrush}"/>
+                <!--<Setter Property="RenderOptions.EdgeMode" Value="Aliased"/>-->
             </Style>
-
+            
+            
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>

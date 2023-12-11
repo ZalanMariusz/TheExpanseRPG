@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 
 namespace TheExpanseRPG.MVVM.View
@@ -17,6 +19,14 @@ namespace TheExpanseRPG.MVVM.View
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
 
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (!App.IsNavigating)
+            {
+                Application.Current.Shutdown();
+            }
         }
     }
 }

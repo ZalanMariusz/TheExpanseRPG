@@ -11,7 +11,12 @@ namespace TheExpanseRPG.UserControls
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (JustHide)
+            App.IsNavigating = false;
+            if (JustClose)
+            {
+                Window.GetWindow((DependencyObject)sender).Close();
+            }
+            else if (JustHide)
             {
                 Window.GetWindow((DependencyObject)sender).Hide();
             }
@@ -19,7 +24,6 @@ namespace TheExpanseRPG.UserControls
             {
                 Application.Current.Shutdown();
             }
-            
         }
 
 
@@ -31,6 +35,15 @@ namespace TheExpanseRPG.UserControls
 
         public static readonly DependencyProperty JustHideProperty =
             DependencyProperty.Register(nameof(JustHide), typeof(bool), typeof(WindowHeaderWithLogo), new PropertyMetadata(false));
+
+        public bool JustClose
+        {
+            get { return (bool)GetValue(JustCloseProperty); }
+            set { SetValue(JustCloseProperty, value); }
+        }
+
+        public static readonly DependencyProperty JustCloseProperty =
+            DependencyProperty.Register(nameof(JustClose), typeof(bool), typeof(WindowHeaderWithLogo), new PropertyMetadata(false));
 
 
     }

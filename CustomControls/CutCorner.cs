@@ -17,8 +17,8 @@ namespace TheExpanseRPG.CustomControls
         }
         public CutCorner()
         {
-            _segments = new List<LineSegment>();
-            _borderGeometry = new PathGeometry();
+            _segments = new();
+            _borderGeometry = new();
         }
         private int GetCornerParameter(int cornerIndex)
         {

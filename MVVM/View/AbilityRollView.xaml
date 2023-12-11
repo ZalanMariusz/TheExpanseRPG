@@ -36,16 +36,26 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
             <RowDefinition Height="44"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition />
+            
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox SelectionMode="Single" 
+        <user:CreationStepViewHeaderTextBlock
+            Grid.ColumnSpan="2"
+            HeaderText="Select the mode to roll your abilities, then roll them. Changing the type of the roll will clear all your abilities and other rolled values."
+            HorizontalAlignment="Center"
+
+            />
+
+        <ListBox
+            Grid.Row="1"
+                SelectionMode="Single" 
                  ItemsSource="{Binding Source={StaticResource RollTypeDataSource}}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                  ScrollViewer.VerticalScrollBarVisibility="Disabled" 
@@ -70,7 +80,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <custom:CutCorner HasShadow="0" CutSize="8" BorderThickness="1" BorderCuts="1,1,0,0" x:Name="cutcorner" >
+                                <custom:CutCorner HasShadow="0" CutSize="8" BorderThickness="1" BorderCuts="1,1,0,0" x:Name="cutcorner" Margin="1,2,0,2" RenderOptions.EdgeMode="Aliased">
                                     <Border x:Name="mainitemborder" ClipToBounds="True">
                                         <Grid>
                                             <Border x:Name ="shadowborder" 
@@ -82,7 +92,7 @@
                                                 </Border.Effect>
                                             </Border>
                                             <TextBlock
-                                                FontWeight="Medium" x:Name="textblock" HorizontalAlignment="Stretch" TextAlignment="Center" Padding="5"> 
+                                                FontWeight="Medium" x:Name="textblock" HorizontalAlignment="Stretch" TextAlignment="Center" Padding="5" Height="41"> 
                                             <Label Padding="0" 
                                                    x:Name="rollname" 
                                                    Content="{Binding Converter={StaticResource AttributeRollTypeToLabelContentConverter}}"
@@ -116,10 +126,10 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
         
-        <ContentControl Grid.Row="1" Content="{Binding CurrentInnerViewModel}" Height="400" Background="Red">
+        <ContentControl Grid.Row="2" Content="{Binding CurrentInnerViewModel}" Height="400" Background="Red">
         </ContentControl>
 
-        <Grid Grid.Column="3" Grid.RowSpan="2" Margin="0,0,39,0">
+        <Grid Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Margin="0,0,39,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

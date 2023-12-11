@@ -34,6 +34,7 @@
                 <RotateTransform Angle="-90"/>
             </Label.RenderTransform>
         </Label>
+        
         <custom:CutCorner Grid.Column="1" Grid.Row="0" Fill="Transparent" BorderThickness="2" BorderCuts="0,1,1,0" BorderBrush="{StaticResource EXPDarkBlueBrush}" HasShadow="0" Height="72" Padding="10,0,10,0">
             <ListBox
                 ItemsSource="{Binding ItemsSource, ElementName=ProfessionListSelector}"
@@ -59,9 +60,9 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <custom:CutCorner HasShadow="0" BorderThickness="1" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner">
-                                        <Border x:Name="mainitemborder" ClipToBounds="True">
-                                            <Label Content="{Binding ProfessionName}" HorizontalContentAlignment="Center" x:Name="professionnamelabel"/>
+                                    <custom:CutCorner BorderThickness="1" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner" HasShadow="0" RenderOptions.EdgeMode="Aliased" >
+                                        <Border x:Name="mainitemborder" >
+                                            <Label VerticalContentAlignment="Center" Content="{Binding ProfessionName}" HorizontalContentAlignment="Center" x:Name="professionnamelabel"/>
                                         </Border>
                                     </custom:CutCorner>
 

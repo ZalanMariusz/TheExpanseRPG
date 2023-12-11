@@ -21,7 +21,7 @@
             </Grid.RowDefinitions>
             <user:WindowHeaderWithLogo Grid.ColumnSpan="40" JustHide="True"/>
 
-            <ScrollViewer Grid.Row="1">
+            <ScrollViewer Grid.Row="1" >
                 <ItemsControl ItemsSource="{Binding TalentList}" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -30,7 +30,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Width="300"  Margin="5" HorizontalAlignment="Center">
+                            <StackPanel Width="300" Margin="5" HorizontalAlignment="Center">
                                 <custom:CutCorner BorderThickness="0" BorderCuts="1,0,0,0" HasShadow="0">
                                     <TextBlock TextWrapping="Wrap" Text="{Binding TalentName}" Foreground="White" Padding="5" FontSize="20"/>
                                 </custom:CutCorner>

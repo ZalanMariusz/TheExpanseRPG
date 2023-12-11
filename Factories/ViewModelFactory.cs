@@ -22,7 +22,9 @@ public class ViewModelFactory : IViewModelFactory
             { typeof(PlayerMainWindow), typeof(PlayerMainViewModel) },
             { typeof(GmMainWindow), typeof(GmMainViewModel) },
             { typeof(CharacterCreationWindow), typeof(CharacterCreationViewModel) },
-            { typeof(TalentListWindow), typeof(TalentListViewModel) }
+            { typeof(TalentListWindow), typeof(TalentListViewModel) },
+            { typeof(TalentInfoWindow), typeof(TalentInfoViewModel) }
+            
         };
     }
 
