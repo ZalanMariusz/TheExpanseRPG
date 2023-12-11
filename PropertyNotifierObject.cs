@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using TheExpanseRPG.MVVM;
 
 namespace TheExpanseRPG
 {

@@ -14,20 +14,26 @@
     <UserControl.Resources>
         <conv:SocialClassToProfessionSelectorIsEnabledConverter x:Key="SocialClassToProfessionSelectorIsEnabledConverter"/>
         <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"/>
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
-        <Label Background="White" Height="20" Padding="0" VerticalAlignment="Top" 
-               HorizontalContentAlignment="Center" 
-               VerticalContentAlignment="Center"
-               Foreground="Gray"
-               Grid.ColumnSpan="2" 
-               FontStyle="Italic"
-               Content="Select a profession for your character, then select the bonuses. You can only choose a profession from a social class that is equal to or lower than your selected social class."/>
-        <Grid Grid.Column="0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <user:CreationStepViewHeaderTextBlock
+            Grid.ColumnSpan="2"
+            HeaderText="Select a profession for your character, then select the bonuses. You can only choose a profession from a social class that is equal to or lower than your selected social class. Changing selection will clear your selected bonuses during this step."
+            HorizontalContentAlignment="Center"
+            />
+
+
+        <Grid Grid.Column="0" Grid.Row="1" Margin="0,10,0,0">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -35,6 +41,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <user:ProfessionSelectorList
+                VerticalAlignment="Top"
                 IsEnabled="{Binding CharacterCreationService.SelectedCharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
                     ConverterParameter=Outsider}"
@@ -45,16 +52,18 @@
                 />
 
             <user:ProfessionSelectorList Grid.Row="1"
+                VerticalAlignment="Top"
                  IsEnabled="{Binding CharacterCreationService.SelectedCharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
                     ConverterParameter=Lower}"
                  ProfessionName="Lower"
-                GotFocus="ProfessionSelectorList_GotFocus"
+                 GotFocus="ProfessionSelectorList_GotFocus"
                  ItemsSource ="{Binding LowerclassProfessions}"
                  SelectedItem ="{Binding SelectedProfession, Mode=TwoWay}"
                 />
 
             <user:ProfessionSelectorList Grid.Row="2"
+                VerticalAlignment="Top"                                                                  
                 IsEnabled="{Binding CharacterCreationService.SelectedCharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
                     ConverterParameter=Middle}"
@@ -65,6 +74,7 @@
              />
 
             <user:ProfessionSelectorList Grid.Row="3" 
+                VerticalAlignment="Top"
                 IsEnabled="{Binding CharacterCreationService.SelectedCharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
                     ConverterParameter=Upper}"
@@ -75,13 +85,23 @@
          />
         </Grid>
 
-        <StackPanel Grid.Column="1" Margin="0,5,0,0">
-            <custom:CutCorner Margin="25,25,25,5" Padding="5" HasShadow="0" BorderThickness="0" BorderCuts="1,0,1,0" Grid.Row="1" VerticalAlignment="Top" 
+        <StackPanel Grid.Column="1" Margin="0,5,0,0" Grid.Row="1">
+            <custom:CutCorner Margin="25,5,25,5" Padding="5" HasShadow="0" BorderThickness="0" BorderCuts="1,0,1,0" Grid.Row="1" VerticalAlignment="Top" 
                               Visibility="{Binding SelectedProfession, Converter={StaticResource NullToHiddenVisibilityConverter}}">
                 
                 <StackPanel>
                     <DockPanel Margin="5" >
-                        <Label Content="Choose a Focus:" Width="120"/>
+                        <Label Content="Choose a Focus:" Width="100"/>
+                        <Image DockPanel.Dock="Left" Visibility="{Binding HasProfessionFocusConflict, Converter={StaticResource BoolToVisibilityConverter}}" 
+                               ToolTipService.InitialShowDelay="0"
+                               ToolTipService.Placement="Top"
+                               Source="\Images\pngwing.png" Width="18" Height="18" HorizontalAlignment="Right" Margin="0,0,5,0"
+                               RenderOptions.BitmapScalingMode="Fant">
+                            <Image.ToolTip>
+                                <ToolTip Content="Conflict" 
+                                    Background="#D7D42A" Foreground="Black"/>
+                            </Image.ToolTip>
+                        </Image>
                         <ComboBox Template="{DynamicResource ExpanseComboBoxTemplate}"
                               DockPanel.Dock="Top"
                               VerticalContentAlignment="Center"
@@ -95,14 +115,14 @@
                             >
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding BenefitName}" x:Name="talenttext" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding CreationBonusName}" x:Name="talenttext" VerticalAlignment="Center"/>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </DockPanel>
                     
                     <DockPanel Margin="5" >
-                        <Label Content="Choose a Talent:" Width="120"/>
+                        <Label Content="Choose a Talent:" Width="123"/>
                         <ComboBox Template="{DynamicResource ExpanseComboBoxTemplate}"
                               DockPanel.Dock="Top"
                               VerticalContentAlignment="Center"

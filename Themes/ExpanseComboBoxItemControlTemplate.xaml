@@ -42,8 +42,9 @@
                             BorderThickness="{TemplateBinding BorderThickness}" 
                             Padding="{TemplateBinding Padding}" 
                             SnapsToDevicePixels="true">
+
                         <ContentPresenter IsEnabled="{TemplateBinding IsEnabled}" 
-                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          HorizontalAlignment="Stretch"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>

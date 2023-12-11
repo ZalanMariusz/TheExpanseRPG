@@ -17,7 +17,6 @@ namespace TheExpanseRPG.MVVM.View
         {
             InitializeComponent();
             dropAcceptingLabels = new List<Label>();
-
         }
 
         private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)

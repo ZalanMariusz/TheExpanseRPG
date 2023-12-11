@@ -5,12 +5,16 @@
     <TargetFramework>net7.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Images\CharacterOriginBelt.png" />
     <None Remove="Images\CharacterOriginEarth.png" />
     <None Remove="Images\CharacterOriginMars.png" />
+    <None Remove="Images\infobuttonicon.png" />
+    <None Remove="Images\OOjs_UI_icon_alert_image_warning.png" />
+    <None Remove="Images\pngwing.png" />
     <None Remove="Images\shutdown-icon.png" />
   </ItemGroup>
 
@@ -29,6 +33,11 @@
     <Resource Include="Images\CharacterOriginBelt.png" />
     <Resource Include="Images\CharacterOriginEarth.png" />
     <Resource Include="Images\CharacterOriginMars.png" />
+    <Resource Include="Images\infobuttonicon.png" />
+    <Resource Include="Images\OOjs_UI_icon_alert_image_warning.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\pngwing.png" />
     <Resource Include="Images\shutdown-icon.png" />
   </ItemGroup>
 

@@ -33,6 +33,7 @@ namespace TheExpanseRPG.Services
         public void NavigateToModal<TWindow>(IViewModelBase sender, bool isDialog = true) where TWindow : Window
         {
             Window? modal = (Window?)sender.OpenModals?.FirstOrDefault(x => x.GetType() == typeof(TWindow));
+
             if (modal == null)
             {
                 var window = _viewFactory.GetWindow<TWindow>();
@@ -49,8 +50,23 @@ namespace TheExpanseRPG.Services
             }
             else
             {
-                modal.Visibility = Visibility.Visible;
-                modal.Activate();
+                if (modal.IsLoaded)
+                {
+                    modal.Visibility = Visibility.Visible;
+                    modal.Activate();
+                }
+                else
+                {
+                    if (isDialog)
+                    {
+                        modal.ShowDialog();
+                    }
+                    else
+                    {
+                        modal.Show();
+                    }
+                }
+                
             }
         }
         private void ShowWindow<TWindow>(Window? sender, bool closeWindow) where TWindow : Window
@@ -80,6 +96,7 @@ namespace TheExpanseRPG.Services
         }
         private static void CloseSender(Window? sender, bool closeWindow)
         {
+            App.IsNavigating = true;
             if (closeWindow)
             {
                 sender?.Close();
@@ -88,6 +105,7 @@ namespace TheExpanseRPG.Services
             {
                 sender?.Hide();
             }
+            App.IsNavigating = false;
         }
 
 

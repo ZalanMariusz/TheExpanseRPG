@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converter="clr-namespace:TheExpanseRPG.Converters"
+             xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
              xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
              xmlns:enum="clr-namespace:TheExpanseRPG.Core.Enums;assembly=TheExpanseRPG.Core"
              xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
@@ -15,7 +16,10 @@
         <converter:CharacterCreationStepLockInToButtonContentConverter x:Key="CharacterCreationStepLockInToButtonContentConverter"/>
         <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         <converter:SelectedOriginToEnabledConverter x:Key="SelectedOriginToEnabledConverter"/>
+        <converter:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
+
         
+
         <ObjectDataProvider x:Key="CharacterOriginDataSource"
                  ObjectType="{x:Type enum:CharacterOrigin}"
                  MethodName="GetValues">
@@ -29,18 +33,23 @@
     <Grid>
         <StackPanel>
             <Grid>
-
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition />
                 </Grid.RowDefinitions>
-                <Label Content="Select an origin from below, then press next" Grid.ColumnSpan="3" Background="White" FontStyle="Italic" Foreground="Gray" Height="18" Padding="0" Margin="0,0,0,5" HorizontalContentAlignment="Center"/>
-                <Grid Grid.Row="1" HorizontalAlignment="Center">
+
+
+                <user:CreationStepViewHeaderTextBlock
+                    HeaderText="Select an origin from below. Belters by default get the Dexterity(Free-Fall) focus, while Inners get the benefit of not being belters."
+                    HorizontalContentAlignment="Center"
+                    />
+                
+                <Grid HorizontalAlignment="Center" Margin="-280,7,0,0" Grid.Row="1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
                     <ListView 
                         Template="{DynamicResource ExpanseListViewTemplate}"
@@ -51,12 +60,10 @@
                         SelectedItem="{Binding SelectedOrigin}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                         Background="Transparent" 
-                        BorderThickness="0" 
-                        Grid.IsSharedSizeScope="True"
-                              >
+                        BorderThickness="0">
                         <ListView.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                                <VirtualizingStackPanel Orientation="Horizontal"/>
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
 
@@ -68,27 +75,38 @@
                                             <Grid>
                                                 <Border x:Name="contentborder" BorderBrush="Transparent" BorderThickness="1">
                                                     <StackPanel>
-                                                        <Image x:Name="ListboxImage" Height="480" Stretch="UniformToFill">
+                                                        <Image x:Name="ListboxImage" Height="470" Stretch="UniformToFill" Width="140" Opacity="0.5">
                                                             <Image.Source>
                                                                 <FormatConvertedBitmap Source="{Binding Converter={StaticResource OriginToImageConverter}}" DestinationFormat="Gray8"/>
                                                             </Image.Source>
                                                         </Image>
-                                                        <custom:CutCorner HasShadow="0" BorderCuts="0,0,0,0" CutSize="4" BorderThickness="0">
-                                                            <Label Content="{Binding}" Height="20" Padding="0" Background="Transparent" 
+
+                                                        <Label Content="{Binding}" Height="20" Padding="0" Background="{StaticResource EXPDarkBlueBrush}" 
                                                            VerticalContentAlignment="Center" HorizontalContentAlignment="Center"
                                                            Foreground="#FF72FBFF"/>
-                                                        </custom:CutCorner>
+
                                                     </StackPanel>
                                                 </Border>
                                             </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected" Value="True">
                                                     <Setter TargetName="ListboxImage" Property="Source" Value="{Binding Converter={StaticResource OriginToImageConverter}}"/>
-                                                    <Setter TargetName="contentborder" Property="BorderBrush" Value="#FFFFFF00"/>
+                                                    <!--<Setter TargetName="contentborder" Property="BorderBrush" Value="#BB1EE135"/>-->
+                                                    <Setter TargetName="ListboxImage" Property="Opacity" Value="1"/>
                                                 </Trigger>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter Property="Source" TargetName="ListboxImage" Value="{Binding Converter={StaticResource OriginToImageConverter}}"/>
+                                                    <Setter TargetName="ListboxImage" Property="Opacity" Value="0.8"/>
                                                 </Trigger>
+                                                <MultiTrigger>
+                                                    <MultiTrigger.Conditions>
+                                                        <Condition Property="IsMouseOver" Value="True"/>
+                                                        <Condition Property="IsSelected" Value="True"/>
+                                                    </MultiTrigger.Conditions>
+                                                    <Setter Property="Source" TargetName="ListboxImage" Value="{Binding Converter={StaticResource OriginToImageConverter}}"/>
+                                                    <Setter TargetName="ListboxImage" Property="Opacity" Value="1"/>
+                                                </MultiTrigger>
+
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
                                     </Setter.Value>
@@ -97,23 +115,36 @@
                         </ListView.ItemContainerStyle>
                     </ListView>
 
-                    <Grid Grid.Column="3">
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-                        <TextBlock Text="{Binding SelectedOriginDescription}" 
-                               Grid.Column="3"
-                               Margin="30,0,0,0"
-                               Background="Transparent" 
-                               Foreground="{StaticResource EXPLightBlueBrush}" 
-                               TextWrapping="Wrap" 
-                               TextAlignment="Left" 
-                               FontWeight="DemiBold" />
-                    </Grid>
+
+
                 </Grid>
+
+
+                <TextBlock  Grid.Row="1"
+                    Text="SELECT AN ORIGIN"
+                    FontSize="80"
+                    MaxWidth="370"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    TextWrapping="Wrap" 
+                    TextAlignment="Center"
+                    Foreground="#444444"
+                    Visibility="{Binding SelectedOrigin, Converter={StaticResource NotNullToVisibilityConverter}}"
+                    Margin="450,0,0,0"
+                    />
+
+                <TextBlock Text="{Binding SelectedOriginDescription}" 
+                    Grid.Row="1"
+                    MaxWidth="270"
+                    HorizontalAlignment="Right"
+                    Margin="5,10,240,0"
+                    Foreground="{StaticResource EXPLightBlueBrush}" 
+                    TextWrapping="Wrap" 
+                    TextAlignment="Justify"
+                    FontWeight="DemiBold" />
             </Grid>
         </StackPanel>
 
+        
     </Grid>
 </UserControl>

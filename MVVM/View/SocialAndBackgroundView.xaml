@@ -3,16 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:TheExpanseRPG.MVVM.View"
              xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+             xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
              xmlns:enum="clr-namespace:TheExpanseRPG.Core.Enums;assembly=TheExpanseRPG.Core"
-             xmlns:conv="clr-namespace:TheExpanseRPG.Converters"
              xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
+             xmlns:conv="clr-namespace:TheExpanseRPG.Converters"
+             xmlns:template="clr-namespace:TheExpanseRPG.Themes"
              d:DataContext="{d:DesignInstance Type=vm:SocialAndBackgroundViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1200">
 
     <UserControl.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
+        <DataTemplate x:Key="ComboItemTemplate">
+            <DockPanel HorizontalAlignment="Stretch">
+                <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
+                <Button
+                    Padding="0"
+                    Margin="0"
+                    HorizontalAlignment="Right"
+                    Command="{Binding DataContext.NavigateToTalentInfoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                    CommandParameter="{Binding}">
+                    <Button.Content>
+                        <Image Source="\Images\infobuttonicon.png" 
+                            Width="18" Height="18" 
+                            RenderOptions.BitmapScalingMode="HighQuality"/>
+                    </Button.Content>
+                </Button>
+            </DockPanel>
+        </DataTemplate>
+
+
+        <DataTemplate x:Key="ComboSelectedTemplate">
+            <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
+        </DataTemplate>
+
+        <template:CustomItemTemplateSelector x:Key="CustomTemplateSelector"
+                                      ComboItemTemplate="{StaticResource ComboItemTemplate}"
+                                      ComboSelectedTemplate="{StaticResource ComboSelectedTemplate}" />
+
+
         <ObjectDataProvider x:Key="SocialClasses"
             ObjectType="{x:Type enum:CharacterSocialClass}"
             MethodName="GetValues">
@@ -21,9 +52,15 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
-        <conv:SocialClassToDescriptionConverter x:Key="SocialClassToDescriptionConverter"/>
-        <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
-
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="5,0,0,0"/>
+            <Setter Property="Template" Value="{DynamicResource ExpanseComboBoxTemplate}"/>
+            <Setter Property ="VerticalContentAlignment" Value="Center"/>
+            <Setter Property ="ItemContainerStyle" Value="{DynamicResource ComboBoxItemContainerStyle}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property ="Foreground" Value="{StaticResource EXPDarkBlueBrush}"/>
+            <Setter Property ="FontWeight" Value ="Semibold"/>
+        </Style>
     </UserControl.Resources>
 
     <Grid>
@@ -32,22 +69,25 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="20"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Grid ShowGridLines="True" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Label Content="Pick your character's social class" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Button Content="🎲 Random 🎲" BorderBrush="{DynamicResource EXPLightBlueBrush}" BorderThickness="1" Margin="5" Grid.Column="1"/>
-        </Grid>
-        
-        <Border BorderThickness="0,0,1,0" Grid.Row="1"
+
+        <user:CreationStepViewHeaderTextBlock
+            HeaderText="Select a Social Class. Changing selection will clear your selected bonuses during this step."
+            HorizontalContentAlignment="Center"
+            />
+
+        <user:CreationStepViewHeaderTextBlock
+            Grid.Column="1"
+            HeaderText="Select a Background. Changing selection will clear your selected bonuses during this step."
+            HorizontalContentAlignment="Center"
+            />
+
+        <Border BorderThickness="0,0,1,0" Grid.RowSpan="2" 
                 BorderBrush="{StaticResource EXPLightBlueBrush}"/>
-        
-        
+
+
         <ListBox Grid.Column="0" Grid.Row="1"
                  ItemsSource="{Binding Source={StaticResource SocialClasses}}"
                  SelectedItem="{Binding SelectedCharacterSocialClass}"
@@ -63,7 +103,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <custom:CutCorner HasShadow="0" BorderThickness="0" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner">
+                                <custom:CutCorner HasShadow="0" BorderThickness="1" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner" RenderOptions.EdgeMode="Aliased" BorderBrush="#FF72FBFF">
                                     <Border x:Name="mainitemborder" ClipToBounds="True">
                                         <TextBlock HorizontalAlignment="Stretch">
                                             <Grid>
@@ -73,10 +113,16 @@
                                                 </Grid.RowDefinitions>
                                             <Label x:Name="SocialClassLabel" Margin="0" Content="{Binding}" Padding="4" BorderThickness="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
                                             <TextBlock Grid.Row="1"
-                                                       x:Name="SocialClassDescription" Padding="10" Visibility="Collapsed" 
-                                                       HorizontalAlignment="Stretch" Width="570" Margin="5"
+                                                       x:Name="SocialClassDescription" Padding="10" 
+                                                       Visibility="Collapsed" 
+                                                       HorizontalAlignment="Stretch" 
+                                                       Width="575" 
+                                                       Margin="5"
                                                        Text="{Binding DataContext.SelectedCharacterSocialClassDescription, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                                       TextWrapping="Wrap" TextAlignment="Left" FontSize="12" Foreground="{StaticResource EXPDarkBlueBrush}" Background="White" FontWeight="SemiBold"
+                                                       TextWrapping="Wrap" 
+                                                       TextAlignment="Left" 
+                                                       Foreground="{StaticResource EXPLightBlueBrush}" 
+                                                       Background="Transparent"
                                                        VerticalAlignment="Bottom"/>
                                             </Grid>
                                         </TextBlock>
@@ -89,9 +135,9 @@
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter Property="Foreground" TargetName="SocialClassLabel" Value="{StaticResource EXPDarkBlueBrush}"/>
-                                        <Setter Property="Foreground" TargetName="SocialClassDescription" Value="{StaticResource EXPDarkBlueBrush}"/>
                                         <Setter Property="FontWeight" TargetName="SocialClassLabel" Value="Bold"/>
                                         <Setter Property="Background" TargetName="SocialClassLabel" Value="#BB1EE135"/>
+                                        <Setter Property="Fill" TargetName="cutcorner" Value="Transparent"/>
                                         <Setter Property="Visibility" TargetName="SocialClassDescription" Value="Visible"/>
                                         <Setter Property="BorderThickness" TargetName="cutcorner" Value="1"/>
                                     </Trigger>
@@ -135,7 +181,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <custom:CutCorner HasShadow="0" BorderThickness="0" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner">
+                                    <custom:CutCorner HasShadow="0" BorderThickness="1" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner" RenderOptions.EdgeMode="Aliased">
                                         <Border x:Name="mainitemborder" ClipToBounds="True">
                                             <Grid>
                                                 <Grid.RowDefinitions>
@@ -145,90 +191,125 @@
                                                 </Grid.RowDefinitions>
                                                 <Grid x:Name="backgroundheader" Width="580">
                                                     <Label x:Name="backgroundNameLabel" Content="{Binding BackgroundName}" HorizontalAlignment="Left"/>
-                                                    <Label x:Name="backgroundAbilityBonusLabel" Content="{Binding AbilityBonus}" ContentStringFormat="+1 {0}" HorizontalAlignment="Right"/>
+                                                    <Label x:Name="backgroundAbilityBonusLabel" Content="{Binding AbilityBonus.CreationBonusName}" HorizontalAlignment="Right"/>
                                                 </Grid>
                                                 <TextBlock Text="{Binding BackgroundDescription}" Grid.Row="1"
                                                        x:Name="backgroundDescription"
-                                                       Padding="10" Visibility="Collapsed" HorizontalAlignment="Stretch" Width="570" Margin="5"
+                                                       Padding="10" Visibility="Collapsed" HorizontalAlignment="Stretch" Width="580"
+                                                       Margin="0,2,0,0"
                                                        TextWrapping="Wrap" TextAlignment="Left" FontSize="12" 
-                                                       Foreground="{StaticResource EXPDarkBlueBrush}" 
-                                                       Background="White" 
-                                                       FontWeight="SemiBold"
+                                                       Foreground="{StaticResource EXPLightBlueBrush}" 
+                                                       Background="Transparent" 
+                                                       
                                                        VerticalAlignment="Bottom"/>
-                                                
+
                                                 <StackPanel Grid.Row="2" x:Name="backgroundBonusOptions" Visibility="Collapsed" Margin="5">
-                                                    <DockPanel Margin="5,0,5,5">
-                                                        <Label Content="Choose a Focus:" Width="120"/>
+
+                                                    <Grid Margin="5,0,5,5" >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="1*"/>
+                                                            <ColumnDefinition Width="21*"/>
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Label Content="Choose a Focus:"/>
+                                                        <Image Source="\Images\pngwing.png"
+                                                               Width="18" Height="18" Grid.Column="1" 
+                                                               ToolTipService.InitialShowDelay="0"
+                                                               RenderOptions.BitmapScalingMode="HighQuality"
+                                                               Visibility="{Binding DataContext.HasBackgroundFocusConflict, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}" >
+                                                            <Image.ToolTip>
+                                                                <ToolTip Background="#D7D42A" Foreground="Black" Content="Conflict" />
+                                                            </Image.ToolTip>
+                                                        </Image>
                                                         <ComboBox 
-                                                        x:Name="bgabilitycombo"
-                                                        Template="{DynamicResource ExpanseComboBoxTemplate}"
-                                                        VerticalContentAlignment="Center"
-                                                        ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle}"
+                                                        Grid.Column="2"
+                                                        SelectionChanged="ComboBox_SelectionChanged"
                                                         ItemsSource="{Binding PossibleAbilityFocuses}" 
                                                         SelectedItem="{Binding DataContext.SelectedBackgroundFocus, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                                                        Background="Transparent"
-                                                        SelectionChanged="bg_SelectionChanged"
-                                                        Foreground="{StaticResource EXPDarkBlueBrush}"
-                                                        FontWeight="Semibold"
+                                                        
                                                         >
                                                             <ComboBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock x:Name="focustext" VerticalAlignment="Center" IsEnabled="False">
-                                                                        <TextBlock.Text>
-                                                                            <MultiBinding StringFormat="{}{0} ({1})">
-                                                                                <Binding Path="AbilityName"/>
-                                                                                <Binding Path="FocusName"/>
-                                                                            </MultiBinding>
-                                                                        </TextBlock.Text>
-                                                                    </TextBlock>
+                                                                    <TextBlock x:Name="focustext" VerticalAlignment="Center" Grid.Column="0"
+                                                                                   Text="{Binding CreationBonusName}"/>
                                                                 </DataTemplate>
                                                             </ComboBox.ItemTemplate>
                                                         </ComboBox>
-                                                    </DockPanel>
+                                                    </Grid>
 
-                                                    <DockPanel Margin="5,0,5,5">
-                                                        <Label Content="Choose a Talent:"  Width="120"/>
-                                                        <ComboBox Template="{DynamicResource ExpanseComboBoxTemplate}"
-                                                              VerticalContentAlignment="Center"
-                                                              ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle}"
+                                                    <Grid Margin="5,0,5,5">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="1*"/>
+                                                            <ColumnDefinition Width="21*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Content="Choose a Talent:" Grid.Column="0"/>
+
+                                                        <ContentControl Content="{Binding ElementName=talentCombo, Path=SelectedItem}"
+                                                                ContentTemplate="{StaticResource ComboSelectedTemplate}"
+                                                                Grid.Column="2"/>
+                                                        <ComboBox Grid.Column="2"
+                                                              x:Name="talentCombo"
+                                                              ItemTemplateSelector="{StaticResource CustomTemplateSelector}"
                                                               ItemsSource="{Binding PossiblePlayerTalents}" 
                                                               SelectedItem="{Binding DataContext.SelectedBackgroundTalent, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                              Background="Transparent"
-                                                              SelectionChanged="bg_SelectionChanged"
-                                                              Foreground="{StaticResource EXPDarkBlueBrush}"
-                                                              FontWeight="Semibold"
+                                                              SelectionChanged="ComboBox_SelectionChanged"
+                                                              
                                                               >
-
-                                                            <ComboBox.ItemTemplate>
+                                                            <!--ItemTemplate="{StaticResource ComboItemTemplate}"-->
+                                                            <!--<ComboBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
+                                                                    <DockPanel HorizontalAlignment="Stretch">
+                                                                        <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
+
+                                                                        <Button
+                                                                            Padding="0"
+                                                                            Margin="0"
+                                                                            HorizontalAlignment="Right"
+                                                                            Command="{Binding DataContext.NavigateToTalentInfoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
+                                                                            <Button.Content>
+                                                                                <Image Source="\Images\infobuttonicon.png" 
+                                                                                       Width="18" Height="18" 
+                                                                                       RenderOptions.BitmapScalingMode="HighQuality"/>
+                                                                            </Button.Content>
+                                                                        </Button>
+                                                                    </DockPanel>
+                                                                   
                                                                 </DataTemplate>
-                                                            </ComboBox.ItemTemplate>
-
+                                                            </ComboBox.ItemTemplate>-->
                                                         </ComboBox>
-                                                    </DockPanel>
 
-                                                    <DockPanel Margin="5,0,5,5" >
-                                                        <Label Content="Choose a Benefit:" Width="120"/>
-                                                        <ComboBox Template="{DynamicResource ExpanseComboBoxTemplate}"
-                                                          DockPanel.Dock="Top"
-                                                          VerticalContentAlignment="Center"
-                                                          ItemContainerStyle="{DynamicResource ComboBoxItemContainerStyle}"
-                                                          ItemsSource="{Binding BackgroundBenefits}" 
-                                                          SelectedItem="{Binding DataContext.SelectedBenefit, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                                          Background="Transparent"
-                                                          SelectionChanged="bg_SelectionChanged"
-                                                          Foreground="{StaticResource EXPDarkBlueBrush}"
-                                                          FontWeight="Semibold"
+                                                    </Grid>
+
+                                                    <Grid Margin="5,0,5,5" >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="5*"/>
+                                                            <ColumnDefinition Width="1*"/>
+                                                            <ColumnDefinition Width="21*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Content="Choose a Benefit:" />
+                                                        <Image Source="\Images\pngwing.png"
+                                                            Width="18" Height="18" Grid.Column="1" 
+                                                            ToolTipService.InitialShowDelay="0"
+                                                            RenderOptions.BitmapScalingMode="HighQuality"
+                                                            Visibility="{Binding DataContext.HasBackgroundBenefitConflict, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}" >
+                                                            <Image.ToolTip>
+                                                                <ToolTip Background="#D7D42A" Foreground="Black" Content="Conflict" />
+                                                            </Image.ToolTip>
+                                                        </Image>
+                                                        <ComboBox Grid.Column="2"
+                                                            ItemsSource="{Binding BackgroundBenefits}" 
+                                                            SelectedItem="{Binding DataContext.SelectedBenefit, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            SelectionChanged="ComboBox_SelectionChanged"
                                                         >
-
                                                             <ComboBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding BenefitName}" x:Name="talenttext" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="{Binding CreationBonusName}" x:Name="talenttext" VerticalAlignment="Center"/>
                                                                 </DataTemplate>
                                                             </ComboBox.ItemTemplate>
                                                         </ComboBox>
-                                                    </DockPanel>
+                                                    </Grid>
                                                 </StackPanel>
                                             </Grid>
                                         </Border>
@@ -242,11 +323,11 @@
                                             <Setter Property="Foreground" TargetName="backgroundNameLabel" Value="{StaticResource EXPDarkBlueBrush}"/>
                                             <Setter Property="FontWeight" TargetName="backgroundNameLabel" Value="Bold"/>
                                             <Setter Property="Foreground" TargetName="backgroundAbilityBonusLabel" Value="{StaticResource EXPDarkBlueBrush}"/>
+                                            <Setter Property="Fill" TargetName="cutcorner" Value="Transparent"/>
                                             <Setter Property="FontWeight" TargetName="backgroundAbilityBonusLabel" Value="Bold"/>
                                             <Setter Property="Visibility" TargetName="backgroundBonusOptions" Value="Visible"/>
                                             <Setter Property="Background" TargetName="backgroundheader" Value="#BB1EE135"/>
                                             <Setter Property="Visibility" TargetName="backgroundDescription" Value="Visible"/>
-                                            <Setter Property="BorderThickness" TargetName="cutcorner" Value="1"/>
                                         </Trigger>
                                         <Trigger Property="IsSelected" Value="False">
                                             <Setter Property="Height" TargetName="mainitemborder" Value="26"/>

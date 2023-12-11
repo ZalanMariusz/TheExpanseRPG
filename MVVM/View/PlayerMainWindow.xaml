@@ -12,7 +12,9 @@
         d:DataContext="{d:DesignInstance Type=vm:PlayerMainViewModel}"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource ExpanseWindowStyle}"
-        Title="PlayerMainWindow" Height="500">
+        Title="PlayerMainWindow" Height="500"
+        Closing="Window_Closing"
+        >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>

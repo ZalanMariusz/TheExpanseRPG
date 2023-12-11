@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Model.Interfaces;
 using TheExpanseRPG.Core.Services;
@@ -10,53 +12,63 @@ namespace TheExpanseRPG.MVVM.ViewModel
     public class DrivesViewModel : CharacterCreationViewModelBase
     {
         public ICharacterDriveListService DriveListService { get; }
-        public ObservableCollection<CharacterDrive> DriveList { get; }
-        public ObservableCollection<IDriveBonus> DriveBonuses { get; }
+        //public ObservableCollection<CharacterDrive> DriveList { get; }
+        public ObservableCollection<CharacterDrive> DriveListPartOne { get; }
+        public ObservableCollection<CharacterDrive> DriveListPartTwo { get; }
+        public ObservableCollection<ICharacterCreationBonus> DriveBonuses { get; }
         private ObservableCollection<CharacterTalent>? _driveTalents;
         public ObservableCollection<CharacterTalent>? DriveTalents { get { return _driveTalents; } set { _driveTalents = value; OnPropertyChanged(); } }
 
-        public CharacterDrive? ChosenCharacterDrive
+        public CharacterDrive? SelectedCharacterDrive
         {
-            get { return CharacterCreationService!.ChosenCharacterDrive; }
+            get { return CharacterCreationService!.SelectedCharacterDrive; }
             set
             {
-                CharacterCreationService!.ChosenCharacterDrive = value;
+                CharacterCreationService.SelectedCharacterDrive = value;
                 OnPropertyChanged();
                 RefreshDriveTalents();
+                EventAggregator.PublishLinkedPropertyChanged("SelectedDrive");
             }
         }
 
-        public IDriveBonus? ChosenDriveBonus
+        public ICharacterCreationBonus? SelectedDriveBonus
         {
-            get { return CharacterCreationService!.ChosenDriveBonus; }
+            get { return CharacterCreationService!.SelectedDriveBonus; }
             set
             {
-                CharacterCreationService!.ChosenDriveBonus = value;
+                CharacterCreationService!.SelectedDriveBonus = value;
                 OnPropertyChanged();
             }
         }
 
-        public CharacterTalent? ChosenFocus
+        public CharacterTalent? SelectedTalent
         {
-            get { return CharacterCreationService!.ChosenDriveFocus; }
+            get { return CharacterCreationService!.SelectedDriveTalent; }
             set
             {
-                CharacterCreationService!.ChosenDriveFocus = value;
+                CharacterCreationService!.SelectedDriveTalent = value;
                 OnPropertyChanged();
             }
         }
 
         public DrivesViewModel(ScopedServiceFactory scopedServiceFactory)
         {
+            
             CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
             DriveListService = CharacterCreationService.CharacterDriveListService;
-            DriveList = new(DriveListService.DriveList);
+            
+            int listPartitionAtIndex = DriveListService.DriveList.Count / 2;
+            
+            //DriveList = new(DriveListService.DriveList);
+            DriveListPartOne = new(DriveListService.DriveList.Take(listPartitionAtIndex));
+            DriveListPartTwo = new(DriveListService.DriveList.TakeLast(DriveListService.DriveList.Count-listPartitionAtIndex));
+
             DriveBonuses = new(DriveListService.DriveBonuses);
         }
 
         private void RefreshDriveTalents()
         {
-            DriveTalents = new ObservableCollection<CharacterTalent>(DriveListService.GetDriveTalentOptions(ChosenCharacterDrive?.DriveName));
+            DriveTalents = new ObservableCollection<CharacterTalent>(DriveListService.GetDriveTalentOptions(SelectedCharacterDrive?.DriveName));
         }
     }
 }
