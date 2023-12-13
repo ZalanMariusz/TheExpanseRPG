@@ -49,7 +49,7 @@
                                             <custom:CutCorner BorderThickness="0" BorderCuts="1,0,1,0" HasShadow="0" Fill="Black" Padding="10,2" Width="60" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top">
                                                 <TextBlock TextWrapping="Wrap" Text="Novice" Foreground="White"/> 
                                             </custom:CutCorner>
-                                             <FlowDocumentScrollViewer ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsEnabled="False">
+                                             <FlowDocumentScrollViewer ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                                                  <FlowDocument FontSize="12" 
                                                                FontFamily="Calibri" 
                                                                PagePadding="0">

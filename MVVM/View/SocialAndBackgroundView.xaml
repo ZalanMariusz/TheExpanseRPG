@@ -15,6 +15,7 @@
 
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
 
         <DataTemplate x:Key="ComboItemTemplate">
             <DockPanel HorizontalAlignment="Stretch">
@@ -246,40 +247,40 @@
                                                         </Grid.ColumnDefinitions>
                                                         <Label Content="Choose a Talent:" Grid.Column="0"/>
 
-                                                        <ContentControl Content="{Binding ElementName=talentCombo, Path=SelectedItem}"
+                                                        <!--<ContentControl Content="{Binding ElementName=talentCombo, Path=SelectedItem}"
                                                                 ContentTemplate="{StaticResource ComboSelectedTemplate}"
-                                                                Grid.Column="2"/>
+                                                                Grid.Column="2"/>-->
                                                         <ComboBox Grid.Column="2"
                                                               x:Name="talentCombo"
-                                                              ItemTemplateSelector="{StaticResource CustomTemplateSelector}"
                                                               ItemsSource="{Binding PossiblePlayerTalents}" 
                                                               SelectedItem="{Binding DataContext.SelectedBackgroundTalent, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                               SelectionChanged="ComboBox_SelectionChanged"
-                                                              
+                                                              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                                              ToolTipService.Placement="Left"
                                                               >
-                                                            <!--ItemTemplate="{StaticResource ComboItemTemplate}"-->
-                                                            <!--<ComboBox.ItemTemplate>
+                                                            <ComboBox.ToolTip>
+                                                                <ToolTip Background="Transparent" BorderThickness="0">
+                                                                    <user:TalentToolTip 
+                                                                        DataContext="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ToolTip}}"
+                                                                        Visibility="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ToolTip}, Converter={StaticResource NullToHiddenVisibilityConverter}}"
+                                                                        />
+                                                                </ToolTip>
+                                                            </ComboBox.ToolTip>
+                                                            <ComboBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <DockPanel HorizontalAlignment="Stretch">
-                                                                        <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
-
-                                                                        <Button
-                                                                            Padding="0"
-                                                                            Margin="0"
-                                                                            HorizontalAlignment="Right"
-                                                                            Command="{Binding DataContext.NavigateToTalentInfoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" CommandParameter="{Binding}">
-                                                                            <Button.Content>
-                                                                                <Image Source="\Images\infobuttonicon.png" 
-                                                                                       Width="18" Height="18" 
-                                                                                       RenderOptions.BitmapScalingMode="HighQuality"/>
-                                                                            </Button.Content>
-                                                                        </Button>
-                                                                    </DockPanel>
-                                                                   
+                                                                    <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"
+                                                                               ToolTipService.Placement="Left"
+                                                                               ToolTipService.InitialShowDelay="0"
+                                                                               >
+                                                                        <TextBlock.ToolTip>
+                                                                            <ToolTip Background="Transparent" BorderThickness="0">
+                                                                                <user:TalentToolTip DataContext="{Binding}"/>
+                                                                            </ToolTip>
+                                                                        </TextBlock.ToolTip>
+                                                                    </TextBlock>
                                                                 </DataTemplate>
-                                                            </ComboBox.ItemTemplate>-->
+                                                            </ComboBox.ItemTemplate>
                                                         </ComboBox>
-
                                                     </Grid>
 
                                                     <Grid Margin="5,0,5,5" >
@@ -302,7 +303,8 @@
                                                             ItemsSource="{Binding BackgroundBenefits}" 
                                                             SelectedItem="{Binding DataContext.SelectedBenefit, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                             SelectionChanged="ComboBox_SelectionChanged"
-                                                        >
+                                                            
+                                                        > 
                                                             <ComboBox.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <TextBlock Text="{Binding CreationBonusName}" x:Name="talenttext" VerticalAlignment="Center"/>
