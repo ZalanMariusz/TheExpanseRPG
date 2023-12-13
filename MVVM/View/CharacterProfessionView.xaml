@@ -133,10 +133,27 @@
                               Foreground="{StaticResource EXPDarkBlueBrush}"
                               SelectionChanged="Combo_SelectionChanged"                                     
                               FontWeight="Semibold"
+                              ToolTipService.Placement="Left"
                         >
+                            <ComboBox.ToolTip>
+                                <ToolTip Background="Transparent" BorderThickness="0">
+                                    <user:TalentToolTip 
+                                         DataContext="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ToolTip}}"
+                                         Visibility="{Binding Path=PlacementTarget.SelectedItem, RelativeSource={RelativeSource AncestorType=ToolTip}, Converter={StaticResource NullToHiddenVisibilityConverter}}"
+                                         />
+                                </ToolTip>
+                            </ComboBox.ToolTip>
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
+                                    <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"
+                                               ToolTipService.Placement="Left"
+                                               ToolTipService.InitialShowDelay="0">
+                                        <TextBlock.ToolTip>
+                                            <ToolTip Background="Transparent" BorderThickness="0">
+                                                <user:TalentToolTip DataContext="{Binding}"/>
+                                            </ToolTip>
+                                        </TextBlock.ToolTip>
+                                    </TextBlock>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>

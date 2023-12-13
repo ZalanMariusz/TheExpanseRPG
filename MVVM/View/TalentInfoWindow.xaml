@@ -32,24 +32,23 @@
             </custom:CutCorner>
 
             <TextBlock TextWrapping="Wrap" Text="{Binding Talent.Description}" Margin="0,5" Padding="5" Background="White"/>
-
             <custom:CutCorner BorderThickness="0" BorderCuts="1,0,1,0" HasShadow="0" Fill="LightGray" Margin="0,0,0,5">
                 <TextBlock TextWrapping="Wrap">
-            <Grid>
-                <custom:CutCorner BorderThickness="0" BorderCuts="1,0,1,0" HasShadow="0" Fill="Black" Padding="10,2" Width="60" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top">
-                    <TextBlock TextWrapping="Wrap" Text="Novice" Foreground="White"/> 
-                </custom:CutCorner>
-                 <FlowDocumentScrollViewer ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" IsEnabled="False">
-                     <FlowDocument FontSize="12" 
-                                   FontFamily="Calibri" 
-                                   PagePadding="0">
-                        <Paragraph TextIndent="65" Padding="5,3" LineHeight="17">
-                             <Run Text="{Binding Talent.NoviceDescription, Mode=OneWay}" />
-                        </Paragraph>
-                     </FlowDocument>
-                 </FlowDocumentScrollViewer>            
-                </Grid>
-    </TextBlock>
+                    <Grid>
+                    <custom:CutCorner BorderThickness="0" BorderCuts="1,0,1,0" HasShadow="0" Fill="Black" Padding="10,2" Width="60" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top">
+                        <TextBlock TextWrapping="Wrap" Text="Novice" Foreground="White"/> 
+                    </custom:CutCorner>
+                    <FlowDocumentScrollViewer ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Red">
+                        <FlowDocument FontSize="12" 
+                                      FontFamily="Calibri" 
+                                      PagePadding="0">
+                            <Paragraph TextIndent="65" Padding="5,3" LineHeight="17">
+                                <Run Text="{Binding Talent.NoviceDescription, Mode=OneWay}" />
+                            </Paragraph>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>            
+                    </Grid>
+                </TextBlock>
             </custom:CutCorner>
 
             <custom:CutCorner BorderThickness="0" BorderCuts="1,0,1,0" HasShadow="0" Fill="LightGray" Margin="0,0,0,5">
@@ -69,7 +68,7 @@
                      </FlowDocument>
                  </FlowDocumentScrollViewer>            
                 </Grid>
-    </TextBlock>
+            </TextBlock>
             </custom:CutCorner>
 
             <custom:CutCorner BorderThickness="0" BorderCuts="1,0,1,0" HasShadow="0" Fill="LightGray">
@@ -89,7 +88,7 @@
                      </FlowDocument>
                  </FlowDocumentScrollViewer>            
                 </Grid>
-    </TextBlock>
+             </TextBlock>
             </custom:CutCorner>
         </StackPanel>
     </Grid>
