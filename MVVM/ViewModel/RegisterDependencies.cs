@@ -22,6 +22,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
             services.AddTransient<DistributeAbilitiesViewModel>();
             services.AddTransient<AssignAbilityRollViewModel>();
             services.AddTransient<TalentListViewModel>();
+            services.AddTransient<PopupViewModelBase>();
             return services;
         }
     }

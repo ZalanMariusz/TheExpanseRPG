@@ -8,6 +8,7 @@ namespace TheExpanseRPG.Services
         public static IServiceCollection RegisterServices(this IServiceCollection services)
         {
             services.AddSingleton<INavigationService, NavigationService>();
+            services.AddSingleton<PopupService>();
             return services;
         }
     }

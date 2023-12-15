@@ -4,7 +4,7 @@ using TheExpanseRPG.Core.Factories.Interfaces;
 
 namespace TheExpanseRPG.Factories
 {
-    class ViewFactory : IViewFactory
+    public class ViewFactory : IViewFactory
     {
         public readonly Func<Type, Window> _factory;
         public ViewFactory(Func<Type, Window> _viewFactory)

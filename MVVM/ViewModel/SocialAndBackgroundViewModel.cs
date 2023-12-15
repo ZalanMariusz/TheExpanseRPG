@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
@@ -8,6 +9,7 @@ using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Core.Services.Interfaces;
 using TheExpanseRPG.Factories;
 using TheExpanseRPG.MVVM.View;
+using TheExpanseRPG.Services;
 using TheExpanseRPG.Services.Interfaces;
 
 namespace TheExpanseRPG.MVVM.ViewModel;
@@ -18,12 +20,19 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
         get { return CharacterCreationService.SelectedCharacterSocialClass; }
         set
         {
-            CharacterCreationService.SelectedCharacterSocialClass = value;
-            OnPropertyChanged();
-            RefreshAvailableBackgrounds();
-            OnPropertyChanged(nameof(SelectedCharacterSocialClassDescription));
-            EventAggregator.PublishLinkedPropertyChanged("SelectedSocialClass");
-            EventAggregator.PublishLinkedPropertyChanged("SelectedProfession");
+            if ((value < CharacterCreationService.SelectedCharacterProfession?.ProfessionSocialClass &&
+                _popupService.ShowPopup("Your selected social class is lower than the social class of your selected profession. This will clear your profession and all selected bonuses for it, even if it is locked in.\n\nAre you sure?") == MessageBoxResult.OK) ||
+                value >= CharacterCreationService.SelectedCharacterProfession?.ProfessionSocialClass ||
+                CharacterCreationService.SelectedCharacterProfession is null)
+            {
+                CharacterCreationService.SelectedCharacterSocialClass = value;
+                OnPropertyChanged();
+                RefreshAvailableBackgrounds();
+                OnPropertyChanged(nameof(SelectedCharacterSocialClassDescription));
+                EventAggregator.PublishLinkedPropertyChanged("SelectedSocialClass");
+                EventAggregator.PublishLinkedPropertyChanged("SelectedProfession");
+            }
+
         }
     }
     public CharacterBackGround? SelectedBackground
@@ -93,15 +102,16 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     }
     public ICharacterBackgroundListService BackgroundListService { get; set; }
 
-    public RelayCommand NavigateToTalentInfoCommand { get; set; }
     private INavigationService _navigationService;
-    public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory, INavigationService navigationService)
+    private PopupService _popupService;
+
+    public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory, INavigationService navigationService, PopupService popupService)
     {
         CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
         BackgroundListService = CharacterCreationService.BackgroundListService;
 
         _navigationService = navigationService;
-        NavigateToTalentInfoCommand = new(o => true, NavigateToTalentInfo);
+        _popupService = popupService;
     }
 
     public void NavigateToTalentInfo(object param)
@@ -119,10 +129,6 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
 
             _navigationService.NavigateToModal<TalentInfoWindow>(this);
             OpenModals.Remove(talentInfoWindow);
-            //if (OpenModals is not null)
-            //{
-            //    ((TalentInfoViewModel)OpenModals.First(x => x.GetType() == typeof(TalentInfoWindow)).DataContext).Talent = talent;
-            //}
         }
 
     }

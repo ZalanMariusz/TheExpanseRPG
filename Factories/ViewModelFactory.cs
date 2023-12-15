@@ -24,7 +24,7 @@ public class ViewModelFactory : IViewModelFactory
             { typeof(CharacterCreationWindow), typeof(CharacterCreationViewModel) },
             { typeof(TalentListWindow), typeof(TalentListViewModel) },
             { typeof(TalentInfoWindow), typeof(TalentInfoViewModel) }
-            
+
         };
     }
 
@@ -39,7 +39,7 @@ public class ViewModelFactory : IViewModelFactory
         var viewmodel = ViewModelAssociationDictionary!.Single(x => typeof(TWindow) == x.Key).Value;
         return _factory(viewmodel);
     }
-    public IViewModelBase GetInnerViewModel<TViewModelType>() where TViewModelType : IViewModelBase
+    public IViewModelBase GetViewModel<TViewModelType>() where TViewModelType : IViewModelBase
     {
         return _factory(typeof(TViewModelType));
     }
