@@ -22,7 +22,7 @@ namespace TheExpanseRPG.Services
         public void NavigateToInnerView<TViewModelBase>(IViewModelBase owner) where TViewModelBase : IViewModelBase
         {
             IViewModelBase viewModel = owner.GetInnerViewModel<TViewModelBase>()!;
-            IViewModelBase CurrentViewModel = viewModel ?? _viewModelFactory.GetInnerViewModel<TViewModelBase>();
+            IViewModelBase CurrentViewModel = viewModel ?? _viewModelFactory.GetViewModel<TViewModelBase>();
             owner.AddInnerViewModel(CurrentViewModel);
             owner.SetCurrentInnerViewModel(CurrentViewModel);
         }

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Media;
-using TheExpanseRPG.MVVM.ViewModel;
 
 namespace TheExpanseRPG.MVVM.View
 {
@@ -25,7 +21,7 @@ namespace TheExpanseRPG.MVVM.View
                 if (box.SelectedItem == null)
                 {
                     box.Background = Brushes.Transparent;
-                    
+
                 }
                 else
                 {

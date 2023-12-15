@@ -17,7 +17,7 @@
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
 
-        <DataTemplate x:Key="ComboItemTemplate">
+        <!--<DataTemplate x:Key="ComboItemTemplate">
             <DockPanel HorizontalAlignment="Stretch">
                 <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
                 <Button
@@ -33,16 +33,16 @@
                     </Button.Content>
                 </Button>
             </DockPanel>
-        </DataTemplate>
+        </DataTemplate>-->
 
 
         <DataTemplate x:Key="ComboSelectedTemplate">
             <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
         </DataTemplate>
 
-        <template:CustomItemTemplateSelector x:Key="CustomTemplateSelector"
+        <!--<template:CustomItemTemplateSelector x:Key="CustomTemplateSelector"
                                       ComboItemTemplate="{StaticResource ComboItemTemplate}"
-                                      ComboSelectedTemplate="{StaticResource ComboSelectedTemplate}" />
+                                      ComboSelectedTemplate="{StaticResource ComboSelectedTemplate}" />-->
 
 
         <ObjectDataProvider x:Key="SocialClasses"
@@ -90,20 +90,23 @@
 
 
         <ListBox Grid.Column="0" Grid.Row="1"
+                 x:Name="lb_SocialClassSelector"
                  ItemsSource="{Binding Source={StaticResource SocialClasses}}"
-                 SelectedItem="{Binding SelectedCharacterSocialClass}"
+                 SelectedItem="{Binding SelectedCharacterSocialClass, Mode=TwoWay}"
                  HorizontalContentAlignment="Center"
                  Background="Transparent"
                  BorderThickness="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  VerticalAlignment="Top"
+                 SelectionMode="Single"
           >
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
+                                
                                 <custom:CutCorner HasShadow="0" BorderThickness="1" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner" RenderOptions.EdgeMode="Aliased" BorderBrush="#FF72FBFF">
                                     <Border x:Name="mainitemborder" ClipToBounds="True">
                                         <TextBlock HorizontalAlignment="Stretch">
