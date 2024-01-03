@@ -10,8 +10,65 @@
              d:DataContext="{d:DesignInstance Type=vm:DistributeAbilitiesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{StaticResource EXPLightBlueBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="Black"/>
+            <Setter Property="Foreground" Value="{StaticResource EXPLightBlueBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border ClipToBounds="True" x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <Grid>
+                                <Border Background="Transparent" Name="shadowBorder" BorderBrush="Black" 
+                            BorderThickness="0,0,0,0" Margin="0,-14,0,-14">
+                                    <Border.Effect>
+                                        <DropShadowEffect ShadowDepth="0" BlurRadius="15"/>
+                                    </Border.Effect>
+                                </Border>
+
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#331EE196"/>
+                                <Setter Property="BorderThickness" TargetName="shadowBorder" Value="0,13,0,13"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#BB1EE135"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FF0B5879"/>
+                                <Setter Property="TextElement.FontWeight" TargetName="contentPresenter" Value="Bold"/>
+                                <Setter Property="BorderThickness" TargetName="shadowBorder" Value="0,13,0,13"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
     <Grid>
-        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Margin="40,0" Padding="15,15,15,5" BorderThickness="0" HasShadow="0">
+        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Margin="40,0" Padding="15,15,15,5" BorderThickness="0" HasShadow="0" RenderOptions.EdgeMode="Aliased">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="35px"/>

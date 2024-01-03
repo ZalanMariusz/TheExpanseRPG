@@ -16,6 +16,7 @@
     <UserControl.Resources>
         <converter:AttributeRollTypeToLabelContentConverter x:Key="AttributeRollTypeToLabelContentConverter"/>
         <converter:AttributeRollTypeToImageConverter x:Key="AttributeRollTypeToImageConverter"/>
+        <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
 
         <ObjectDataProvider x:Key="RollTypeDataSource"
           ObjectType="{x:Type enum:AbilityRollType}"
@@ -38,8 +39,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="44"/>
-            <RowDefinition Height="auto"/>
-            
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -53,9 +53,10 @@
 
             />
 
-        <ListBox
-            Grid.Row="1"
-                SelectionMode="Single" 
+        <ListBox IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}"
+                 Style="{StaticResource ListBoxStyle}"
+                 Grid.Row="1"
+                 SelectionMode="Single" 
                  ItemsSource="{Binding Source={StaticResource RollTypeDataSource}}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                  ScrollViewer.VerticalScrollBarVisibility="Disabled" 
@@ -125,11 +126,13 @@
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>
-        
-        <ContentControl Grid.Row="2" Content="{Binding CurrentInnerViewModel}" Height="400" Background="Red">
-        </ContentControl>
 
-        <Grid Grid.Column="3" Grid.Row="1" Grid.RowSpan="2" Margin="0,0,39,0">
+        <ContentControl Grid.Row="2" Content="{Binding CurrentInnerViewModel}" Height="400"
+                        IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}" 
+                        Margin="0,-26,0,40"/>
+
+
+        <Grid Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="0,0,39,65">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -177,6 +180,17 @@
                 Content="Measures self-control, self-discipline, mental fortitude, and confidence."
     />
         </Grid>
+        <Border/>
+
+        <Grid Name="lockerGrid" Grid.Column="1" Grid.Row="2" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <user:CharacterCreationLockButton Grid.Column="2" />
+        </Grid>
+
         <Grid.Resources>
             <DataTemplate DataType="{x:Type vm:AllRandomAbilityRollViewModel}">
                 <local:AllRandomAttributeRollView/>

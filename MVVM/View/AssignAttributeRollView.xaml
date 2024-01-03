@@ -10,6 +10,16 @@
              d:DataContext="{d:DesignInstance Type=vm:AssignAbilityRollViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Loaded="UserControl_Loaded">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{StaticResource EXPLightBlueBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.Resources>
             <conv:NullToHiddenVisibilityConverter x:Key="AttributeIsNullToClearButtonConverter"/>
@@ -36,18 +46,42 @@
 
                 <ListBox Grid.Row="9" Margin="0,5,0,5" ItemsSource="{Binding AssignableAbilityValues}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent" BorderBrush="{StaticResource EXPLightBlueBrush}"
                          HorizontalContentAlignment="Stretch"
->
+                         Style="{StaticResource ListBoxStyle}"
+                    >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Rows="1"/>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" Margin="0" Padding="0" Foreground="Black" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextAlignment="Center" Background="{StaticResource EXPLightBlueBrush}" 
-                                        AllowDrop="True" MouseDown="TextBlock_MouseDown"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <TextBlock Text="{Binding}" Margin="3" Padding="0" Foreground="Black" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" Background="{StaticResource EXPLightBlueBrush}" 
+                                                    AllowDrop="True" MouseDown="TextBlock_MouseDown"
+                                                    x:Name="tb_ScoreToAssign"
+                                                    />
+
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter TargetName="tb_ScoreToAssign" Property="Background" Value="Gray"/>
+                                            </Trigger>
+
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="tb_ScoreToAssign" Property="Background" Value="#1EE196"/>
+                                            </Trigger>
+
+                                            
+
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                           
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
                 </ListBox>
 
                 <Button Grid.Row="9" Content="🎲" Grid.Column="2" Command="{Binding RollAbilityValues}" BorderThickness="1" BorderBrush="{StaticResource EXPLightBlueBrush}" Margin="0,5,0,5"/>

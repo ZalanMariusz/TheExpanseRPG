@@ -82,7 +82,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
             NavigateToDrives = new RelayCommand(o => true, o => NavigateToView<DrivesViewModel>());
 
             NavigateBackToMain = new RelayCommand(o => true, ExecNavigationToPlayerMain);
-            ShowTalentListCommand = new RelayCommand(o => true, ShowTalenList);
+            ShowTalentListCommand = new RelayCommand(o => true, o => ShowTalenList());
             OpenModals = new();
 
             EventAggregator.LinkedPropertyChanged += (sender, propertyName) =>
@@ -118,7 +118,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
             NavigationService.NavigateToNewWindow<PlayerMainWindow>((Window)sender, true);
             EventAggregator.UnSubscribeAll();
         }
-        private void ShowTalenList(object sender)
+        private void ShowTalenList()
         {
             NavigationService.NavigateToModal<TalentListWindow>(this, false);
         }

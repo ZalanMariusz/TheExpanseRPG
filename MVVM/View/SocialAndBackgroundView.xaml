@@ -16,34 +16,7 @@
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
-
-        <!--<DataTemplate x:Key="ComboItemTemplate">
-            <DockPanel HorizontalAlignment="Stretch">
-                <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
-                <Button
-                    Padding="0"
-                    Margin="0"
-                    HorizontalAlignment="Right"
-                    Command="{Binding DataContext.NavigateToTalentInfoCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" 
-                    CommandParameter="{Binding}">
-                    <Button.Content>
-                        <Image Source="\Images\infobuttonicon.png" 
-                            Width="18" Height="18" 
-                            RenderOptions.BitmapScalingMode="HighQuality"/>
-                    </Button.Content>
-                </Button>
-            </DockPanel>
-        </DataTemplate>-->
-
-
-        <DataTemplate x:Key="ComboSelectedTemplate">
-            <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"/>
-        </DataTemplate>
-
-        <!--<template:CustomItemTemplateSelector x:Key="CustomTemplateSelector"
-                                      ComboItemTemplate="{StaticResource ComboItemTemplate}"
-                                      ComboSelectedTemplate="{StaticResource ComboSelectedTemplate}" />-->
-
+        <conv:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
 
         <ObjectDataProvider x:Key="SocialClasses"
             ObjectType="{x:Type enum:CharacterSocialClass}"
@@ -89,8 +62,8 @@
                 BorderBrush="{StaticResource EXPLightBlueBrush}"/>
 
 
-        <ListBox Grid.Column="0" Grid.Row="1"
-                 x:Name="lb_SocialClassSelector"
+        <ListBox Style="{DynamicResource ListBoxStyle}" 
+                 Grid.Column="0" Grid.Row="1"
                  ItemsSource="{Binding Source={StaticResource SocialClasses}}"
                  SelectedItem="{Binding SelectedCharacterSocialClass, Mode=TwoWay}"
                  HorizontalContentAlignment="Center"
@@ -100,13 +73,13 @@
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  VerticalAlignment="Top"
                  SelectionMode="Single"
-          >
+                 IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}"
+                 >
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                
                                 <custom:CutCorner HasShadow="0" BorderThickness="1" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner" RenderOptions.EdgeMode="Aliased" BorderBrush="#FF72FBFF">
                                     <Border x:Name="mainitemborder" ClipToBounds="True">
                                         <TextBlock HorizontalAlignment="Stretch">
@@ -143,7 +116,6 @@
                                         <Setter Property="Background" TargetName="SocialClassLabel" Value="#BB1EE135"/>
                                         <Setter Property="Fill" TargetName="cutcorner" Value="Transparent"/>
                                         <Setter Property="Visibility" TargetName="SocialClassDescription" Value="Visible"/>
-                                        <Setter Property="BorderThickness" TargetName="cutcorner" Value="1"/>
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="False">
                                         <Setter Property="Visibility" TargetName="SocialClassDescription" Value="Collapsed"/>
@@ -167,25 +139,24 @@
         </ListBox>
 
 
-        <Grid Grid.Column="1" Grid.Row="1" >
+        <Grid Grid.Column="1" Grid.Row="1" IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="4*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <ListBox 
-            ItemsSource="{Binding AvailableBackgrounds}"
-            SelectedItem="{Binding SelectedBackground}"
-            Background="Transparent"
-            HorizontalAlignment="Center"
-            BorderThickness="0"
-                 >
-
+                Style="{DynamicResource ListBoxStyle}" 
+                ItemsSource="{Binding AvailableBackgrounds}"
+                SelectedItem="{Binding SelectedBackground}"
+                Background="Transparent"
+                HorizontalAlignment="Center"
+                BorderThickness="0">
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <custom:CutCorner HasShadow="0" BorderThickness="1" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner" RenderOptions.EdgeMode="Aliased">
+                                    <custom:CutCorner HasShadow="0" BorderThickness="1" BorderCuts="1,0,1,0" Margin="1,5,5,5" x:Name="cutcorner" RenderOptions.EdgeMode="Aliased">
                                         <Border x:Name="mainitemborder" ClipToBounds="True">
                                             <Grid>
                                                 <Grid.RowDefinitions>
@@ -250,9 +221,6 @@
                                                         </Grid.ColumnDefinitions>
                                                         <Label Content="Choose a Talent:" Grid.Column="0"/>
 
-                                                        <!--<ContentControl Content="{Binding ElementName=talentCombo, Path=SelectedItem}"
-                                                                ContentTemplate="{StaticResource ComboSelectedTemplate}"
-                                                                Grid.Column="2"/>-->
                                                         <ComboBox Grid.Column="2"
                                                               x:Name="talentCombo"
                                                               ItemsSource="{Binding PossiblePlayerTalents}" 
@@ -260,6 +228,7 @@
                                                               SelectionChanged="ComboBox_SelectionChanged"
                                                               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                                                               ToolTipService.Placement="Left"
+                                                              ToolTipService.ShowOnDisabled="True"
                                                               >
                                                             <ComboBox.ToolTip>
                                                                 <ToolTip Background="Transparent" BorderThickness="0">
@@ -274,6 +243,7 @@
                                                                     <TextBlock Text="{Binding TalentName}" x:Name="talenttext" VerticalAlignment="Center"
                                                                                ToolTipService.Placement="Left"
                                                                                ToolTipService.InitialShowDelay="0"
+                                                                               ToolTipService.ShowOnDisabled="True"
                                                                                >
                                                                         <TextBlock.ToolTip>
                                                                             <ToolTip Background="Transparent" BorderThickness="0">
@@ -306,11 +276,16 @@
                                                             ItemsSource="{Binding BackgroundBenefits}" 
                                                             SelectedItem="{Binding DataContext.SelectedBenefit, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                                             SelectionChanged="ComboBox_SelectionChanged"
-                                                            
-                                                        > 
+                                                            x:Name="Combo_Benefit"
+                                                        >
                                                             <ComboBox.ItemTemplate>
                                                                 <DataTemplate>
-                                                                    <TextBlock Text="{Binding CreationBonusName}" x:Name="talenttext" VerticalAlignment="Center"/>
+                                                                    <TextBlock Text="{Binding CreationBonusName}" x:Name="tb_BackgroundBenefit" VerticalAlignment="Center"/>
+                                                                    <DataTemplate.Triggers>
+                                                                        <Trigger Property="IsEnabled" Value="False">
+                                                                            <Setter Property="Background" Value="Transparent" TargetName="tb_BackgroundBenefit"/>
+                                                                        </Trigger>
+                                                                    </DataTemplate.Triggers>
                                                                 </DataTemplate>
                                                             </ComboBox.ItemTemplate>
                                                         </ComboBox>
@@ -351,21 +326,16 @@
                         </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
-
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
-                        </Grid>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-
             </ListBox>
         </Grid>
 
-
+        <Grid Name="lockerGrid" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <user:CharacterCreationLockButton Grid.Column="2" />
+        </Grid>
     </Grid>
 </UserControl>

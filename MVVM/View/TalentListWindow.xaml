@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheExpanseRPG.MVVM.View"
         xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
-        xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+        xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"    
         MouseDown="Window_MouseDown"
         xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
         d:DataContext="{d:DesignInstance Type=vm:TalentListViewModel}"
         mc:Ignorable="d"
         Style="{StaticResource ExpanseWindowStyle}"
-        Title="TalentListWindow" Height="750" Width="800"
+        Title="TalentListWindow" Height="750" Width="800"        
         >
     <Border BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="3">
         <Grid>
@@ -21,8 +21,8 @@
             </Grid.RowDefinitions>
             <user:WindowHeaderWithLogo Grid.ColumnSpan="40" JustHide="True"/>
 
-            <ScrollViewer Grid.Row="1" >
-                <ItemsControl ItemsSource="{Binding TalentList}" >
+            <ScrollViewer Grid.Row="1">
+                <ItemsControl ItemsSource="{Binding TalentList}" IsEnabled="False"> <!--If the cursor is above a control, the window cannot be scrolled, unless this is disabled--> 
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Width="620" Orientation="Horizontal" Background="White"/>

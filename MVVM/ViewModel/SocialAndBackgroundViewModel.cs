@@ -8,9 +8,7 @@ using TheExpanseRPG.Core.Model.Interfaces;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Core.Services.Interfaces;
 using TheExpanseRPG.Factories;
-using TheExpanseRPG.MVVM.View;
 using TheExpanseRPG.Services;
-using TheExpanseRPG.Services.Interfaces;
 
 namespace TheExpanseRPG.MVVM.ViewModel;
 public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
@@ -102,36 +100,19 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     }
     public ICharacterBackgroundListService BackgroundListService { get; set; }
 
-    private INavigationService _navigationService;
-    private PopupService _popupService;
+    private readonly PopupService _popupService;
 
-    public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory, INavigationService navigationService, PopupService popupService)
+    public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory, /*INavigationService navigationService*/ PopupService popupService)
     {
         CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
         BackgroundListService = CharacterCreationService.BackgroundListService;
-
-        _navigationService = navigationService;
         _popupService = popupService;
     }
 
-    public void NavigateToTalentInfo(object param)
-    {
-        if (param is CharacterTalent talent)
-        {
-            TalentInfoWindow talentInfoWindow = new();
-            TalentInfoViewModel talentInfoViewModel = new((CharacterTalent)param);
-            talentInfoWindow.DataContext = talentInfoViewModel;
-            if (OpenModals is null)
-            {
-                OpenModals = new();
-            }
-            OpenModals.Add(talentInfoWindow);
+    private bool _isSelectionLocked;
+    public bool IsSelectionLocked { get => _isSelectionLocked; set { _isSelectionLocked = value; OnPropertyChanged(); } }
 
-            _navigationService.NavigateToModal<TalentInfoWindow>(this);
-            OpenModals.Remove(talentInfoWindow);
-        }
 
-    }
 
     private void ClearSelectedBonuses()
     {
