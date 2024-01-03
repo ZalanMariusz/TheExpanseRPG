@@ -66,7 +66,7 @@ namespace TheExpanseRPG.Services
                         modal.Show();
                     }
                 }
-                
+
             }
         }
         private void ShowWindow<TWindow>(Window? sender, bool closeWindow) where TWindow : Window
@@ -107,7 +107,5 @@ namespace TheExpanseRPG.Services
             }
             App.IsNavigating = false;
         }
-
-
     }
 }

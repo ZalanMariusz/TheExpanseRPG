@@ -45,4 +45,7 @@ public class AbilityRollViewModel : CharacterCreationViewModelBase
         NavigationService = navigationService;
         NavigateToRollTypeView();
     }
+
+    private bool _isSelectionLocked;
+    public bool IsSelectionLocked { get => _isSelectionLocked; set { _isSelectionLocked = value; OnPropertyChanged(); } }
 }

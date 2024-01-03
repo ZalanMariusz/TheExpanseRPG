@@ -13,6 +13,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
+        <conv:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </UserControl.Resources>
 
     <Grid ShowGridLines="False">
@@ -28,15 +29,20 @@
         <Grid Grid.Row="0" ColumnSpan="2" Margin="10,0">
             <!--Because creating a dp on the usercontrol does not want to set the goddamn span-->
             <user:CreationStepViewHeaderTextBlock
-                HeaderText="Pick a drive from the left, then select bonuses. Your character’s drive describes what motivates them to act, to say “yes” to an opportunity and what moves your character forward. Drive gives you cues for action as a player and provides the GM with “hooks” to encourage your character to take action. Changing drive selection will clear your selected bonuses during this step."
+                HeaderText="Pick a drive from the left, then select bonuses. Your character’s drive describes what motivates them to act, to say “yes” to an opportunity and what moves your character forward. Drive gives you cues for action as a player and provides the GM with “hooks” to encourage your character to take action. Changing drive selection will clear the Talent selected during this step."
                 />
         </Grid>
 
-        <Grid Grid.Row="1" Margin="0,10,0,0">
+
+        <Grid Grid.Row="1" Margin="0,10,0,0" IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
             <ListBox
                  ItemsSource="{Binding DriveListPartOne}"
                  SelectedItem="{Binding SelectedCharacterDrive, Mode=TwoWay}"
@@ -44,9 +50,11 @@
                  HorizontalContentAlignment="Center"
                  Background="Transparent"
                  BorderThickness="0"
+                 Style="{StaticResource ListBoxStyle}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  VerticalAlignment="Top"
+                 
                 >
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem">
@@ -56,25 +64,26 @@
                                     <custom:CutCorner HasShadow="0" BorderThickness="1" BorderCuts="1,0,1,0" Margin="5" x:Name="cutcorner" RenderOptions.EdgeMode="Aliased">
                                         <Border x:Name="mainitemborder" ClipToBounds="True">
                                             <TextBlock HorizontalAlignment="Stretch">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="26"/>
-                                            <RowDefinition x:Name="SecondRow"/>
-                                        </Grid.RowDefinitions>
-                                        <UniformGrid Rows="1" Width="285" x:Name="headergrid">
-                                            <Label x:Name="DriveQuality" FontSize="11" Margin="0" Content="{Binding Quality}" Padding="4" BorderThickness="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
-                                            <Label x:Name="DriveNameLabel" FontWeight="Bold" Margin="0" Content="{Binding DriveName}" Padding="4" BorderThickness="0" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
-                                            <Label x:Name="DriveDownfall" FontSize="11" Margin="0,0,0,0" Content="{Binding Downfall}" Padding="4" BorderThickness="0" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
-                                        </UniformGrid>
-                                    <TextBlock Grid.Row="1"
-                                               x:Name="SocialClassDescription" Padding="3" Visibility="Collapsed" 
-                                               HorizontalAlignment="Stretch" Width="280" Margin="5"
-                                               Text="{Binding DriveDescription}" 
-                                               TextWrapping="Wrap" TextAlignment="Left" FontSize="12" 
-                                               Foreground="{StaticResource EXPLightBlueBrush}" 
-                                               VerticalAlignment="Bottom"/>
-                                    </Grid>
-                                </TextBlock>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="26"/>
+                                                        <RowDefinition x:Name="SecondRow"/>
+                                                    </Grid.RowDefinitions>
+                                                    <UniformGrid Rows="1" Width="285" x:Name="headergrid">
+                                                        <Label x:Name="DriveQuality" FontSize="11" Margin="0" Content="{Binding Quality}" Padding="4" BorderThickness="0" HorizontalAlignment="Left" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
+                                                        <Label x:Name="DriveNameLabel" FontWeight="Bold" Margin="0" Content="{Binding DriveName}" Padding="4" BorderThickness="0" HorizontalAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+                                                        <Label x:Name="DriveDownfall" FontSize="11" Margin="0,0,0,0" Content="{Binding Downfall}" Padding="4" BorderThickness="0" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
+                                                    </UniformGrid>
+                                                <TextBlock Grid.Row="1"
+                                                           x:Name="tb_DriveDescription" Padding="3" Visibility="Collapsed" 
+                                                           HorizontalAlignment="Stretch" Width="280" Margin="5"
+                                                           Text="{Binding DriveDescription}" 
+                                                           TextWrapping="Wrap" TextAlignment="Left" FontSize="12" 
+                                                           Foreground="{StaticResource EXPLightBlueBrush}" 
+                                                           VerticalAlignment="Bottom"/>
+                                                </Grid>
+                                            </TextBlock>
+                                            
                                         </Border>
                                     </custom:CutCorner>
 
@@ -89,13 +98,7 @@
                                             <Setter Property="FontWeight" TargetName="DriveNameLabel" Value="Bold"/>
                                             <Setter Property="Background" TargetName="headergrid" Value="#BB1EE135"/>
                                             <Setter Property="Fill" TargetName="cutcorner" Value="Transparent"/>
-                                            <Setter Property="Visibility" TargetName="SocialClassDescription" Value="Visible"/>
-                                            <Setter Property="BorderThickness" TargetName="cutcorner" Value="1"/>
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="False">
-                                            <Setter Property="Visibility" TargetName="SocialClassDescription" Value="Collapsed"/>
-                                            <Setter Property="Height" TargetName="SocialClassDescription" Value="0"/>
-                                            <Setter Property="Height" TargetName="mainitemborder" Value="26"/>
+                                            <Setter Property="Visibility" TargetName="tb_DriveDescription" Value="Visible"/>
                                         </Trigger>
                                         <MultiTrigger>
                                             <MultiTrigger.Conditions>
@@ -111,8 +114,11 @@
                         </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
+                
+                
             </ListBox>
             <ListBox
+               Style="{StaticResource ListBoxStyle}"
                Grid.Column="1"
                ItemsSource="{Binding DriveListPartTwo}"
                HorizontalContentAlignment="Center"
@@ -188,9 +194,50 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
+            <custom:CutCorner Grid.Row="1" Grid.ColumnSpan="2" Margin="10" BorderThickness="0" BorderCuts="1,1,1,1" HasShadow="0">
+                <StackPanel>
+                    <Label HorizontalContentAlignment="Center" Content="Pick a benefit" Background="Black" FontWeight="Bold" Foreground="White"/>
+                    <ListBox 
+                     Style="{StaticResource ListBoxStyle}"
+                     BorderThickness="0"
+                     ItemsSource="{Binding DriveBonuses}"
+                     SelectedItem="{Binding SelectedDriveBonus}"
+                     Background="{StaticResource EXPDarkBlueBrush}"
+                     Padding="5,10"
+                     HorizontalContentAlignment="Stretch">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Label HorizontalContentAlignment="Center" Content="{Binding CreationBonusName}" Height="28" Margin="2" x:Name="drivebonus" BorderBrush="{StaticResource EXPLightBlueBrush}" Background="{StaticResource EXPDarkBlueBrush}" BorderThickness="1" />
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" TargetName="drivebonus" Value="#331EE196"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="True">
+                                                    <Setter Property="Foreground" TargetName="drivebonus" Value="{StaticResource EXPDarkBlueBrush}"/>
+                                                    <Setter Property="FontWeight" TargetName="drivebonus" Value="Bold"/>
+                                                    <Setter Property="Background" TargetName="drivebonus" Value="#BB1EE135"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                    </ListBox>
+
+                </StackPanel>
+            </custom:CutCorner>
         </Grid>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding SelectedCharacterDrive, Converter={StaticResource NullToHiddenVisibilityConverter}}" Margin="0,0,0,0">
+        <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding SelectedCharacterDrive, Converter={StaticResource NullToHiddenVisibilityConverter}}" Margin="0,0,0,0" IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}">
             <custom:CutCorner BorderCuts="1,1,1,1" Margin="10" HasShadow="0" BorderThickness="0" VerticalAlignment="Top" >
                 <StackPanel>
                     <Label HorizontalContentAlignment="Center" Content="Quality" Background="Black" FontWeight="Bold" Foreground="White"/>
@@ -208,53 +255,22 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <custom:CutCorner Margin="10" BorderThickness="0" BorderCuts="1,1,1,1" HasShadow="0">
-                    <StackPanel>
-                        <Label HorizontalContentAlignment="Center" Content="Pick a benefit" Background="Black" FontWeight="Bold" Foreground="White"/>
-                        <ListBox 
-                     BorderThickness="0"
-                     ItemsSource="{Binding DriveBonuses}"
-                     SelectedItem="{Binding SelectedDriveBonus}"
-                     Background="{StaticResource EXPDarkBlueBrush}"
-                     Padding="5,10"
-                     HorizontalContentAlignment="Stretch"
-                     >
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ListBoxItem">
-                                                <Label Content="{Binding CreationBonusName}" Height="28" Width="262" Margin="2" x:Name="drivebonus" BorderBrush="{StaticResource EXPLightBlueBrush}" Background="{StaticResource EXPDarkBlueBrush}" BorderThickness="1" />
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter Property="Background" TargetName="drivebonus" Value="#331EE196"/>
-                                                    </Trigger>
-                                                    <Trigger Property="IsSelected" Value="True">
-                                                        <Setter Property="Foreground" TargetName="drivebonus" Value="{StaticResource EXPDarkBlueBrush}"/>
-                                                        <Setter Property="FontWeight" TargetName="drivebonus" Value="Bold"/>
-                                                        <Setter Property="Background" TargetName="drivebonus" Value="#BB1EE135"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
-
-                    </StackPanel>
-                </custom:CutCorner>
-
-                <custom:CutCorner Margin="10" BorderThickness="0" BorderCuts="1,1,1,1" Grid.Column="1" HasShadow="0">
+                <custom:CutCorner Margin="10" BorderThickness="0" BorderCuts="1,1,1,1" Grid.ColumnSpan="2" HasShadow="0">
                     <StackPanel Grid.Column="1">
                         <Label HorizontalContentAlignment="Center" Content="Pick a talent" Background="Black" FontWeight="Bold" Foreground="White" Margin="-1,0,0,0"/>
                         <ListBox ItemsSource="{Binding DriveTalents}"
+                         Style="{StaticResource ListBoxStyle}"
                          SelectedItem="{Binding SelectedTalent}"
                          Background="{StaticResource EXPDarkBlueBrush}"
                          HorizontalContentAlignment="Stretch"
                          BorderThickness="0"
                          Padding="5,10"
                                  >
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid Rows="1"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
                                     <Setter Property="Template">
@@ -263,7 +279,9 @@
                                                 <Label Height="28" Content="{Binding TalentName}" Margin="2" x:Name="drivebonus" BorderBrush="{StaticResource EXPLightBlueBrush}" 
                                                        Background="{StaticResource EXPDarkBlueBrush}" BorderThickness="1"
                                                        ToolTipService.InitialShowDelay="0"
-                                                       ToolTipService.Placement="Left">
+                                                       HorizontalContentAlignment="Center"
+                                                       ToolTipService.ShowOnDisabled="True"
+                                                       ToolTipService.Placement="Top">
                                                     <Label.ToolTip>
                                                         <ToolTip Background="Transparent" BorderThickness="0">
                                                             <user:TalentToolTip DataContext="{Binding}"/>
@@ -291,7 +309,14 @@
                 </custom:CutCorner>
             </Grid>
         </StackPanel>
-
+        <Grid Name="lockerGrid" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <user:CharacterCreationLockButton Grid.Column="2" />
+        </Grid>
     </Grid>
 
 </UserControl>

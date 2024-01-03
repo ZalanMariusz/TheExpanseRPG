@@ -12,6 +12,7 @@
         <ResourceDictionary Source="/Themes/ExpanseToggleButtonStyle.xaml"/>
         <ResourceDictionary Source="/Themes/ExpanseComboboxStyle.xaml"/>
         <ResourceDictionary Source="/Themes/ExpanseComboBoxItemControlTemplate.xaml"/>
+        <ResourceDictionary Source="/Themes/ExpanseListBoxStyle.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
     
