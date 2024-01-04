@@ -22,10 +22,22 @@
             <user:WindowHeaderWithLogo Grid.ColumnSpan="40" JustHide="True"/>
 
             <ScrollViewer Grid.Row="1">
-                <ItemsControl ItemsSource="{Binding TalentList}" IsEnabled="False"> <!--If the cursor is above a control, the window cannot be scrolled, unless this is disabled--> 
+                <ItemsControl ItemsSource="{Binding TalentList}" Grid.Row="1" IsEnabled="False">
+                    <!--If the cursor is above a control, the window cannot be scrolled, unless this is disabled-->
+
+                    <!--<ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <ScrollViewer CanContentScroll="True">
+                                <ItemsPresenter />
+                            </ScrollViewer>
+                        </ControlTemplate>
+                    </ItemsControl.Template>-->
+
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Width="620" Orientation="Horizontal" Background="White"/>
+                            <!--<VirtualizingStackPanel IsVirtualizing="True" 
+                                VirtualizationMode="Recycling" Width="620" Background="White"/>-->
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
@@ -81,7 +93,7 @@
                                             </Grid>
                                 </TextBlock>
                                 </custom:CutCorner>
-                                
+
                                 <custom:CutCorner BorderThickness="0" BorderCuts="1,0,1,0" HasShadow="0" Fill="LightGray" Margin="0,0,0,5">
                                     <TextBlock TextWrapping="Wrap">
                                         <Grid>
