@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TheExpanseRPG.MVVM.View"
-             xmlns:enum="clr-namespace:TheExpanseRPG.Core.Enums;assembly=TheExpanseRPG.Core"
+             xmlns:enum="clr-namespace:TheExpanseRPG.Core.Enums"
              xmlns:converter="clr-namespace:TheExpanseRPG.Converters"
              xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
              xmlns:user="clr-namespace:TheExpanseRPG.UserControls"

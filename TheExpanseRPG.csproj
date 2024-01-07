@@ -33,10 +33,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TheExpanseRPG.Core\TheExpanseRPG.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Images\CharacterOriginBelt.png" />
     <Resource Include="Images\CharacterOriginEarth.png" />
     <Resource Include="Images\CharacterOriginMars.png" />
