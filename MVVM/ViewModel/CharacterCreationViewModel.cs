@@ -75,11 +75,12 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
             NavigateToView<OriginSelectViewModel>();
 
-            NavigateToOriginSelect = new RelayCommand(o => true, o => NavigateToView<OriginSelectViewModel>());
-            NavigateToAttributeRoll = new RelayCommand(o => true, o => NavigateToView<AbilityRollViewModel>());
-            NavigateToSocialAndBackground = new RelayCommand(o => true, o => NavigateToView<SocialAndBackgroundViewModel>());
-            NavigateToCharacterProfessions = new RelayCommand(o => true, o => NavigateToView<CharacterProfessionViewModel>());
-            NavigateToDrives = new RelayCommand(o => true, o => NavigateToView<DrivesViewModel>());
+            NavigateToOriginSelect = new(o => true, o => NavigateToView<OriginSelectViewModel>());
+            NavigateToAttributeRoll = new(o => true, o => NavigateToView<AbilityRollViewModel>());
+            NavigateToSocialAndBackground = new(o => true, o => NavigateToView<SocialAndBackgroundViewModel>());
+            NavigateToCharacterProfessions = new(o => true, o => NavigateToView<CharacterProfessionViewModel>());
+            NavigateToDrives = new(o => true, o => NavigateToView<DrivesViewModel>());
+            NavigateToCharacterFinalization = new(o => true, o => NavigateToView<CharacterFinalizationViewModel>());
 
             NavigateBackToMain = new RelayCommand(o => true, ExecNavigationToPlayerMain);
             ShowTalentListCommand = new RelayCommand(o => true, o => ShowTalenList());
@@ -111,6 +112,8 @@ namespace TheExpanseRPG.MVVM.ViewModel
         public RelayCommand NavigateToCharacterProfessions { get; set; }
         public RelayCommand NavigateToDrives { get; set; }
         public RelayCommand NavigateBackToMain { get; set; }
+        public RelayCommand NavigateToCharacterFinalization { get; set; }
+
 
         private void ExecNavigationToPlayerMain(object sender)
         {

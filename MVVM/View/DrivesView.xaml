@@ -99,6 +99,12 @@
                                             <Setter Property="Background" TargetName="headergrid" Value="#BB1EE135"/>
                                             <Setter Property="Fill" TargetName="cutcorner" Value="Transparent"/>
                                             <Setter Property="Visibility" TargetName="tb_DriveDescription" Value="Visible"/>
+                                            <Setter Property="BorderThickness" TargetName="cutcorner" Value="1"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False">
+                                            <Setter Property="Visibility" TargetName="tb_DriveDescription" Value="Collapsed"/>
+                                            <Setter Property="Height" TargetName="tb_DriveDescription" Value="0"/>
+                                            <Setter Property="Height" TargetName="mainitemborder" Value="26"/>
                                         </Trigger>
                                         <MultiTrigger>
                                             <MultiTrigger.Conditions>
@@ -149,7 +155,7 @@
                                           <Label x:Name="DriveDownfall" FontSize="11" Margin="0,0,0,0" Content="{Binding Downfall}" Padding="4" BorderThickness="0" HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom"/>
                                       </UniformGrid>
                                   <TextBlock Grid.Row="1"
-                                             x:Name="SocialClassDescription" Padding="3" Visibility="Collapsed" 
+                                             x:Name="tb_DriveDescription" Padding="3" Visibility="Collapsed" 
                                              HorizontalAlignment="Stretch" Width="280" Margin="5"
                                              Text="{Binding DriveDescription}" 
                                              TextWrapping="Wrap" TextAlignment="Left" FontSize="12" 
@@ -171,12 +177,12 @@
                                             <Setter Property="FontWeight" TargetName="DriveNameLabel" Value="Bold"/>
                                             <Setter Property="Background" TargetName="headergrid" Value="#BB1EE135"/>
                                             <Setter Property="Fill" TargetName="cutcorner" Value="Transparent"/>
-                                            <Setter Property="Visibility" TargetName="SocialClassDescription" Value="Visible"/>
+                                            <Setter Property="Visibility" TargetName="tb_DriveDescription" Value="Visible"/>
                                             <Setter Property="BorderThickness" TargetName="cutcorner" Value="1"/>
                                         </Trigger>
                                         <Trigger Property="IsSelected" Value="False">
-                                            <Setter Property="Visibility" TargetName="SocialClassDescription" Value="Collapsed"/>
-                                            <Setter Property="Height" TargetName="SocialClassDescription" Value="0"/>
+                                            <Setter Property="Visibility" TargetName="tb_DriveDescription" Value="Collapsed"/>
+                                            <Setter Property="Height" TargetName="tb_DriveDescription" Value="0"/>
                                             <Setter Property="Height" TargetName="mainitemborder" Value="26"/>
                                         </Trigger>
                                         <MultiTrigger>

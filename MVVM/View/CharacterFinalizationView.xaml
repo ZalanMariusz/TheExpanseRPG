@@ -1,0 +1,439 @@
+﻿<UserControl x:Class="TheExpanseRPG.MVVM.View.CharacterFinalizationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TheExpanseRPG.MVVM.View"
+             xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
+             xmlns:conv="clr-namespace:TheExpanseRPG.Converters"
+             xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+             xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:CharacterFinalizationViewModel}"
+             d:DesignHeight="850" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:NullOrEmptyAndNotFocusedToVisibleMultiConverter x:Key="NullOrEmptyAndNotFocusedToVisibleMultiConverter"/>
+    </UserControl.Resources>
+    <Grid Name="mainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Margin="5,17,5,5" Name="firstPanel">
+            <Grid Name="leftGrid" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <!--<Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>-->
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <!--<DockPanel Margin="5">-->
+                    <Label Content="Origin" VerticalAlignment="Center" FontWeight="Bold" Margin="5"/>
+                    <Image Source="\Images\pngwing.png"
+                           Width="18" Height="18"
+                           ToolTipService.InitialShowDelay="0"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           HorizontalAlignment="Right"
+                            >   
+                        <Image.ToolTip>
+                            <ToolTip Background="#D7D42A" Foreground="Black" Content="Conflict" />
+                        </Image.ToolTip>
+                    </Image>
+                    <custom:CutCorner RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0"  HasShadow="0" Grid.Column="1" Margin="5">
+                        <Label Content="{Binding SelectedOrigin}" VerticalAlignment="Center" />
+                    </custom:CutCorner>
+                    <!--</DockPanel>-->
+
+                    <!--<DockPanel Margin="5" Grid.Row="1">-->
+                    <Label Grid.Row="1" Content="Social Class" VerticalAlignment="Center" FontWeight="Bold" Margin="5"/>
+                    
+                    <Image Source="\Images\pngwing.png"
+                           Grid.Row="1"
+                         Width="18" Height="18"
+                         ToolTipService.InitialShowDelay="0"
+                         RenderOptions.BitmapScalingMode="HighQuality"
+                         HorizontalAlignment="Right"
+                        />
+                    
+                    <custom:CutCorner Grid.Row="1" RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0" HasShadow="0" Grid.Column="1" Margin="5">
+                        <Label Content="{Binding SelectedSocialClass}" VerticalAlignment="Center"/>
+                    </custom:CutCorner>
+                    <!--</DockPanel>-->
+
+                    <!--<DockPanel Margin="5" Grid.Row="2">-->
+                    <Label Content="Background" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="2" Margin="5"/>
+
+                    <Image Source="\Images\pngwing.png"
+       Grid.Row="2"
+     Width="18" Height="18"
+     ToolTipService.InitialShowDelay="0"
+     RenderOptions.BitmapScalingMode="HighQuality"
+     HorizontalAlignment="Right"
+    />
+
+                    <custom:CutCorner RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0" HasShadow="0" Grid.Row="2" Margin="5" Grid.Column="1">
+                        <Label Content="{Binding SelectedBackground.BackgroundName}" VerticalAlignment="Center"/>
+                    </custom:CutCorner>
+                    <!--</DockPanel>-->
+
+                    <!--<DockPanel Margin="5" Grid.Row="3">-->
+                    <Label Content="Profession" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="3" Margin="5" />
+
+                    <Image Source="\Images\pngwing.png"
+   Grid.Row="3"
+ Width="18" Height="18"
+ ToolTipService.InitialShowDelay="0"
+ RenderOptions.BitmapScalingMode="HighQuality"
+ HorizontalAlignment="Right"
+/>
+                    <custom:CutCorner RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0" HasShadow="0" Grid.Row="3" Margin="5" Grid.Column="1">
+                        <Label Content="{Binding SelectedProfession.ProfessionName}" VerticalAlignment="Center"/>
+                    </custom:CutCorner>
+                    <!--</DockPanel>-->
+
+                    <!--<DockPanel Margin="5" Grid.Row="4">-->
+                    <Label Content="Drive" VerticalAlignment="Center"  FontWeight="Bold" Grid.Row="4" Margin="5"/>
+                    <Image Source="\Images\pngwing.png"
+   Grid.Row="4"
+ Width="18" Height="18"
+ ToolTipService.InitialShowDelay="0"
+ RenderOptions.BitmapScalingMode="HighQuality"
+ HorizontalAlignment="Right"
+/>
+                    <custom:CutCorner RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0"  HasShadow="0" Grid.Row="4" Margin="5" Grid.Column="1">
+                        <Label Content="{Binding SelectedDrive.DriveName}" VerticalAlignment="Center"/>
+                    </custom:CutCorner>
+                    <!--</DockPanel>-->
+                </Grid>
+                <Image Grid.Column="1" Grid.RowSpan="10" Source="\Images\CharacterProfiles\blank.png" Margin="5" />
+            </Grid>
+            <Label Grid.Row ="7" Content="Description: (not required)" VerticalAlignment="Center"/>
+
+            <custom:CutCorner Margin="5,0" RenderOptions.EdgeMode="Aliased" HasShadow="0" BorderCuts="0,0,1,0">
+                <TextBox BorderThickness="0" Grid.Row ="8" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Height="266" Background="Transparent"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Text="{Binding CharacterDescription}"
+                         Foreground="{StaticResource EXPLightBlueBrush}" Padding="5"
+                         CaretBrush="{StaticResource EXPLightBlueBrush}"/>
+            </custom:CutCorner>
+        </StackPanel>
+        <StackPanel Grid.Column="1"  Name="abilityPanel" Margin="5,10,5,15">
+            <Label Content="Missing ability rolls" Margin="0,-3,0,0" Padding="0" HorizontalAlignment="Center" Foreground="Red" Visibility="Hidden"/>
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Margin="5,3,5,5" HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Accuracy" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2" Text="{Binding AccuracyFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalAccuracyScore}" Grid.Column="1" FontSize="25" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased"  Margin="5"  HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Communication" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2" Text="{Binding CommunicationFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalCommunicationScore}" Grid.Column="1" FontSize="25" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Margin="5"  HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Constitution" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2" Text="{Binding ConstitutionFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalConstitutionScore}" Grid.Column="1" FontSize="25" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Margin="5"  HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Dexterity" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2" Text="{Binding DexterityFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalDexterityScore}" Grid.Column="1" FontSize="25" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Margin="5"  HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Fighting" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2" Text="{Binding FightingFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalFightingScore}" Grid.Column="1" FontSize="25" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Margin="5"  HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Intelligence" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2" Text="{Binding IntelligenceFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalIntelligenceScore}" Grid.Column="1" FontSize="25" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Margin="5"  HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Perception" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2"  Text="{Binding PerceptionFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalPerceptionScore}" FontSize="25" Grid.Column="1" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Margin="5"  HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Strength" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2"  Text="{Binding StrengthFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalStrengthScore}" FontSize="25" Grid.Column="1" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Margin="5"  HasShadow="0" BorderBrush="Black">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="8*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Willpower" FontWeight="Bold" Foreground="White" Background="Black"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <TextBlock FontSize="11" Padding="2"  Text="{Binding WillpowerFocuses}" Foreground="{StaticResource EXPLightBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+                    <Label Content="{Binding TotalWillpowerScore}" FontSize="25" Grid.Column="1" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
+                </Grid>
+            </custom:CutCorner>
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Margin="0,20" >
+            <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" Fill="Transparent" HasShadow="0" Margin="5,5,5,10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <HeaderedContentControl>
+                        <HeaderedContentControl.Header>
+                            <Label Content="Speed" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <Label Content="{Binding Speed}" Background="White" Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40" Height="20" Padding="0" Margin="0,0,0,5"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="1">
+                        <HeaderedContentControl.Header>
+                            <Label Content="Defense" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <Label Content="{Binding Defense}" Background="White" Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40" Height="20" Padding="0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="2">
+                        <HeaderedContentControl.Header>
+                            <Label Content="Toughness" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <Label Content="{Binding Toughness}" Background="White" Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40" Height="20" Padding="0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="3">
+                        <HeaderedContentControl.Header>
+                            <Label Content="Fortune" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="5,0"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <Label Content="{Binding Fortune}" Background="White" Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40" Height="20" Padding="0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+
+                    <HeaderedContentControl Grid.Column="4">
+                        <HeaderedContentControl.Header>
+                            <Label Content="Income" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="10,0"/>
+                        </HeaderedContentControl.Header>
+                        <HeaderedContentControl.Content>
+                            <Label Content="{Binding TotalIncome}" Background="White" Foreground="Black" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="40" Height="20" Padding="0"/>
+                        </HeaderedContentControl.Content>
+                    </HeaderedContentControl>
+
+                </Grid>
+            </custom:CutCorner>
+
+
+
+            <Border Margin="0" Background="{StaticResource EXPDarkBlueBrush}">
+                <HeaderedContentControl>
+                    <HeaderedContentControl.Header>
+                        <Label Content="Talents" Background="Black" Foreground="White" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"/>
+                    </HeaderedContentControl.Header>
+                    <HeaderedContentControl.Content>
+                        <ListBox ItemsSource="{Binding SelectedTalents}" Style="{StaticResource ListBoxStyle}" Background="Transparent" BorderThickness="0" HorizontalContentAlignment="Center">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <!--<UniformGrid Rows="1" Margin="5,0" Height="35"/>-->
+                                    <StackPanel Margin="5,0" MinHeight="35"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <custom:CutCorner Margin="2,4" BorderCuts="1,0,1,0" HorizontalAlignment="Stretch" HasShadow="0" RenderOptions.EdgeMode="Aliased"
+                                                                  ToolTipService.Placement="Left"
+                                                                  ToolTipService.InitialShowDelay="0"
+                                                                  ToolTipService.ShowOnDisabled="True"
+                                                                  >
+                                                    <custom:CutCorner.ToolTip>
+                                                        <ToolTip Background="Transparent" BorderThickness="0">
+                                                            <user:TalentToolTip DataContext="{Binding}"/>
+                                                        </ToolTip>
+                                                    </custom:CutCorner.ToolTip>
+
+                                                    <DockPanel HorizontalAlignment="Center">
+                                                        <Label Content="{Binding TalentName}" Padding="5,5,0,5"/>
+                                                        <Label Content="{Binding Degree}" ContentStringFormat="({0})" Padding="2,5,5,5"/>
+                                                    </DockPanel>
+                                                </custom:CutCorner>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+
+
+
+                        </ListBox>
+                    </HeaderedContentControl.Content>
+                </HeaderedContentControl>
+            </Border>
+
+            <Label Content="Character name:" FontWeight="Bold" FontSize="12" Margin="0,10,0,0" Padding="0"/>
+            <Border BorderThickness="2" BorderBrush="{StaticResource EXPDarkBlueBrush}" RenderOptions.EdgeMode="Aliased" Padding="5,0" Background="White" Margin="0,0">
+                <Grid>
+                    <TextBox x:Name="tb_CharacterName" MaxLength="30" Text="{Binding CharacterName, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" FontSize="16" FontWeight="Bold" BorderThickness="0"
+                        HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalAlignment="Center"  />
+                    <Label Content="Enter a name" Background="Transparent" IsHitTestVisible="False" Foreground="Gray" FontStyle="Italic" FontWeight="Bold" HorizontalAlignment="Center"
+                          >
+                        <Label.Visibility>
+                            <MultiBinding Converter="{StaticResource NullOrEmptyAndNotFocusedToVisibleMultiConverter}">
+                                <Binding Path="Text" ElementName="tb_CharacterName"/>
+                                <Binding Path="IsFocused" ElementName="tb_CharacterName"/>
+                            </MultiBinding>
+                        </Label.Visibility>
+                    </Label>
+                </Grid>
+            </Border>
+
+            
+        </StackPanel>
+        <custom:CutCorner CutSize="5" BorderCuts="1,1,1,1" RenderOptions.EdgeMode="Aliased" BorderThickness="3" HasShadow="0" Grid.Column="2" VerticalAlignment="Bottom" Margin="7,22">
+            <Button Background="#BB1EE135" Content="Create Character" FontSize="42" FontWeight="Bold" Height="165" VerticalContentAlignment="Center" IsEnabled="False"/>
+        </custom:CutCorner>
+
+    </Grid>
+</UserControl>

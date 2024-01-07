@@ -12,10 +12,17 @@
     <None Remove="Images\CharacterOriginBelt.png" />
     <None Remove="Images\CharacterOriginEarth.png" />
     <None Remove="Images\CharacterOriginMars.png" />
+    <None Remove="Images\CharacterProfiles\blank.png" />
     <None Remove="Images\infobuttonicon.png" />
     <None Remove="Images\OOjs_UI_icon_alert_image_warning.png" />
     <None Remove="Images\pngwing.png" />
     <None Remove="Images\shutdown-icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\CharacterProfiles\blank.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
