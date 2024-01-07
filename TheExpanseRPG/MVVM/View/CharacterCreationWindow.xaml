@@ -1,0 +1,235 @@
+﻿<Window x:Class="TheExpanseRPG.MVVM.View.CharacterCreationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TheExpanseRPG.MVVM.View"
+        xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+        xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel" 
+        xmlns:conv="clr-namespace:TheExpanseRPG.Converters" 
+        xmlns:usercontrols="clr-namespace:TheExpanseRPG.UserControls" 
+        d:DataContext="{d:DesignInstance Type=vm:CharacterCreationViewModel}"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        MouseDown="Window_MouseDown"
+        Style="{StaticResource ExpanseWindowStyle}"
+        Topmost="False"
+        Closing="Window_Closing"
+        Title="CharacterCreationWindow" Height="710" Width="1200">
+
+    <Window.Resources>
+        <conv:SocialAndBackgroundToButtonContentConverter x:Key="SocialAndBackgroundToButtonContentConverter"/>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <conv:ConflictItemToTooltipContentConverter x:Key="ConflictItemToTooltipContentConverter"/>
+    </Window.Resources>
+    <Border BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="3">
+        <Grid>
+            <Grid.Resources>
+                <DataTemplate DataType="{x:Type vm:OriginSelectViewModel}">
+                    <local:OriginSelectView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:AbilityRollViewModel}">
+                    <local:AbilityRollView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:SocialAndBackgroundViewModel}">
+                    <local:SocialAndBackgroundView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:CharacterProfessionViewModel}">
+                    <local:CharacterProfessionView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:DrivesViewModel}">
+                    <local:DrivesView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:CharacterFinalizationViewModel}">
+                    <local:CharacterFinalizationView/>
+                </DataTemplate>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <usercontrols:WindowHeaderWithLogo Grid.ColumnSpan="10"/>
+            <Border Grid.Row="2" BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="0,3"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+
+                    <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource EXPLightBlueBrush}" FontStyle="Italic" Text="{Binding SelectedOrigin, Mode=OneWay}" Margin="0,1"/>
+
+                    <custom:CutCorner BorderCuts="1,0,0,1" Margin="5,1" RenderOptions.EdgeMode="Aliased">
+                        <RadioButton GroupName="creationSteps" 
+                            Style="{DynamicResource ExpanseToggleButton}" 
+                            Command="{Binding NavigateToOriginSelect}"
+                            HorizontalContentAlignment="Stretch"
+                            IsChecked="True"
+                            BorderThickness="0">
+                            <Grid Margin="2">
+                                <TextBlock Text="Origin" HorizontalAlignment="Center"
+                                    Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"
+                                    FontWeight="{Binding Path=(TextElement.FontWeight), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"/>
+                                <Image Visibility="{Binding HasOriginSelectionConflict, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                       Source="\Images\pngwing.png" Width="18" Height="18" HorizontalAlignment="Right" Margin="0,0,5,0"
+                                       ToolTipService.InitialShowDelay="0"
+                                       ToolTipService.Placement="Top"
+                                       ToolTipService.HorizontalOffset="-165"
+                                       ToolTipService.VerticalOffset="-20"
+                                       RenderOptions.BitmapScalingMode="Fant">
+                                    
+                                    <Image.ToolTip>
+                                        <ToolTip Content="{Binding OriginConflicts, Converter={StaticResource ConflictItemToTooltipContentConverter}}"
+                                                 Background="#D7D42A" Foreground="Black"/>
+                                    </Image.ToolTip>
+                                </Image>
+                            </Grid>
+                        </RadioButton>
+                    </custom:CutCorner>
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource EXPLightBlueBrush}" FontStyle="Italic" Margin="0,1">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource SocialAndBackgroundToButtonContentConverter}">
+                                <Binding Path="SelectedSocialClass" />
+                                <Binding Path="SelectedBackground.BackgroundName" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <custom:CutCorner BorderCuts="0,1,0,0" Margin="5,1" RenderOptions.EdgeMode="Aliased">
+                        <RadioButton BorderThickness="0" HorizontalContentAlignment="Stretch" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Command="{Binding NavigateToSocialAndBackground}">
+                            <Grid Margin="2">
+                                <TextBlock Text="Social Class, Background" HorizontalAlignment="Center"
+                                    Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"
+                                    FontWeight="{Binding Path=(TextElement.FontWeight), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"/>
+                                <Image Visibility="{Binding HasSocialOrBackgroundSelectionConflict, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                       Source="\Images\pngwing.png" Width="18" Height="18" HorizontalAlignment="Right" Margin="0,0,5,0"
+                                       ToolTipService.InitialShowDelay="0"
+                                       ToolTipService.Placement="Top"
+                                       ToolTipService.HorizontalOffset="-165"
+                                       ToolTipService.VerticalOffset="-20"
+                                       RenderOptions.BitmapScalingMode="HighQuality">
+                                    <Image.ToolTip>
+                                        <ToolTip Content="{Binding SocialOrBackgroundConflicts, Converter={StaticResource ConflictItemToTooltipContentConverter}}"
+                                            Background="#D7D42A" Foreground="Black"/>
+                                    </Image.ToolTip>
+                                </Image>
+
+
+                            </Grid>
+                        </RadioButton>
+                    </custom:CutCorner>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource EXPLightBlueBrush}" FontStyle="Italic" Text="{Binding SelectedProfession.ProfessionName}" Margin="0,1"/>
+                    <custom:CutCorner BorderCuts="0,0,1,0" Margin="5,1" RenderOptions.EdgeMode="Aliased">
+                        <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" 
+                                     Command="{Binding NavigateToCharacterProfessions}">
+                            <Grid Margin="2">
+                                <TextBlock Text="Profession" HorizontalAlignment="Center"
+                                    Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"
+                                    FontWeight="{Binding Path=(TextElement.FontWeight), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"/>
+                                <Image Visibility="{Binding HasProfessionSelectionConflict, Converter={StaticResource BoolToVisibilityConverter}}" 
+                                       ToolTipService.InitialShowDelay="0"
+                                       ToolTipService.Placement="Top"
+                                       Source="\Images\pngwing.png" Width="18" Height="18" HorizontalAlignment="Right" Margin="0,0,5,0"
+                                       ToolTipService.HorizontalOffset="-165"
+                                       ToolTipService.VerticalOffset="-20"
+                                       RenderOptions.BitmapScalingMode="HighQuality">
+                                    <Image.ToolTip>
+                                        <ToolTip Content="{Binding ProfessionConflicts, Converter={StaticResource ConflictItemToTooltipContentConverter}}" 
+                                                  Background="#D7D42A" Foreground="Black"/>
+                                    </Image.ToolTip>
+                                </Image>
+
+                            </Grid>
+                        </RadioButton>
+                    </custom:CutCorner>
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource EXPLightBlueBrush}" FontStyle="Italic" Text="{Binding SelectedDrive.DriveName}" Margin="0,1"/>
+
+                    <custom:CutCorner BorderCuts="0,0,0,1" Margin="5,1" RenderOptions.EdgeMode="Aliased">
+                        <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" GroupName="creationSteps" Style="{DynamicResource ExpanseToggleButton}" Command="{Binding NavigateToDrives}" >
+                            <Grid Margin="2">
+                                <TextBlock Text="Drive" HorizontalAlignment="Center" 
+                                    Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"
+                                    FontWeight="{Binding Path=(TextElement.FontWeight), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"/>
+                                <Image ToolTip="tooltip" Height="18" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                            </Grid>
+                        </RadioButton>
+                    </custom:CutCorner>
+
+                </StackPanel>
+                <StackPanel Grid.Column="4">
+                    <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource EXPLightBlueBrush}" FontStyle="Italic" Margin="0,1"/>
+                    <custom:CutCorner BorderCuts="1,0,0,0" Margin="5,1" RenderOptions.EdgeMode="Aliased">
+
+                        <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
+                                 GroupName="creationSteps" 
+                                 Style="{DynamicResource ExpanseToggleButton}" 
+                                 Command="{Binding NavigateToAttributeRoll}"  
+                                    >
+                            <Grid Margin="2">
+                                <TextBlock Text="Abilities" HorizontalAlignment="Center" 
+                                    Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"
+                                    FontWeight="{Binding Path=(TextElement.FontWeight), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"/>
+                                <Image ToolTip="tooltip" Width="18" Height="18" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                            </Grid>
+                        </RadioButton>
+                    </custom:CutCorner>
+                </StackPanel>
+                <StackPanel Grid.Column="5">
+                    <TextBlock HorizontalAlignment="Center" Foreground="{StaticResource EXPLightBlueBrush}" FontStyle="Italic" Margin="0,1"/>
+                    <custom:CutCorner BorderCuts="0,1,1,0" Margin="5,1" RenderOptions.EdgeMode="Aliased">
+                        <RadioButton BorderThickness="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" 
+                                 GroupName="creationSteps"
+                                 Style="{DynamicResource ExpanseToggleButton}" 
+                                 Command="{Binding NavigateToCharacterFinalization}">
+                            <Grid Margin="2">
+                                <TextBlock Text="Finalize" HorizontalAlignment="Center" 
+                                     Foreground="{Binding Path=(TextElement.Foreground), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"
+                                     FontWeight="{Binding Path=(TextElement.FontWeight), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}}}"/>
+                                <Image ToolTip="tooltip" Width="18" Height="18" HorizontalAlignment="Right" Margin="0,0,5,0"/>
+                            </Grid>
+                        </RadioButton>
+                    </custom:CutCorner>
+                </StackPanel>
+
+            </Grid>
+
+            <Grid VerticalAlignment="Center" Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="1" Grid.Row="0" Margin="5" HasShadow="0" RenderOptions.EdgeMode="Aliased">
+                    <Button Content="Focuses"/>
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="1" Grid.Row="1" Margin="5" HasShadow="0" RenderOptions.EdgeMode="Aliased">
+                    <Button Content="Talents" Command="{Binding ShowTalentListCommand}"/>
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="1" Grid.Row="2" Margin="5" HasShadow="0" RenderOptions.EdgeMode="Aliased">
+                    <Button Content="Back to main" 
+                            Command="{Binding NavigateBackToMain}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                            />
+                </custom:CutCorner>
+            </Grid>
+
+
+            <ContentControl Content="{Binding CurrentInnerViewModel}" Grid.Row="2">
+
+            </ContentControl>
+        </Grid>
+    </Border>
+</Window>
