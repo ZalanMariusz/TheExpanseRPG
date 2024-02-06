@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TheExpanseRPG.Core.Model;
@@ -26,8 +27,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
             {
                 CharacterCreationService.SelectedCharacterDrive = value;
                 OnPropertyChanged();
-                RefreshDriveTalents();
-                EventAggregator.PublishLinkedPropertyChanged("SelectedDrive");
+                //RefreshDriveTalents();
             }
         }
 
@@ -63,7 +63,9 @@ namespace TheExpanseRPG.MVVM.ViewModel
             DriveListPartOne = new(DriveListService.DriveList.Take(listPartitionAtIndex));
             DriveListPartTwo = new(DriveListService.DriveList.TakeLast(DriveListService.DriveList.Count-listPartitionAtIndex));
 
+            RefreshDriveTalents();
             DriveBonuses = new(DriveListService.DriveBonuses);
+            CharacterCreationService.DriveSelectionChanged += (sender, EventArgs) => RefreshDriveTalents();
         }
 
         private void RefreshDriveTalents()

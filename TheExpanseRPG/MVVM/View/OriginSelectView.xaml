@@ -11,11 +11,14 @@
              d:DataContext="{d:DesignInstance Type=vm:OriginSelectViewModel}"
              mc:Ignorable="d" 
              >
+
+    <UserControl.Background>
+        <ImageBrush ImageSource="\Images\OriginBackground.png" Stretch="UniformToFill" Opacity="0.3"/>
+    </UserControl.Background>
+
     <Control.Resources>
         <converter:OriginToImageConverter x:Key="OriginToImageConverter"/>
-        <converter:CharacterCreationStepLockInToButtonContentConverter x:Key="CharacterCreationStepLockInToButtonContentConverter"/>
         <converter:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
-        <converter:SelectedOriginToEnabledConverter x:Key="SelectedOriginToEnabledConverter"/>
         <converter:NotNullToVisibilityConverter x:Key="NotNullToVisibilityConverter"/>
 
         
@@ -27,6 +30,7 @@
                 <x:Type TypeName="enum:CharacterOrigin" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+        
     </Control.Resources>
 
 

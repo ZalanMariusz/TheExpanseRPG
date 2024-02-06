@@ -9,18 +9,207 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\AbilitiesBackground.png" />
     <None Remove="Images\CharacterOriginBelt.png" />
     <None Remove="Images\CharacterOriginEarth.png" />
     <None Remove="Images\CharacterOriginMars.png" />
-    <None Remove="Images\CharacterProfiles\blank.png" />
+    <None Remove="Images\CharacterProfiles\000_blank.png" />
+    <None Remove="Images\CharacterProfiles\001.png" />
+    <None Remove="Images\CharacterProfiles\002.png" />
+    <None Remove="Images\CharacterProfiles\003.png" />
+    <None Remove="Images\CharacterProfiles\004.png" />
+    <None Remove="Images\CharacterProfiles\005.png" />
+    <None Remove="Images\CharacterProfiles\006.png" />
+    <None Remove="Images\CharacterProfiles\007.jpg" />
+    <None Remove="Images\CharacterProfiles\008.png" />
+    <None Remove="Images\CharacterProfiles\009.png" />
+    <None Remove="Images\CharacterProfiles\010.png" />
+    <None Remove="Images\CharacterProfiles\011.jpg" />
+    <None Remove="Images\CharacterProfiles\012.png" />
+    <None Remove="Images\CharacterProfiles\013.png" />
+    <None Remove="Images\CharacterProfiles\014.png" />
+    <None Remove="Images\CharacterProfiles\015.png" />
+    <None Remove="Images\CharacterProfiles\016.jpg" />
+    <None Remove="Images\CharacterProfiles\017.png" />
+    <None Remove="Images\CharacterProfiles\018.png" />
+    <None Remove="Images\CharacterProfiles\019.jpg" />
+    <None Remove="Images\CharacterProfiles\020.png" />
+    <None Remove="Images\CharacterProfiles\021.png" />
+    <None Remove="Images\CharacterProfiles\022.png" />
+    <None Remove="Images\CharacterProfiles\023.jpg" />
+    <None Remove="Images\CharacterProfiles\024.png" />
+    <None Remove="Images\CharacterProfiles\025.png" />
+    <None Remove="Images\CharacterProfiles\026.png" />
+    <None Remove="Images\CharacterProfiles\027.jpg" />
+    <None Remove="Images\CharacterProfiles\028.png" />
+    <None Remove="Images\CharacterProfiles\029.png" />
+    <None Remove="Images\CharacterProfiles\030.png" />
+    <None Remove="Images\CharacterProfiles\031.png" />
+    <None Remove="Images\CharacterProfiles\032.jpg" />
+    <None Remove="Images\CharacterProfiles\033.png" />
+    <None Remove="Images\CharacterProfiles\034.jpg" />
+    <None Remove="Images\CharacterProfiles\034.png" />
+    <None Remove="Images\CharacterProfiles\035.png" />
+    <None Remove="Images\CharacterProfiles\036.png" />
+    <None Remove="Images\CharacterProfiles\037.png" />
+    <None Remove="Images\CharacterProfiles\038.jpg" />
+    <None Remove="Images\CharacterProfiles\1.png" />
+    <None Remove="Images\CharacterProfiles\11.png" />
+    <None Remove="Images\CharacterProfiles\12.png" />
+    <None Remove="Images\CharacterProfiles\13.png" />
+    <None Remove="Images\CharacterProfiles\14.png" />
+    <None Remove="Images\CharacterProfiles\15.png" />
+    <None Remove="Images\CharacterProfiles\17.png" />
+    <None Remove="Images\CharacterProfiles\18.png" />
+    <None Remove="Images\CharacterProfiles\19.png" />
+    <None Remove="Images\CharacterProfiles\2.png" />
+    <None Remove="Images\CharacterProfiles\20.png" />
+    <None Remove="Images\CharacterProfiles\21.png" />
+    <None Remove="Images\CharacterProfiles\22.png" />
+    <None Remove="Images\CharacterProfiles\23.png" />
+    <None Remove="Images\CharacterProfiles\24.png" />
+    <None Remove="Images\CharacterProfiles\27.png" />
+    <None Remove="Images\CharacterProfiles\3.png" />
+    <None Remove="Images\CharacterProfiles\32.png" />
+    <None Remove="Images\CharacterProfiles\33.png" />
+    <None Remove="Images\CharacterProfiles\35.png" />
+    <None Remove="Images\CharacterProfiles\36.png" />
+    <None Remove="Images\CharacterProfiles\38.png" />
+    <None Remove="Images\CharacterProfiles\39.png" />
+    <None Remove="Images\CharacterProfiles\4.png" />
+    <None Remove="Images\CharacterProfiles\40.png" />
+    <None Remove="Images\CharacterProfiles\5.png" />
+    <None Remove="Images\CharacterProfiles\6.png" />
+    <None Remove="Images\CharacterProfiles\7.png" />
+    <None Remove="Images\CharacterProfiles\8.png" />
+    <None Remove="Images\DrivesBackground.png" />
+    <None Remove="Images\error_icon.png" />
+    <None Remove="Images\FInalizeBackground.png" />
     <None Remove="Images\infobuttonicon.png" />
     <None Remove="Images\OOjs_UI_icon_alert_image_warning.png" />
+    <None Remove="Images\OriginBackground.png" />
     <None Remove="Images\pngwing.png" />
+    <None Remove="Images\ProfessionBackground.png" />
     <None Remove="Images\shutdown-icon.png" />
+    <None Remove="Images\SocialAndBackgroundBackground.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Images\CharacterProfiles\blank.png">
+    <Content Include="Images\CharacterProfiles\000_blank.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\001.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\002.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\003.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\004.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\005.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\006.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\007.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\008.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\009.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\010.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\011.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\012.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\013.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\014.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\015.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\016.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\017.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\018.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\019.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\020.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\021.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\022.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\023.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\024.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\025.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\026.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\027.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\028.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\029.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\030.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\031.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\032.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\033.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\034.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\035.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\036.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\037.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\CharacterProfiles\038.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -33,20 +222,44 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\AbilitiesBackground.png" />
     <Resource Include="Images\CharacterOriginBelt.png" />
     <Resource Include="Images\CharacterOriginEarth.png" />
     <Resource Include="Images\CharacterOriginMars.png" />
+    <Resource Include="Images\DrivesBackground.png" />
+    <Resource Include="Images\error_icon.png" />
+    <Resource Include="Images\FInalizeBackground.png" />
     <Resource Include="Images\infobuttonicon.png" />
     <Resource Include="Images\OOjs_UI_icon_alert_image_warning.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\OriginBackground.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\pngwing.png" />
+    <Resource Include="Images\ProfessionBackground.png" />
     <Resource Include="Images\shutdown-icon.png" />
+    <Resource Include="Images\SocialAndBackgroundBackground.png" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\TheExpanseRPG.Core.Tests\TheExpanseRPG.Core.Tests.csproj" />
     <ProjectReference Include="..\TheExpanseRPG.Core\TheExpanseRPG.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="WPFStringResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WPFStringResources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="WPFStringResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>WPFStringResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

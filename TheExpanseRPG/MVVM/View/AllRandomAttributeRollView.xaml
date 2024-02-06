@@ -21,7 +21,7 @@
         </Style>
     </UserControl.Resources>
     <Grid>
-        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Margin="40,0" Padding="15,15,15,5" BorderThickness="0" HasShadow="0">
+        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Height="380" Margin="41,-21,40,0" Padding="15,15,15,5" BorderThickness="1" HasShadow="0" Fill="Transparent" RenderOptions.EdgeMode="Aliased">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="35px"/>

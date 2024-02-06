@@ -29,13 +29,6 @@ namespace TheExpanseRPG.MVVM.ViewModel
                 CharacterCreationService.SelectedProfessionFocus = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(HasProfessionFocusConflict));
-
-                EventAggregator.PublishLinkedPropertyChanged("HasOriginSelectionConflict");
-                EventAggregator.PublishLinkedPropertyChanged("HasSocialOrBackgroundSelectionConflict");
-                EventAggregator.PublishLinkedPropertyChanged("HasProfessionSelectionConflict");
-                EventAggregator.PublishLinkedPropertyChanged("OriginConflicts");
-                EventAggregator.PublishLinkedPropertyChanged("SocialOrBackgroundConflicts");
-                EventAggregator.PublishLinkedPropertyChanged("ProfessionConflicts");
             }
         }
 
@@ -53,7 +46,6 @@ namespace TheExpanseRPG.MVVM.ViewModel
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(SelectedFocus));
                     OnPropertyChanged(nameof(SelectedTalent));
-                    EventAggregator.PublishLinkedPropertyChanged();
                 }
             }
         }
@@ -72,6 +64,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
             LowerclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.LowerclassProfessions);
             MiddleclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.MiddleclassProfessions);
             UpperclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.UpperclassProfessions);
+            //EventAggregator_ToDelete.Subscribe(this);
         }
     }
 }

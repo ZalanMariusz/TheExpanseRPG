@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -30,13 +32,15 @@ namespace TheExpanseRPG.MVVM.View
                 }
             }
             DragDrop.DoDragDrop(attributeValue, ((TextBlock)sender).Text, DragDropEffects.Link);
+
+
             foreach (Label label in dropAcceptingLabels)
             {
                 label.Background = new SolidColorBrush(Colors.White);
             }
         }
 
-        private void Label_Drop(object sender, DragEventArgs e)
+        private void Label_AbilityValue_Drop(object sender, DragEventArgs e)
         {
             Label target = (Label)sender;
             target.Content = e.Data.GetData(DataFormats.StringFormat);
@@ -71,6 +75,13 @@ namespace TheExpanseRPG.MVVM.View
                 if (ithChild is T t) yield return t;
                 foreach (T childOfChild in FindVisualChildren<T>(ithChild)) yield return childOfChild;
             }
+        }
+
+        private void Label_AbilityHeader_Drop(object sender, DragEventArgs e)
+        {
+            string abilityName = ((Label)sender).Name.Replace("Header","");
+            var abilityValueLabel = (Label)FindName($"{abilityName}Value");
+            Label_AbilityValue_Drop(abilityValueLabel, e);
         }
     }
 }

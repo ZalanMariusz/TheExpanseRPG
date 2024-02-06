@@ -18,16 +18,8 @@ namespace TheExpanseRPG.MVVM.ViewModel
                 CharacterCreationService.SelectedCharacterOrigin = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SelectedOriginDescription));
-                EventAggregator.PublishLinkedPropertyChanged();
-                EventAggregator.PublishLinkedPropertyChanged("HasOriginSelectionConflict");
-                EventAggregator.PublishLinkedPropertyChanged("HasSocialOrBackgroundSelectionConflict");
-                EventAggregator.PublishLinkedPropertyChanged("HasProfessionSelectionConflict");
-                EventAggregator.PublishLinkedPropertyChanged("OriginConflicts");
-                EventAggregator.PublishLinkedPropertyChanged("SocialOrBackgroundConflicts");
-                EventAggregator.PublishLinkedPropertyChanged("ProfessionConflicts");
             }
         }
-
         public OriginSelectViewModel(ScopedServiceFactory scopedServiceFactory)
         {
             CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();

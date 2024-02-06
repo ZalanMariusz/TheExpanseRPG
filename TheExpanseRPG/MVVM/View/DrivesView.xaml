@@ -16,6 +16,10 @@
         <conv:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </UserControl.Resources>
 
+    <UserControl.Background>
+        <ImageBrush ImageSource="\Images\DrivesBackground.png" Stretch="UniformToFill" Opacity="0.3"/>
+    </UserControl.Background>
+
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -83,7 +87,7 @@
                                                            VerticalAlignment="Bottom"/>
                                                 </Grid>
                                             </TextBlock>
-                                            
+
                                         </Border>
                                     </custom:CutCorner>
 
@@ -120,8 +124,8 @@
                         </Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
-                
-                
+
+
             </ListBox>
             <ListBox
                Style="{StaticResource ListBoxStyle}"
@@ -264,9 +268,9 @@
                 <custom:CutCorner Margin="10" BorderThickness="0" BorderCuts="1,1,1,1" Grid.ColumnSpan="2" HasShadow="0">
                     <StackPanel Grid.Column="1">
                         <Label HorizontalContentAlignment="Center" Content="Pick a talent" Background="Black" FontWeight="Bold" Foreground="White" Margin="-1,0,0,0"/>
-                        <ListBox ItemsSource="{Binding DriveTalents}"
+                        <ListBox ItemsSource="{Binding DriveTalents, Mode=TwoWay}"
                          Style="{StaticResource ListBoxStyle}"
-                         SelectedItem="{Binding SelectedTalent}"
+                         SelectedItem="{Binding SelectedTalent, Mode=TwoWay}"
                          Background="{StaticResource EXPDarkBlueBrush}"
                          HorizontalContentAlignment="Stretch"
                          BorderThickness="0"

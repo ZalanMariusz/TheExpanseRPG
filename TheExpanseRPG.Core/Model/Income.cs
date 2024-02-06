@@ -15,7 +15,6 @@ namespace TheExpanseRPG.Core.Model
         }
     }
 
-
     public class Income : ICharacterCreationBonus
     {
         private int _value;

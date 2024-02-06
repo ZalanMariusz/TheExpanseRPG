@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows;
 using TheExpanseRPG.Commands;
-using TheExpanseRPG.MVVM.ViewModel.Interfaces;
-using TheExpanseRPG.Services.Interfaces;
 
 namespace TheExpanseRPG.MVVM.ViewModel
 {

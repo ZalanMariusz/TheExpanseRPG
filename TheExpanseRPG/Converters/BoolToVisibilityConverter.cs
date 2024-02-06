@@ -9,7 +9,16 @@ public class BoolToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if ((bool)value)
+        /*
+         * parameter can be used to invert
+         * default null param with true value is visible
+         * not null param with false is visible
+        */
+        if ((bool)value && parameter is null)
+        {
+            return Visibility.Visible;
+        }
+        if (!(bool)value && parameter is not null)
         {
             return Visibility.Visible;
         }

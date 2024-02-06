@@ -14,7 +14,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate>
-                            <custom:CutCorner Fill="White" BorderBrush="{DynamicResource EXPDarkBlueBrush}" BorderCuts="0,1,0,0" Margin="5,5,5,0" HasShadow="0" BorderThickness="2">
+                            <custom:CutCorner Fill="#55FFFFFF" BorderBrush="{DynamicResource EXPDarkBlueBrush}" BorderCuts="0,1,0,0" Margin="5,5,5,0" HasShadow="0" BorderThickness="2">
                                 <HeaderedContentControl>
                                     <HeaderedContentControl.Header>
                                         <Label VerticalContentAlignment="Center" Content="{Binding HeaderContent, ElementName=Box}" 

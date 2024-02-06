@@ -11,6 +11,12 @@
              d:DataContext="{d:DesignInstance Type=vm:CharacterProfessionViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Images/ProfessionBackground.png" Stretch="UniformToFill" Opacity="0.3"/>
+    </UserControl.Background>
+
+
     <UserControl.Resources>
         <conv:SocialClassToProfessionSelectorIsEnabledConverter x:Key="SocialClassToProfessionSelectorIsEnabledConverter"/>
         <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
@@ -96,7 +102,16 @@
                 <StackPanel>
                     <DockPanel Margin="5" >
                         <Label Content="Choose a Focus:" Width="100"/>
-                        <Image DockPanel.Dock="Left" Visibility="{Binding HasProfessionFocusConflict, Converter={StaticResource BoolToVisibilityConverter}}" 
+                        <user:CharacterCreationWarningIcon
+                            TooltipContent="Conflict"
+                            ToolTipService.InitialShowDelay="0"
+                            ToolTipService.Placement="Top"
+                            ToolTipService.ShowOnDisabled="True"
+                            WarningVisibility="{Binding HasProfessionFocusConflict, Converter={StaticResource BoolToVisibilityConverter}}"
+                            />
+
+                        <!--<Image DockPanel.Dock="Left" 
+                               Visibility="{Binding HasProfessionFocusConflict, Converter={StaticResource BoolToVisibilityConverter}}" 
                                ToolTipService.InitialShowDelay="0"
                                ToolTipService.Placement="Top"
                                ToolTipService.ShowOnDisabled="True"
@@ -106,7 +121,7 @@
                                 <ToolTip Content="Conflict" 
                                     Background="#D7D42A" Foreground="Black"/>
                             </Image.ToolTip>
-                        </Image>
+                        </Image>-->
                         <ComboBox Template="{DynamicResource ExpanseComboBoxTemplate}"
                               DockPanel.Dock="Top"
                               VerticalContentAlignment="Center"

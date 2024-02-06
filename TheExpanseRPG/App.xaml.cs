@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using TheExpanseRPG.Core;
+using TheExpanseRPG.MVVM;
 using TheExpanseRPG.MVVM.View;
 using TheExpanseRPG.Services.Interfaces;
 
@@ -24,6 +25,7 @@ namespace TheExpanseRPG
 
             _serviceProvider = _services.BuildServiceProvider();
             //Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+            //EventAggregator_ToDelete.InitPropertiesToLink();
         }
         protected override void OnStartup(StartupEventArgs e)
         {

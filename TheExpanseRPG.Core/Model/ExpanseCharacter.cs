@@ -11,12 +11,22 @@ namespace TheExpanseRPG.Core.Model
         }
         public int Level { get; private set; } = 1;
         public string? Name { get; set; }
-        public string? Description { get; }
-        public CharacterAbilityBlock? Abilities { get; }
-        public CharacterOrigin? Origin { get; }
-        public CharacterBackGround? Background { get; }
-        public List<AbilityFocus> Focuses { get; }
-        public List<CharacterTalent> Talents { get; }
+        public string? Description { get; set; }
+        public CharacterAbilityBlock? Abilities { get; set; }
+        public CharacterOrigin? Origin { get; set; }
+        public string Background { get; set; }
+        public List<AbilityFocus> Focuses { get; set; }
+        public List<CharacterTalent> Talents { get; set; }
+        public CharacterSocialClass? SocialClass { get; internal set; }
+        public string Profession { get; internal set; }
+        public string Drive { get; internal set; }
+        public int Fortune { get; internal set; }
+        public int? Income { get; internal set; }
+        public int? Speed { get; internal set; }
+        public int Toughness { get; internal set; }
+        public int Defense { get; internal set; }
+        public string Avatar { get; internal set; }
+
         public bool CanLearnTalent(CharacterTalent talent)
         {
             return talent.AreRequirementsMet(Abilities!);

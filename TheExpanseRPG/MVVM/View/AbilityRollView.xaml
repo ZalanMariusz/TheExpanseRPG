@@ -13,6 +13,10 @@
              mc:Ignorable="d"
              d:DesignHeight="600" d:DesignWidth="800">
 
+    <UserControl.Background>
+        <ImageBrush ImageSource="/Images/AbilitiesBackground.png" Stretch="UniformToFill" Opacity="0.3"/>
+    </UserControl.Background>
+
     <UserControl.Resources>
         <converter:AttributeRollTypeToLabelContentConverter x:Key="AttributeRollTypeToLabelContentConverter"/>
         <converter:AttributeRollTypeToImageConverter x:Key="AttributeRollTypeToImageConverter"/>
@@ -52,7 +56,7 @@
             HorizontalAlignment="Center"
 
             />
-
+        <Border Grid.Row="1" Grid.ColumnSpan="100" />
         <ListBox IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}"
                  Style="{StaticResource ListBoxStyle}"
                  Grid.Row="1"
@@ -127,12 +131,12 @@
             </ListBox.ItemContainerStyle>
         </ListBox>
 
-        <ContentControl Grid.Row="2" Content="{Binding CurrentInnerViewModel}" Height="400"
+        <ContentControl Grid.Row="2" Content="{Binding CurrentInnerViewModel}"
                         IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}" 
                         Margin="0,-26,0,40"/>
 
 
-        <Grid Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="0,0,39,65">
+        <Grid Grid.Column="2" Grid.Row="1" Grid.RowSpan="2" Margin="20,0,20,84">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

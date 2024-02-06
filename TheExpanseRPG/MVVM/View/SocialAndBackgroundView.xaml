@@ -11,7 +11,9 @@
              xmlns:template="clr-namespace:TheExpanseRPG.Themes"
              d:DataContext="{d:DesignInstance Type=vm:SocialAndBackgroundViewModel}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1200">
+             d:DesignHeight="450" d:DesignWidth="1200"
+             >
+
 
     <UserControl.Resources>
         <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
@@ -37,6 +39,10 @@
         </Style>
     </UserControl.Resources>
 
+    <UserControl.Background>
+        <ImageBrush ImageSource="\Images\SocialAndBackgroundBackground.png" Stretch="UniformToFill" Opacity="0.3"/>
+    </UserControl.Background>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -58,23 +64,29 @@
             HorizontalContentAlignment="Center"
             />
 
-        <Border BorderThickness="0,0,1,0" Grid.RowSpan="2" 
-                BorderBrush="{StaticResource EXPLightBlueBrush}"/>
+        <!--<Border BorderThickness="0,0,1,0" Grid.RowSpan="2" 
+                BorderBrush="{StaticResource EXPLightBlueBrush}"/>-->
 
 
         <ListBox Style="{DynamicResource ListBoxStyle}" 
                  Grid.Column="0" Grid.Row="1"
-                 ItemsSource="{Binding Source={StaticResource SocialClasses}}"
-                 SelectedItem="{Binding SelectedCharacterSocialClass, Mode=TwoWay}"
+                 ItemsSource="{Binding SocialClassesWithDescription}"
+                 SelectedValuePath="SocialClass"
+                 SelectedValue="{Binding SelectedCharacterSocialClass, Mode=TwoWay}"
                  HorizontalContentAlignment="Center"
-                 Background="Transparent"
+                 
                  BorderThickness="0"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                  VerticalAlignment="Top"
                  SelectionMode="Single"
+                 Background="Transparent"
                  IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}"
                  >
+            <!--<ListBox.Background>
+                <SolidColorBrush Opacity="1" Color="Gray"/>
+            </ListBox.Background>-->
+
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template">
@@ -88,14 +100,14 @@
                                                     <RowDefinition Height="26"/>
                                                     <RowDefinition x:Name="SecondRow"/>
                                                 </Grid.RowDefinitions>
-                                            <Label x:Name="SocialClassLabel" Margin="0" Content="{Binding}" Padding="4" BorderThickness="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
+                                            <Label x:Name="SocialClassLabel" Margin="0" Content="{Binding SocialClass}" Padding="4" BorderThickness="0" HorizontalAlignment="Stretch" VerticalContentAlignment="Center"/>
                                             <TextBlock Grid.Row="1"
                                                        x:Name="SocialClassDescription" Padding="10" 
                                                        Visibility="Collapsed" 
                                                        HorizontalAlignment="Stretch" 
                                                        Width="575" 
                                                        Margin="5"
-                                                       Text="{Binding DataContext.SelectedCharacterSocialClassDescription, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                       Text="{Binding Description}" 
                                                        TextWrapping="Wrap" 
                                                        TextAlignment="Left" 
                                                        Foreground="{StaticResource EXPLightBlueBrush}" 
@@ -147,7 +159,7 @@
             <ListBox 
                 Style="{DynamicResource ListBoxStyle}" 
                 ItemsSource="{Binding AvailableBackgrounds}"
-                SelectedItem="{Binding SelectedBackground}"
+                SelectedItem="{Binding SelectedBackground, Mode=TwoWay}"
                 Background="Transparent"
                 HorizontalAlignment="Center"
                 BorderThickness="0">
@@ -201,7 +213,7 @@
                                                         Grid.Column="2"
                                                         SelectionChanged="ComboBox_SelectionChanged"
                                                         ItemsSource="{Binding PossibleAbilityFocuses}" 
-                                                        SelectedItem="{Binding DataContext.SelectedBackgroundFocus, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                        SelectedItem="{Binding DataContext.SelectedBackgroundFocus, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay}" 
                                                         
                                                         >
                                                             <ComboBox.ItemTemplate>
@@ -274,7 +286,7 @@
                                                         </Image>
                                                         <ComboBox Grid.Column="2"
                                                             ItemsSource="{Binding BackgroundBenefits}" 
-                                                            SelectedItem="{Binding DataContext.SelectedBenefit, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                            SelectedItem="{Binding DataContext.SelectedBenefit, RelativeSource={RelativeSource AncestorType=UserControl},Mode=TwoWay}"
                                                             SelectionChanged="ComboBox_SelectionChanged"
                                                             x:Name="Combo_Benefit"
                                                         >

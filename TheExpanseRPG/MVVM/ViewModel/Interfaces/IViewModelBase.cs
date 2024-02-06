@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Controls;
 using TheExpanseRPG.Services.Interfaces;
 
 namespace TheExpanseRPG.MVVM.ViewModel.Interfaces
 {
-    public interface IViewModelBase
+    public interface IViewModelBase : INotifyPropertyChanged
     {
         public INavigationService NavigationService { get; }
         public List<IViewModelBase> InnerViewModels { get; }

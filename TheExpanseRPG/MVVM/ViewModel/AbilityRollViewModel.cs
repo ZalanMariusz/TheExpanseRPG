@@ -1,4 +1,5 @@
-﻿using TheExpanseRPG.Core.Enums;
+﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.DataCollection;
+using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Factories;
 using TheExpanseRPG.Services.Interfaces;
@@ -12,7 +13,7 @@ public class AbilityRollViewModel : CharacterCreationViewModelBase
         set
         {
             CharacterCreationService.SelectedAbilityRollType = value;
-            CharacterCreationService.ResetAbilities();
+            //CharacterCreationService.ResetAbilities();
             NavigateToRollTypeView();
             OnPropertyChanged();
         }
@@ -27,22 +28,23 @@ public class AbilityRollViewModel : CharacterCreationViewModelBase
                 break;
             case AbilityRollType.RollAndAssign:
                 NavigateToInnerView<AssignAbilityRollViewModel>();
-                ClearAssigneableList();
+                //ClearAssigneableList();
                 break;
             case AbilityRollType.DistributePoints:
                 NavigateToInnerView<DistributeAbilitiesViewModel>();
                 break;
         }
     }
-    private void ClearAssigneableList()
-    {
-        AssignAbilityRollViewModel? assignableValuesVm = (AssignAbilityRollViewModel?)CurrentInnerViewModel;
-        assignableValuesVm?.AssignableAbilityValues.Clear();
-    }
+    //private void ClearAssigneableList()
+    //{
+    //    AssignAbilityRollViewModel? assignableValuesVm = (AssignAbilityRollViewModel?)CurrentInnerViewModel;
+    //    assignableValuesVm?.AssignableAbilityValues.Clear();
+    //}
     public AbilityRollViewModel(INavigationService navigationService, ScopedServiceFactory scopedServiceFactory)
     {
         CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
         NavigationService = navigationService;
+        CharacterCreationService.AbilityRollTypeChanged += (sender, args) => NavigateToRollTypeView();
         NavigateToRollTypeView();
     }
 

@@ -7,10 +7,13 @@
              xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
              xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
              xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
+             xmlns:conv="clr-namespace:TheExpanseRPG.Converters"
              d:DataContext="{d:DesignInstance Type=vm:DistributeAbilitiesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+
         <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
@@ -68,7 +71,7 @@
 
     </UserControl.Resources>
     <Grid>
-        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Margin="40,0" Padding="15,15,15,5" BorderThickness="0" HasShadow="0" RenderOptions.EdgeMode="Aliased">
+        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Height="380" Margin="41,-21,40,0" Padding="15,15,15,5" BorderThickness="1" HasShadow="0" RenderOptions.EdgeMode="Aliased" Fill="Transparent">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="35px"/>
@@ -87,13 +90,22 @@
                     <ColumnDefinition Width="30px"/>
                     <ColumnDefinition Width="30px"/>
                     <ColumnDefinition Width="30px"/>
-                    <!--<ColumnDefinition/>-->
                 </Grid.ColumnDefinitions>
-                <!--<Button Grid.Row="9" Content="🎲 Roll all 🎲" Grid.ColumnSpan="3" Command="{Binding RollAllRandomAbilityCommand}" 
-            BorderThickness="1" BorderBrush="{StaticResource EXPLightBlueBrush}" Margin="0,5,0,5"/>-->
+
 
                 <Label Content="Available Points:" HorizontalAlignment="Right" Grid.Row="9"/>
-                <Label Content="{Binding AbilityPool}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Background="Transparent" Grid.Row="9"/>
+
+                <Button Content="Reset values" HorizontalAlignment="Stretch" Grid.Row="9" Background="Transparent" VerticalAlignment="Center"
+                        BorderBrush="{StaticResource EXPLightBlueBrush}" BorderThickness="1" Padding="2" Command="{Binding ResetAbilitiesCommand}"
+                        Grid.Column="1" Grid.ColumnSpan="3"
+                        Margin="5,0"
+                        Visibility="{Binding NeedsReset, Converter={StaticResource BoolToVisibilityConverter}}"
+                        />
+
+                <Label Content="{Binding AbilityPool}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                       Background="Transparent" Grid.Row="9" Margin="5,0"
+                        Visibility="{Binding NeedsReset, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter = invert}"
+                       />
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="0">
                     <Label Content="Accuracy" HorizontalAlignment="Center"/>

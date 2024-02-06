@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using TheExpanseRPG.MVVM.ViewModel;
 using TheExpanseRPG.Popups;
 
@@ -17,6 +16,17 @@ namespace TheExpanseRPG.Services
             };
             popup.ShowDialog();
             return popupVm.PopupResult;
+        }
+        public string ShowAvatarSelectionPopup(string currentImage)
+        {
+            AvatarSelectionPopupViewModel popupVm = new(currentImage);
+            AvatarSelectionPopup popup = new()
+            {
+                DataContext = popupVm,
+                //Owner = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive)
+            };
+            popup.ShowDialog();
+            return popupVm.SelectedAvatar;
         }
     }
 }

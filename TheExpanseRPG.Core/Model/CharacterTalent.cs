@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json.Serialization;
 using TheExpanseRPG.Core.Model.Interfaces;
 
 namespace TheExpanseRPG.Core.Model;
@@ -13,13 +14,19 @@ public class CharacterTalent : ICharacterCreationBonus
 {
     public string TalentName { get; }
     public TalentDegree Degree { get; private set; } = TalentDegree.Novice;
+    [JsonIgnore]
     public List<List<ICharacterCreationBonus>> Requirements { get; }
+    [JsonIgnore]
     public string Description { get; }
+    [JsonIgnore]
     public string NoviceDescription { get; }
+    [JsonIgnore]
     public string ExpertDescription { get; }
+    [JsonIgnore]
     public string MasterDescription { get; }
+    [JsonIgnore]
     public string RequirementString { get; }
-
+    [JsonIgnore]
     public string CreationBonusName => TalentName;
 
     private readonly StringBuilder _stringBuilder = new();
@@ -43,9 +50,9 @@ public class CharacterTalent : ICharacterCreationBonus
 
     public void ImproveTalent()
     {
-        if (TalentDegree.Master != Degree)
+        if (Degree != TalentDegree.Master)
         {
-            Degree += 1;
+            Degree++;
         }
     }
 
@@ -53,6 +60,7 @@ public class CharacterTalent : ICharacterCreationBonus
     {
         foreach (List<ICharacterCreationBonus> requirementList in Requirements)
         {
+
             if (_stringBuilder.Length > 0)
             {
                 _stringBuilder.Append(" and ");

@@ -23,8 +23,9 @@
     <Grid>
         <Grid.Resources>
             <conv:NullToHiddenVisibilityConverter x:Key="AttributeIsNullToClearButtonConverter"/>
+            <conv:RollTypeAndValueToVisibilityConverter x:Key="RollTypeAndValueToVisibilityConverter"/>
         </Grid.Resources>
-        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Margin="40,0" Padding="15,15,15,5" BorderThickness="0" HasShadow="0">
+        <custom:CutCorner Grid.Row="1" BorderCuts="0,0,1,1" Height="380" Margin="41,-21,40,0" Padding="15,15,15,5" BorderThickness="1" HasShadow="0" Fill="Transparent" RenderOptions.EdgeMode="Aliased">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height ="35px"/>
@@ -44,9 +45,14 @@
                     <!--<ColumnDefinition/>-->
                 </Grid.ColumnDefinitions>
 
-                <ListBox Grid.Row="9" Margin="0,5,0,5" ItemsSource="{Binding AssignableAbilityValues}" ScrollViewer.VerticalScrollBarVisibility="Disabled" Background="Transparent" BorderBrush="{StaticResource EXPLightBlueBrush}"
+                <ListBox Grid.Row="9" Margin="0,5,0,5" 
+                         ItemsSource="{Binding AssignableAbilityValues}" 
+                         ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                         Background="Transparent" 
+                         BorderBrush="{StaticResource EXPLightBlueBrush}"
                          HorizontalContentAlignment="Stretch"
                          Style="{StaticResource ListBoxStyle}"
+                         x:Name="lb_AssigneableValues"
                     >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
@@ -59,8 +65,9 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
                                         <TextBlock Text="{Binding}" Margin="3" Padding="0" Foreground="Black" HorizontalAlignment="Stretch" VerticalAlignment="Center" TextAlignment="Center" Background="{StaticResource EXPLightBlueBrush}" 
-                                                    AllowDrop="True" MouseDown="TextBlock_MouseDown"
-                                                    x:Name="tb_ScoreToAssign"
+                                                   AllowDrop="True" 
+                                                   MouseDown="TextBlock_MouseDown"
+                                                   x:Name="tb_ScoreToAssign"
                                                     />
 
                                         <ControlTemplate.Triggers>
@@ -72,13 +79,11 @@
                                                 <Setter TargetName="tb_ScoreToAssign" Property="Background" Value="#1EE196"/>
                                             </Trigger>
 
-                                            
-
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Setter.Value>
                             </Setter>
-                           
+
                         </Style>
                     </ListBox.ItemContainerStyle>
 
@@ -88,112 +93,196 @@
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" >
                     <Grid>
-                        <Label Content="Accuracy" HorizontalAlignment="Center"/>
+                        <Label Content="Accuracy" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="accuracyHeader" 
+                               Drop="Label_AbilityHeader_Drop"
+                               />
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Accuracy" 
-                                Visibility="{Binding Accuracy, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-                                />
+                                Command="{Binding ClearAbility}" CommandParameter="Accuracy" >
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Accuracy"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="1" >
                     <Grid>
-                        <Label Content="Constitution" HorizontalAlignment="Center"/>
+                        <Label Content="Constitution" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="constitutionHeader" 
+                               Drop="Label_AbilityHeader_Drop"
+                               />
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Constitution"
-                                Visibility="{Binding Constitution, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-                                />
+                                Command="{Binding ClearAbility}" CommandParameter="Constitution">
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Constitution"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="2" >
                     <Grid>
-                        <Label Content="Fighting" HorizontalAlignment="Center"/>
+                        <Label Content="Fighting" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="fightingHeader" 
+                               Drop="Label_AbilityHeader_Drop"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" VerticalContentAlignment="Center"
-                                Command="{Binding ClearAbility}" CommandParameter="Fighting"
-                                Visibility="{Binding Fighting, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-        />
+                                Command="{Binding ClearAbility}" CommandParameter="Fighting">
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Fighting"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="3" >
                     <Grid>
-                        <Label Content="Communication" HorizontalAlignment="Center"/>
+                        <Label Content="Communication" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="communicationHeader" 
+                               Drop="Label_AbilityHeader_Drop"
+                               />
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Communication"
-                                Visibility="{Binding Communication, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-        />
+                                Command="{Binding ClearAbility}" CommandParameter="Communication">
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Communication"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="4" >
                     <Grid>
-                        <Label Content="Dexterity" HorizontalAlignment="Center"/>
+                        <Label Content="Dexterity" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="dexterityHeader" 
+                               Drop="Label_AbilityHeader_Drop"
+                               />
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Dexterity"
-                                Visibility="{Binding Dexterity, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-        />
+                                Command="{Binding ClearAbility}" CommandParameter="Dexterity">
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Dexterity"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
+
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="5" >
                     <Grid>
-                        <Label Content="Intelligence" HorizontalAlignment="Center"/>
+                        <Label Content="Intelligence" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="intelligenceHeader" 
+                               Drop="Label_AbilityHeader_Drop"
+                               />
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Intelligence"
-                                Visibility="{Binding Intelligence, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-        />
+                                Command="{Binding ClearAbility}" CommandParameter="Intelligence">
+
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Intelligence"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="6" >
                     <Grid>
-                        <Label Content="Perception" HorizontalAlignment="Center"/>
+                        <Label Content="Perception" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="perceptionHeader" 
+                               Drop="Label_AbilityHeader_Drop"
+                               />
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Perception"
-                                Visibility="{Binding Perception, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-        />
+                                Command="{Binding ClearAbility}" CommandParameter="Perception">
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Perception"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="7" >
                     <Grid>
-                        <Label Content="Strength" HorizontalAlignment="Center"/>
+                        <Label Content="Strength" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="strengthHeader" 
+                               Drop="Label_AbilityHeader_Drop"
+                               />
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Strength"
-                                Visibility="{Binding Strength, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-        />
+                                Command="{Binding ClearAbility}" CommandParameter="Strength">
+
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Strength"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="8" >
                     <Grid>
-                        <Label Content="Willpower" HorizontalAlignment="Center"/>
+                        <Label Content="Willpower" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                               AllowDrop="True"
+                               x:Name="willpower" 
+                               Drop="Label_AbilityHeader_Drop"
+                               />
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Willpower"
-                                Visibility="{Binding Willpower, Converter={StaticResource AttributeIsNullToClearButtonConverter}}"
-                                />
+                                Command="{Binding ClearAbility}" CommandParameter="Willpower">
+
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
+                                    <Binding Path="Willpower"/>
+                                    <Binding Path="DataContext.LastUsedRollType" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=UserControl}" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
                     </Grid>
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Accuracy, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="accuracyValue" Foreground = "Black" Content="{Binding Accuracy, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Constitution, Mode=TwoWay}" AllowDrop="True"  Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="constitutionValue" Foreground = "Black" Content="{Binding Constitution, Mode=TwoWay}" AllowDrop="True"  Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="2" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Fighting, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="fightingValue" Foreground = "Black" Content="{Binding Fighting, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="3" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Communication, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="communicationValue" Foreground = "Black" Content="{Binding Communication, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="4" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Dexterity, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="dexterityValue" Foreground = "Black" Content="{Binding Dexterity, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="5" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Intelligence, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="intelligenceValue" Foreground = "Black" Content="{Binding Intelligence, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="6" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Perception, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="perceptionValue" Foreground = "Black" Content="{Binding Perception, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="7" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Strength, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="strengthValue" Foreground = "Black" Content="{Binding Strength, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="8" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0">
-                    <Label Tag="attributeLabel" Foreground = "Black" Content="{Binding Willpower, Mode=TwoWay}" AllowDrop="True" Drop="Label_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="willpowerValue" Foreground = "Black" Content="{Binding Willpower, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
 
 

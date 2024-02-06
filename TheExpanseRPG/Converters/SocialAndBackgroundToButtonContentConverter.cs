@@ -18,7 +18,7 @@ namespace TheExpanseRPG.Converters
 
             if (values[0] is not null && Enum.TryParse(values[0].ToString(), out CharacterSocialClass socialClass))
             {
-                retval += $"{socialClass.ToString()} Class";
+                retval += $"{socialClass} Class";
             }
 
             if (values[1] is not null && values[1] != DependencyProperty.UnsetValue)

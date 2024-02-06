@@ -37,7 +37,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
         }
         public IViewModelBase? GetInnerViewModel<TViewModelBase>() where TViewModelBase : IViewModelBase
         {
-            return InnerViewModels.FirstOrDefault(x => x.GetType() == typeof(TViewModelBase));
+            return InnerViewModels.FirstOrDefault(x => x is TViewModelBase);
         }
         public virtual void AddInnerViewModel(IViewModelBase viewModel)
         {
@@ -50,5 +50,6 @@ namespace TheExpanseRPG.MVVM.ViewModel
         {
             CurrentInnerViewModel = viewModel;
         }
+
     }
 }

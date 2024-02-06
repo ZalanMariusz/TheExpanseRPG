@@ -1,0 +1,42 @@
+﻿<Window x:Class="TheExpanseRPG.Popups.AvatarSelectionPopup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
+        xmlns:local="clr-namespace:TheExpanseRPG.Popups"
+        mc:Ignorable="d"
+        Style="{StaticResource ExpanseWindowStyle}"
+        d:DataContext="{d:DesignInstance Type=vm:AvatarSelectionPopupViewModel}"
+        WindowStartupLocation="CenterOwner"
+        AllowsTransparency="True"
+        Loaded="Window_Loaded"
+        TextOptions.TextFormattingMode="Display"
+        Title="AvatarSelectionPopup">
+    <Window.Background>
+        <SolidColorBrush Opacity="0.8" Color="#262626"/>
+    </Window.Background>
+    <Grid Background="Transparent" MouseDown="ScrollViewer_PreviewMouseDown">
+        <Label Content="Loading images..." x:Name="labelLoading" Margin="400,196,50,0"/>
+
+        <ItemsControl x:Name="avatarItemsControl">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" Margin="400,196,50,0" HorizontalAlignment="Left" x:Name="avatarWrapPanel"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <!--<Button Command="{Binding DataContext.SelectAvatarCommand, RelativeSource={RelativeSource AncestorType=Window}}" 
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" >
+                        <Button.Content>
+                            <Image Width="70" Height="70" Source="{Binding}" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Button.Content>
+                    </Button>-->
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
+    </Grid>
+</Window>

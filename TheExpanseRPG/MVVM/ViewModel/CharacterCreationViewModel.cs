@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
@@ -6,129 +7,117 @@ using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Factories;
 using TheExpanseRPG.MVVM.View;
+using TheExpanseRPG.MVVM.ViewModel.Interfaces;
 using TheExpanseRPG.Services.Interfaces;
 
-namespace TheExpanseRPG.MVVM.ViewModel
+namespace TheExpanseRPG.MVVM.ViewModel;
+
+public class CharacterCreationViewModel : CharacterCreationViewModelBase
 {
-    public class CharacterCreationViewModel : CharacterCreationViewModelBase
+
+
+    private readonly ScopedServiceFactory _scopedServiceFactory;
+
+    public CharacterOrigin? SelectedOrigin => CharacterCreationService.SelectedCharacterOrigin;
+    public bool HasOriginSelectionConflict => CharacterCreationService.HasOriginConflict();
+    public bool HasSocialOrBackgroundSelectionConflict => CharacterCreationService.HasBackgroundConflict();
+    public bool HasProfessionSelectionConflict => CharacterCreationService.HasProfessionConflict();
+    public CharacterSocialClass? SelectedSocialClass => CharacterCreationService.SelectedCharacterSocialClass;
+    public CharacterBackGround? SelectedBackground => CharacterCreationService.SelectedCharacterBackground;
+    public CharacterProfession? SelectedProfession => CharacterCreationService.SelectedCharacterProfession;
+    public CharacterDrive? SelectedDrive => CharacterCreationService.SelectedCharacterDrive;
+    public string OriginConflicts => string.Join(", ", CharacterCreationService.GetOriginFocusConflicts());
+    public string ProfessionConflicts => string.Join(", ", CharacterCreationService.GetProfessionFocusConflicts());
+    public string SocialOrBackgroundConflicts => AggregateBackgroundConflicts();
+
+    public RelayCommand ShowTalentListCommand { get; set; }
+    public RelayCommand ShowFocusListCommand { get; set; }
+    public RelayCommand NavigateToOriginSelectCommand { get; set; }
+    public RelayCommand NavigateToAttributeRollCommand { get; set; }
+    public RelayCommand NavigateToSocialAndBackgroundCommand { get; set; }
+    public RelayCommand NavigateToCharacterProfessionsCommand { get; set; }
+    public RelayCommand NavigateToDrivesCommand { get; set; }
+    public RelayCommand NavigateBackToMainCommand { get; set; }
+    public RelayCommand NavigateToCharacterFinalizationCommand { get; set; }
+
+    public CharacterCreationViewModel(INavigationService navigationService, ScopedServiceFactory scopedServiceFactory)
     {
-        public RelayCommand ShowTalentListCommand { get; set; }
-        private readonly ScopedServiceFactory _scopedServiceFactory;
-        public CharacterOrigin? SelectedOrigin
-        {
-            get { return CharacterCreationService.SelectedCharacterOrigin; }
-        }
-        public bool HasOriginSelectionConflict
-        {
-            get { return CharacterCreationService.HasOriginConflict(); }
-        }
-        public bool HasSocialOrBackgroundSelectionConflict
-        {
-            get { return CharacterCreationService.HasBackgroundConflict(); }
-        }
-        public bool HasProfessionSelectionConflict
-        {
-            get { return CharacterCreationService.HasProfessionConflict(); }
-        }
-        public CharacterSocialClass? SelectedSocialClass
-        {
-            get { return CharacterCreationService.SelectedCharacterSocialClass; }
-        }
-        public CharacterBackGround? SelectedBackground
-        {
-            get { return CharacterCreationService.SelectedCharacterBackground; }
-        }
-        public CharacterProfession? SelectedProfession
-        {
-            get { return CharacterCreationService.SelectedCharacterProfession; }
-        }
-        public CharacterDrive? SelectedDrive
-        {
-            get { return CharacterCreationService.SelectedCharacterDrive; }
-        }
-        public string OriginConflicts
-        {
-            get
-            {
-                return HasOriginSelectionConflict ? string.Join(", ", CharacterCreationService.GetOriginFocusConflicts().ToArray()) : string.Empty;
-            }
-        }
-        public string SocialOrBackgroundConflicts
-        {
-            get
-            {
-                return HasSocialOrBackgroundSelectionConflict ? string.Join(", ", CharacterCreationService.GetBackgroundFocusConflicts().Union(CharacterCreationService.GetBackgroundBenefitConflicts()).ToArray()) : string.Empty;
-            }
-        }
-        public string ProfessionConflicts
-        {
-            get
-            {
-                return HasProfessionSelectionConflict ? string.Join(", ", CharacterCreationService.GetProfessionFocusConflicts().ToArray()) : string.Empty;
-            }
-        }
-        public CharacterCreationViewModel(INavigationService navigationService, ScopedServiceFactory scopedServiceFactory)
-        {
-            _scopedServiceFactory = scopedServiceFactory;
-            NavigationService = navigationService;
-            CharacterCreationService = (CharacterCreationService)_scopedServiceFactory.GetScopedService<CharacterCreationService>();
+        _scopedServiceFactory = scopedServiceFactory;
+        NavigationService = navigationService;
+        CharacterCreationService = (CharacterCreationService)_scopedServiceFactory.GetScopedService<CharacterCreationService>();
 
-            NavigateToView<OriginSelectViewModel>();
+        NavigateToOriginSelectCommand = new(o => true, o => NavigateToNotifierCharacterCreationStep<OriginSelectViewModel>());
+        NavigateToAttributeRollCommand = new(o => true, o => NavigateToInnerView<AbilityRollViewModel>());
+        NavigateToSocialAndBackgroundCommand = new(o => true, o => NavigateToNotifierCharacterCreationStep<SocialAndBackgroundViewModel>());
+        NavigateToCharacterProfessionsCommand = new(o => true, o => NavigateToNotifierCharacterCreationStep<CharacterProfessionViewModel>());
+        NavigateToDrivesCommand = new(o => true, o => NavigateToNotifierCharacterCreationStep<DrivesViewModel>());
+        NavigateToCharacterFinalizationCommand = new(o => true, o => NavigateToCharacterFinalizationView());
+        NavigateBackToMainCommand = new RelayCommand(o => true, ExecNavigationToPlayerMain);
+        ShowTalentListCommand = new RelayCommand(o => true, o => ShowTalenList());
+        
+        
+        OpenModals = new();
 
-            NavigateToOriginSelect = new(o => true, o => NavigateToView<OriginSelectViewModel>());
-            NavigateToAttributeRoll = new(o => true, o => NavigateToView<AbilityRollViewModel>());
-            NavigateToSocialAndBackground = new(o => true, o => NavigateToView<SocialAndBackgroundViewModel>());
-            NavigateToCharacterProfessions = new(o => true, o => NavigateToView<CharacterProfessionViewModel>());
-            NavigateToDrives = new(o => true, o => NavigateToView<DrivesViewModel>());
-            NavigateToCharacterFinalization = new(o => true, o => NavigateToView<CharacterFinalizationViewModel>());
+        CharacterCreationService.OriginChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedOrigin)); };
+        CharacterCreationService.OriginChanged += RefreshConflictProperties;
 
-            NavigateBackToMain = new RelayCommand(o => true, ExecNavigationToPlayerMain);
-            ShowTalentListCommand = new RelayCommand(o => true, o => ShowTalenList());
-            OpenModals = new();
+        CharacterCreationService.SocialClassChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedSocialClass)); };
 
-            EventAggregator.LinkedPropertyChanged += (sender, propertyName) =>
-            {
-                if (propertyName is "SelectedOrigin"
-                or "SelectedSocialClass"
-                or "SelectedBackground"
-                or "SelectedProfession"
-                or "SelectedDrive"
-                or "HasOriginSelectionConflict"
-                or "HasSocialOrBackgroundSelectionConflict"
-                or "HasProfessionSelectionConflict"
-                or "OriginConflicts"
-                or "SocialOrBackgroundConflicts"
-                or "ProfessionConflicts"
-                )
-                {
-                    OnPropertyChanged(propertyName);
-                }
-            };
+        CharacterCreationService.BackgroundChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedBackground)); };
+        CharacterCreationService.SelectedBackgroundBenefitChanged += RefreshConflictProperties;
 
-        }
-        public RelayCommand NavigateToOriginSelect { get; set; }
-        public RelayCommand NavigateToAttributeRoll { get; set; }
-        public RelayCommand NavigateToSocialAndBackground { get; set; }
-        public RelayCommand NavigateToCharacterProfessions { get; set; }
-        public RelayCommand NavigateToDrives { get; set; }
-        public RelayCommand NavigateBackToMain { get; set; }
-        public RelayCommand NavigateToCharacterFinalization { get; set; }
+        CharacterCreationService.SelectedBackgroundFocusChanged += RefreshConflictProperties;
 
+        CharacterCreationService.ProfessionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedProfession)); };
+        CharacterCreationService.ProfessionFocusChanged += RefreshConflictProperties;
 
-        private void ExecNavigationToPlayerMain(object sender)
+        CharacterCreationService.DriveSelectionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedDrive)); };
+        NavigateToOriginSelectCommand.Execute(null);
+    }
+
+    private string AggregateBackgroundConflicts()
+    {
+        return string.Join(", ", CharacterCreationService.GetBackgroundFocusConflicts().Union(CharacterCreationService.GetBackgroundBenefitConflicts()));
+    }
+
+    private void RefreshConflictProperties(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(HasOriginSelectionConflict));
+        OnPropertyChanged(nameof(HasSocialOrBackgroundSelectionConflict));
+        OnPropertyChanged(nameof(HasProfessionSelectionConflict));
+
+        OnPropertyChanged(nameof(OriginConflicts));
+        OnPropertyChanged(nameof(SocialOrBackgroundConflicts));
+        OnPropertyChanged(nameof(ProfessionConflicts));
+    }
+
+    private void NavigateToNotifierCharacterCreationStep<TCharacterCreationViewModel>() where TCharacterCreationViewModel : CharacterCreationViewModelBase
+    {
+        NavigateToInnerView<TCharacterCreationViewModel>();
+    }
+
+    private void NavigateToCharacterFinalizationView()
+    {
+        IViewModelBase? finalizationVM = GetInnerViewModel<CharacterFinalizationViewModel>();
+        NavigateToInnerView<CharacterFinalizationViewModel>();
+        if (finalizationVM is null) //ensure exactly one subscription
         {
-            _scopedServiceFactory.DisposeScope<CharacterCreationService>();
-            NavigationService.NavigateToNewWindow<PlayerMainWindow>((Window)sender, true);
-            EventAggregator.UnSubscribeAll();
+            finalizationVM = GetInnerViewModel<CharacterFinalizationViewModel>();
+            (finalizationVM as CharacterFinalizationViewModel)!.CharacterCreated += NavigateBackAfterCreation;
         }
-        private void ShowTalenList()
-        {
-            NavigationService.NavigateToModal<TalentListWindow>(this, false);
-        }
+    }
 
-        private void NavigateToView<T>() where T : CharacterCreationViewModelBase
-        {
-            NavigateToInnerView<T>();
-        }
+    private void NavigateBackAfterCreation(object? sender, System.EventArgs e)
+    {
+        NavigateBackToMainCommand.Execute(sender);
+    }
+    private void ExecNavigationToPlayerMain(object sender)
+    {
+        _scopedServiceFactory.DisposeScope<CharacterCreationService>();
+        NavigationService.NavigateToNewWindow<PlayerMainWindow>((Window)sender, true);
+    }
+    private void ShowTalenList()
+    {
+        NavigationService.NavigateToModal<TalentListWindow>(this, false);
     }
 }

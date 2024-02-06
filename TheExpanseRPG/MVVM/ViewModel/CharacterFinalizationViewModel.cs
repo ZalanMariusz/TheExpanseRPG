@@ -1,11 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
+using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Factories;
+using TheExpanseRPG.Services;
+using TheExpanseRPG.Services.Interfaces;
 
 namespace TheExpanseRPG.MVVM.ViewModel;
 public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
@@ -13,20 +16,21 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public string CharacterName
     {
         get { return CharacterCreationService.CharacterName; }
-        set { CharacterCreationService.CharacterName = value; OnPropertyChanged(); }
+        set { CharacterCreationService.CharacterName = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanCreateCharacter)); }
     }
     public string CharacterDescription
     {
         get { return CharacterCreationService.CharacterDescription; }
         set { CharacterCreationService.CharacterDescription = value; OnPropertyChanged(); }
     }
+    public event EventHandler CharacterCreated;
     public CharacterOrigin? SelectedOrigin { get { return CharacterCreationService.SelectedCharacterOrigin; } }
     public CharacterSocialClass? SelectedSocialClass { get { return CharacterCreationService.SelectedCharacterSocialClass; } }
     public CharacterBackGround? SelectedBackground { get { return CharacterCreationService.SelectedCharacterBackground; } }
     public CharacterProfession? SelectedProfession { get { return CharacterCreationService.SelectedCharacterProfession; } }
     public CharacterDrive? SelectedDrive { get { return CharacterCreationService.SelectedCharacterDrive; } }
     public ObservableCollection<CharacterTalent> SelectedTalents { get => GetTalentBonuses(); }
-    
+
     public int? TotalAccuracyScore { get => CharacterCreationService.GetAccuracyTotal(); }
     public int? TotalCommunicationScore { get => CharacterCreationService.GetCommunicationTotal(); }
     public int? TotalConstitutionScore { get => CharacterCreationService.GetConstitutionTotal(); }
@@ -41,23 +45,71 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public string CommunicationFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Communication); }
     public string ConstitutionFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Constitution); }
     public string DexterityFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Dexterity); }
-    public string FightingFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Fighting); }    
+    public string FightingFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Fighting); }
     public string IntelligenceFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Intelligence); }
     public string PerceptionFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Perception); }
     public string StrengthFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Strength); }
     public string WillpowerFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Willpower); }
 
-    
+
     public int? Speed { get => CharacterCreationService.Speed; }
-    public int? Defense { get=> CharacterCreationService.Defense; }
+    public int? Defense { get => CharacterCreationService.Defense; }
     public int? Toughness { get => CharacterCreationService.Toughness; }
     public int? Fortune { get => CharacterCreationService.Fortune; }
     public int? TotalIncome { get => CharacterCreationService.GetTotalIncome(); }
-    public CharacterFinalizationViewModel(ScopedServiceFactory _scopedService)
+
+    public bool HasOriginConflict { get => CharacterCreationService.HasOriginConflict(); }
+    public bool IsOriginNotSelected { get => SelectedOrigin is null; }
+    public bool IsBackgroundNotSelected { get => SelectedBackground is null; }
+    public bool HasBackgroundConflict { get => CharacterCreationService.HasBackgroundConflict() && !IsMissingBackgroundBonus; }
+    public bool IsSocialClassNotSelected { get => SelectedSocialClass is null; }
+    public bool HasProfessionConflict { get => CharacterCreationService.HasProfessionConflict() && !IsMissingProfessionBonus; }
+    public bool IsProfessionNotSelected { get => SelectedProfession is null; }
+    public bool IsDriveNotSelected { get => SelectedDrive is null; }
+    public bool IsMissingBackgroundBonus { get => CharacterCreationService.IsMissingBackgroundBonus(); }
+    public bool IsMissingProfessionBonus { get => CharacterCreationService.IsMissingProfessionBonus(); }
+    public bool IsMissingDriveBonus { get => CharacterCreationService.IsMissingDriveBonus(); }
+    public bool IsMissingAbilityRoll { get => CharacterCreationService.IsMissingAbilityRoll(); }
+    public bool CanCreateCharacter { get => CharacterCreationService.CanCreateCharacter(); }
+    public string Avatar
     {
-        CharacterCreationService = (CharacterCreationService)_scopedService.GetScopedService<CharacterCreationService>();
+        get { return CharacterCreationService.CharacterAvatar; }
+        set { CharacterCreationService.CharacterAvatar = value; OnPropertyChanged(); }
     }
-   
+    public RelayCommand SelectAvatarCommand { get; set; }
+    public RelayCommand CreateCharacterCommand { get; set; }
+    public RelayCommand RandomizeCharacterCommand { get; set; }
+    private PopupService PopupService { get; set; }
+    public CharacterFinalizationViewModel(ScopedServiceFactory _scopedService, PopupService popupService, INavigationService navigationService)
+    {
+        PopupService = popupService;
+        NavigationService = navigationService;
+        CharacterCreationService = (CharacterCreationService)_scopedService.GetScopedService<CharacterCreationService>();
+        SelectAvatarCommand = new RelayCommand(o => true, o => ShowAvatarSelectionAndAssign());
+        CreateCharacterCommand = new(o => CanCreateCharacter, CreateCharacter);
+        RandomizeCharacterCommand = new(o => true, o => RandomizeCharacter());
+        Avatar = $"{WPFStringResources.AvatarFolderPath}000_blank.png";
+    }
+
+    private void CreateCharacter(object? sender)
+    {
+        if (PopupService.ShowPopup(WPFStringResources.PopupCreateCharacterConfirm) == MessageBoxResult.OK)
+        {
+            if ((CharacterCreationService.CharacterExists() && PopupService.ShowPopup(WPFStringResources.PopupCharacterNameConflictConfirm) == MessageBoxResult.OK)
+                || !CharacterCreationService.CharacterExists())
+            {
+                CharacterCreationService.CreateCharacter();
+                CharacterCreated?.Invoke(sender, new EventArgs());
+            }
+        }
+    }
+
+    private void RandomizeCharacter()
+    {
+        CharacterCreationService.RandomizeCharacter();
+        OnPropertyChanged(null);
+    }
+
     private string GetAbilityFocusNames(CharacterAbilityName abilityName)
     {
         return string.Join(',', CharacterCreationService.GetAbilityFocuses(abilityName).Select(x => x.FocusName));
@@ -66,5 +118,8 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     {
         return new ObservableCollection<CharacterTalent>(CharacterCreationService.TalentBonuses);
     }
-
+    private void ShowAvatarSelectionAndAssign()
+    {
+        Avatar = PopupService.ShowAvatarSelectionPopup(Avatar);
+    }
 }

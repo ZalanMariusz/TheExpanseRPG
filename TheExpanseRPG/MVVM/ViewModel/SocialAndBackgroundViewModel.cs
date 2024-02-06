@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Model.Interfaces;
@@ -19,16 +18,13 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
         set
         {
             if ((value < CharacterCreationService.SelectedCharacterProfession?.ProfessionSocialClass &&
-                _popupService.ShowPopup("Your selected social class is lower than the social class of your selected profession. This will clear your profession and all selected bonuses for it, even if it is locked in.\n\nAre you sure?") == MessageBoxResult.OK) ||
+                _popupService.ShowPopup(WPFStringResources.PopupProfessionResetConfirm) == MessageBoxResult.OK) ||
                 value >= CharacterCreationService.SelectedCharacterProfession?.ProfessionSocialClass ||
                 CharacterCreationService.SelectedCharacterProfession is null)
             {
                 CharacterCreationService.SelectedCharacterSocialClass = value;
                 OnPropertyChanged();
-                RefreshAvailableBackgrounds();
                 OnPropertyChanged(nameof(SelectedCharacterSocialClassDescription));
-                EventAggregator.PublishLinkedPropertyChanged("SelectedSocialClass");
-                EventAggregator.PublishLinkedPropertyChanged("SelectedProfession");
             }
 
         }
@@ -36,7 +32,10 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     public CharacterBackGround? SelectedBackground
     {
         get { return CharacterCreationService.SelectedCharacterBackground; }
-        set { CharacterCreationService.SelectedCharacterBackground = value; ClearSelectedBonuses(); OnPropertyChanged(); EventAggregator.PublishLinkedPropertyChanged(); }
+        set
+        {
+            CharacterCreationService.SelectedCharacterBackground = value; ClearSelectedBonuses(); OnPropertyChanged();
+        }
     }
     public ICharacterCreationBonus? SelectedBenefit
     {
@@ -47,13 +46,6 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
             OnPropertyChanged();
             OnPropertyChanged(nameof(HasBackgroundFocusConflict));
             OnPropertyChanged(nameof(HasBackgroundBenefitConflict));
-            EventAggregator.PublishLinkedPropertyChanged("HasOriginSelectionConflict");
-            EventAggregator.PublishLinkedPropertyChanged("HasSocialOrBackgroundSelectionConflict");
-            EventAggregator.PublishLinkedPropertyChanged("HasProfessionSelectionConflict");
-            EventAggregator.PublishLinkedPropertyChanged("OriginConflicts");
-            EventAggregator.PublishLinkedPropertyChanged("SocialOrBackgroundConflicts");
-            EventAggregator.PublishLinkedPropertyChanged("ProfessionConflicts");
-            EventAggregator.PublishLinkedPropertyChanged("HasProfessionFocusConflict");
         }
     }
     private ObservableCollection<CharacterBackGround>? _availableBackgrounds;
@@ -71,13 +63,6 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
             OnPropertyChanged();
             OnPropertyChanged(nameof(HasBackgroundFocusConflict));
             OnPropertyChanged(nameof(HasBackgroundBenefitConflict));
-            EventAggregator.PublishLinkedPropertyChanged("HasOriginSelectionConflict");
-            EventAggregator.PublishLinkedPropertyChanged("HasSocialOrBackgroundSelectionConflict");
-            EventAggregator.PublishLinkedPropertyChanged("HasProfessionSelectionConflict");
-            EventAggregator.PublishLinkedPropertyChanged("OriginConflicts");
-            EventAggregator.PublishLinkedPropertyChanged("SocialOrBackgroundConflicts");
-            EventAggregator.PublishLinkedPropertyChanged("ProfessionConflicts");
-            EventAggregator.PublishLinkedPropertyChanged("HasProfessionFocusConflict");
         }
     }
     public bool HasBackgroundFocusConflict
@@ -101,12 +86,18 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     public ICharacterBackgroundListService BackgroundListService { get; set; }
 
     private readonly PopupService _popupService;
+    public ObservableCollection<SocialClassWrapper> SocialClassesWithDescription { get; }
 
     public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory, /*INavigationService navigationService*/ PopupService popupService)
     {
         CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
         BackgroundListService = CharacterCreationService.BackgroundListService;
         _popupService = popupService;
+        SocialClassesWithDescription = new(CharacterCreationService.SocialClassesWithDescription);
+        RefreshAvailableBackgrounds();
+        CharacterCreationService.SocialClassChanged += (sender, args) => { RefreshAvailableBackgrounds(); };
+
+        //EventAggregator_ToDelete.RegisterNotifier(this);
     }
 
     private bool _isSelectionLocked;
