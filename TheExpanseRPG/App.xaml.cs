@@ -24,7 +24,7 @@ namespace TheExpanseRPG
             _services.RegisterMVVMDependencies();
 
             _serviceProvider = _services.BuildServiceProvider();
-            //Dispatcher.UnhandledException += OnDispatcherUnhandledException;
+            Dispatcher.UnhandledException += OnDispatcherUnhandledException;
             //EventAggregator_ToDelete.InitPropertiesToLink();
         }
         protected override void OnStartup(StartupEventArgs e)

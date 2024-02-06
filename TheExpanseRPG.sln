@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheExpanseRPG.Core", "TheEx
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheExpanseRPG.Core.Tests", "TheExpanseRPG.Core.Tests\TheExpanseRPG.Core.Tests.csproj", "{194D4347-CF6B-40D1-8B37-EE3B8FD6BA6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheExpanseRPG", "TheExpanseRPG\TheExpanseRPG.csproj", "{0BA2EF2C-47C1-43E5-B3F2-F38C36FF0C92}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TheExpanseRPG", "TheExpanseRPG\TheExpanseRPG.csproj", "{0BA2EF2C-47C1-43E5-B3F2-F38C36FF0C92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

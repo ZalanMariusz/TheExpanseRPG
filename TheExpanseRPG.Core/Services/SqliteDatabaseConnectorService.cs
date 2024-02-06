@@ -1,14 +1,13 @@
-﻿using System.Data;
-using System.Data.SQLite;
-using System.Runtime.CompilerServices;
+﻿using Microsoft.Data.Sqlite;
+using System.Data;
 using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.Core.Services;
 
 public class SqliteDatabaseConnectorService : ISqliteDatabaseConnectorService
 {
-    private const string SqliteConnectionString = "Data Source=TheExpanseRPGDB.db; Version = 3; New = True; Compress = True;";
-    
+    private const string SqliteConnectionString = "Data Source=TheExpanseRPGDB.db;";
+
     private const string TALENTQUERY = "SELECT TalentName,Description,NoviceDescription,ExpertDescription,MasterDescription FROM Talent";
     private const string TALENTREQUIREMENTQUERY = "SELECT TalentName,RequirementString FROM TalentRequirement";
     private const string ABILITYFOCUSQUERY = "SELECT AbilityId,FocusName FROM AbilityFocus";
@@ -22,16 +21,16 @@ public class SqliteDatabaseConnectorService : ISqliteDatabaseConnectorService
     private const string DRIVEQUERY = "SELECT DriveName,DriveDescription,DriveQuality,DriveDownfall,DriveQualityDescription,DriveDownfallDescription FROM Drive";
     private const string DRIVETALENTQUERY = "SELECT DriveName,TalentName FROM DriveTalent";
 
-    private SQLiteConnection Connection { get; }
+    private SqliteConnection Connection { get; }
     public SqliteDatabaseConnectorService()
     {
         Connection = CreateConnection();
     }
-    private static SQLiteConnection CreateConnection()
+    private static SqliteConnection CreateConnection()
     {
-        
-        SQLiteConnection sqlite_conn;
-        sqlite_conn = new SQLiteConnection(SqliteConnectionString);
+
+        SqliteConnection sqlite_conn;
+        sqlite_conn = new SqliteConnection(SqliteConnectionString);
         sqlite_conn.Open();
         return sqlite_conn;
     }
@@ -104,7 +103,7 @@ public class SqliteDatabaseConnectorService : ISqliteDatabaseConnectorService
     private DataTable ExecuteSelectQuery(string query)
     {
         DataTable dt = new();
-        SQLiteCommand sqlite_cmd = Connection.CreateCommand();
+        SqliteCommand sqlite_cmd = Connection.CreateCommand();
         sqlite_cmd.CommandText = query;
         dt.Load(sqlite_cmd.ExecuteReader());
         return dt;
@@ -113,7 +112,7 @@ public class SqliteDatabaseConnectorService : ISqliteDatabaseConnectorService
     private async Task<DataTable> ExecuteSelectQueryAsync(string query)
     {
         DataTable dt = new();
-        SQLiteCommand sqlite_cmd = Connection.CreateCommand();
+        SqliteCommand sqlite_cmd = Connection.CreateCommand();
         sqlite_cmd.CommandText = query;
         dt.Load(await sqlite_cmd.ExecuteReaderAsync());
         return dt;
