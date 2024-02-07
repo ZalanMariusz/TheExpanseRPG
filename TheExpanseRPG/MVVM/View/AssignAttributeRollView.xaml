@@ -93,12 +93,20 @@
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" >
                     <Grid>
-                        <Label Content="Accuracy" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Accuracy" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
                                x:Name="accuracyHeader" 
                                Drop="Label_AbilityHeader_Drop"
                                />
+                        <Label Content="{Binding AccuracyBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
+                                Grid.Column="2"
                                 Command="{Binding ClearAbility}" CommandParameter="Accuracy" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
@@ -111,13 +119,20 @@
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="1" >
                     <Grid>
-                        <Label Content="Constitution" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Constitution" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="constitutionHeader" 
                                Drop="Label_AbilityHeader_Drop"
                                />
+                        <Label Content="{Binding ConstitutionBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Constitution">
+                                Grid.Column="2"
+                                Command="{Binding ClearAbility}" CommandParameter="Constitution" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
                                     <Binding Path="Constitution"/>
@@ -125,16 +140,26 @@
                                 </MultiBinding>
                             </Button.Visibility>
                         </Button>
+
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="2" >
                     <Grid>
-                        <Label Content="Fighting" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Fighting" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="fightingHeader" 
-                               Drop="Label_AbilityHeader_Drop"/>
-                        <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" VerticalContentAlignment="Center"
-                                Command="{Binding ClearAbility}" CommandParameter="Fighting">
+                               Drop="Label_AbilityHeader_Drop"
+                               />
+                        <Label Content="{Binding FightingBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                        <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
+                                Grid.Column="2"
+                                Command="{Binding ClearAbility}" CommandParameter="Fighting" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
                                     <Binding Path="Fighting"/>
@@ -143,16 +168,25 @@
                             </Button.Visibility>
                         </Button>
                     </Grid>
+
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="3" >
                     <Grid>
-                        <Label Content="Communication" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Communication" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="communicationHeader" 
                                Drop="Label_AbilityHeader_Drop"
                                />
+                        <Label Content="{Binding CommunicationBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Communication">
+                                Grid.Column="2"
+                                Command="{Binding ClearAbility}" CommandParameter="Communication" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
                                     <Binding Path="Communication"/>
@@ -161,16 +195,25 @@
                             </Button.Visibility>
                         </Button>
                     </Grid>
+
+
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="4" >
                     <Grid>
-                        <Label Content="Dexterity" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Dexterity" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="dexterityHeader" 
                                Drop="Label_AbilityHeader_Drop"
                                />
+                        <Label Content="{Binding DexterityBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Dexterity">
+                                Grid.Column="2"
+                                Command="{Binding ClearAbility}" CommandParameter="Dexterity" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
                                     <Binding Path="Dexterity"/>
@@ -178,19 +221,24 @@
                                 </MultiBinding>
                             </Button.Visibility>
                         </Button>
-
                     </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="5" >
                     <Grid>
-                        <Label Content="Intelligence" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Intelligence" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="intelligenceHeader" 
                                Drop="Label_AbilityHeader_Drop"
                                />
+                        <Label Content="{Binding IntelligenceBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Intelligence">
-
+                                Grid.Column="2"
+                                Command="{Binding ClearAbility}" CommandParameter="Intelligence" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
                                     <Binding Path="Intelligence"/>
@@ -202,13 +250,17 @@
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="6" >
                     <Grid>
-                        <Label Content="Perception" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Perception" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="perceptionHeader" 
-                               Drop="Label_AbilityHeader_Drop"
-                               />
+                               Drop="Label_AbilityHeader_Drop"/>
+                        <Label Content="{Binding PerceptionBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Perception">
+                                Grid.Column="2" Command="{Binding ClearAbility}" CommandParameter="Perception" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
                                     <Binding Path="Perception"/>
@@ -220,14 +272,17 @@
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="7" >
                     <Grid>
-                        <Label Content="Strength" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Strength" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="strengthHeader" 
-                               Drop="Label_AbilityHeader_Drop"
-                               />
+                               Drop="Label_AbilityHeader_Drop"/>
+                        <Label Content="{Binding StrengthBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Strength">
-
+                                Grid.Column="2" Command="{Binding ClearAbility}" CommandParameter="Strength" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
                                     <Binding Path="Strength"/>
@@ -239,14 +294,17 @@
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="8" >
                     <Grid>
-                        <Label Content="Willpower" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Willpower" HorizontalAlignment="Center" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="willpower" 
-                               Drop="Label_AbilityHeader_Drop"
-                               />
+                               Drop="Label_AbilityHeader_Drop"/>
+                        <Label Content="{Binding WillpowerBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
-                                Command="{Binding ClearAbility}" CommandParameter="Willpower">
-
+                                Grid.Column="2" Command="{Binding ClearAbility}" CommandParameter="Willpower" >
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource RollTypeAndValueToVisibilityConverter}">
                                     <Binding Path="Willpower"/>
@@ -255,6 +313,7 @@
                             </Button.Visibility>
                         </Button>
                     </Grid>
+
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >

@@ -7,12 +7,18 @@ namespace TheExpanseRPG.Core.Model
     public class AbilityFocus : ICharacterCreationBonus
     {
         public CharacterAbilityName AbilityName { get; }
-        
         public string FocusName { get; }
         public bool IsImproved { get; private set; } = false;
         [JsonIgnore]
         public string CreationBonusName { get { return $"{AbilityName} ({FocusName})"; } }
-
+        [JsonIgnore]
+        public string FocusDescription { get; set; } = string.Empty;
+        public AbilityFocus(CharacterAbilityName abilityName, string focusName, string focusDescription)
+        {
+            AbilityName = abilityName;
+            FocusName = focusName;
+            FocusDescription = focusDescription;
+        }
         public AbilityFocus(CharacterAbilityName abilityName, string focusName)
         {
             AbilityName = abilityName;

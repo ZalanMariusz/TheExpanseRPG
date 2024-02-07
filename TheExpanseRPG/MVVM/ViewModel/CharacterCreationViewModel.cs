@@ -54,6 +54,7 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
         NavigateToCharacterFinalizationCommand = new(o => true, o => NavigateToCharacterFinalizationView());
         NavigateBackToMainCommand = new RelayCommand(o => true, ExecNavigationToPlayerMain);
         ShowTalentListCommand = new RelayCommand(o => true, o => ShowTalenList());
+        ShowFocusListCommand = new RelayCommand(o => true, o => ShowFocusList());
         
         
         OpenModals = new();
@@ -73,6 +74,11 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
 
         CharacterCreationService.DriveSelectionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedDrive)); };
         NavigateToOriginSelectCommand.Execute(null);
+    }
+
+    private void ShowFocusList()
+    {
+        NavigationService.NavigateToModal<FocusListWindow>(this, false);
     }
 
     private string AggregateBackgroundConflicts()

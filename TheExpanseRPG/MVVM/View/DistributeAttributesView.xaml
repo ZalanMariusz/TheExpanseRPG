@@ -108,33 +108,107 @@
                        />
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="0">
-                    <Label Content="Accuracy" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Accuracy" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding AccuracyBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
+
+
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="1">
-                    <Label Content="Constitution" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Constitution" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding ConstitutionBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="2">
-                    <Label Content="Fighting" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Fighting" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding FightingBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="3">
-                    <Label Content="Communication" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Communication" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding CommunicationBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="4">
-                    <Label Content="Dexterity" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Dexterity" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding DexterityBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="5">
-                    <Label Content="Intelligence" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Intelligence" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding IntelligenceBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="6">
-                    <Label Content="Perception" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Perception" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding PerceptionBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="7" >
-                    <Label Content="Strength" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Strength" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding StrengthBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="8" >
-                    <Label Content="Willpower" HorizontalAlignment="Center"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Willpower" HorizontalAlignment="Center" Grid.Column="1"/>
+                        <Label Content="{Binding WillpowerBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
+                    </Grid>
                 </custom:CutCorner>
-
+                
                 <custom:CutCorner Margin="0,5,5,0" Fill ="Black" Grid.Column ="3" Grid.Row="0" BorderThickness="0"  BorderCuts="0,0,1,0" HasShadow ="0">
                     <Button Content="+" Command="{Binding IncreaseAbilityValue}" CommandParameter="Accuracy"/>
                 </custom:CutCorner>

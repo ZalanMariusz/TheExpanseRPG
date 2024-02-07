@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
@@ -22,7 +23,17 @@ namespace TheExpanseRPG.MVVM.ViewModel
         public int? Strength { get { return GetCharacterAbilityValue(); } }
         public int? Willpower { get { return GetCharacterAbilityValue(); } }
 
-        public AllRandomAbilityRollViewModel(ScopedServiceFactory scopedServiceFactory,PopupService popupService)
+        public int? AccuracyBonuses => GetAbilityBonuses();
+        public int? ConstitutionBonuses => GetAbilityBonuses();
+        public int? FightingBonuses => GetAbilityBonuses();
+        public int? CommunicationBonuses => GetAbilityBonuses();
+        public int? DexterityBonuses => GetAbilityBonuses();
+        public int? IntelligenceBonuses => GetAbilityBonuses();
+        public int? PerceptionBonuses => GetAbilityBonuses();
+        public int? StrengthBonuses => GetAbilityBonuses();
+        public int? WillpowerBonuses => GetAbilityBonuses();
+
+        public AllRandomAbilityRollViewModel(ScopedServiceFactory scopedServiceFactory, PopupService popupService)
         {
             CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
             _popupService = popupService;
@@ -44,7 +55,12 @@ namespace TheExpanseRPG.MVVM.ViewModel
                     OnPropertyChanged(abilityName.ToString());
                 }
             }
+        }
 
+        private int? GetAbilityBonuses([CallerMemberName] string abilityName = "")
+        {
+            abilityName = abilityName.Replace("Bonuses", "");
+            return CharacterCreationService.GetAbilityBonuses((CharacterAbilityName)Enum.Parse(typeof(CharacterAbilityName), abilityName));
         }
     }
 }

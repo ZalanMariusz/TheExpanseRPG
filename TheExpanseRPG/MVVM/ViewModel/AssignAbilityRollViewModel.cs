@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -27,6 +28,16 @@ namespace TheExpanseRPG.MVVM.ViewModel
         public int? Perception { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
         public int? Strength { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
         public int? Willpower { get => GetCharacterAbilityValue(); set => AssignAbilityScore(value); }
+
+        public int? AccuracyBonuses => GetAbilityBonuses();
+        public int? ConstitutionBonuses => GetAbilityBonuses();
+        public int? FightingBonuses => GetAbilityBonuses();
+        public int? CommunicationBonuses => GetAbilityBonuses();
+        public int? DexterityBonuses => GetAbilityBonuses();
+        public int? IntelligenceBonuses => GetAbilityBonuses();
+        public int? PerceptionBonuses => GetAbilityBonuses();
+        public int? StrengthBonuses => GetAbilityBonuses();
+        public int? WillpowerBonuses => GetAbilityBonuses();
         public AbilityRollType LastUsedRollType { get => CharacterCreationService.LastUsedRollType; }
         public bool CanAbilityBeReset(string abilityName)
         {
@@ -82,6 +93,12 @@ namespace TheExpanseRPG.MVVM.ViewModel
             }
             AssignableAbilityValues.Remove(newValue);
             OnPropertyChanged(nameof(AssignableAbilityValues));
+        }
+
+        private int? GetAbilityBonuses([CallerMemberName] string abilityName = "")
+        {
+            abilityName = abilityName.Replace("Bonuses", "");
+            return CharacterCreationService.GetAbilityBonuses((CharacterAbilityName)Enum.Parse(typeof(CharacterAbilityName), abilityName));
         }
 
     }

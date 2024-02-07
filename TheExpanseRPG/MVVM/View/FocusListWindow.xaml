@@ -1,0 +1,40 @@
+﻿<Window x:Class="TheExpanseRPG.MVVM.View.FocusListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TheExpanseRPG.MVVM.View"
+        xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
+        xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
+        d:DataContext="{d:DesignInstance Type=vm:FocusListViewModel}"
+        MouseDown="Window_MouseDown"
+        mc:Ignorable="d"
+        Style="{StaticResource ExpanseWindowStyle}"
+        Title="FocusListWindow" Height="750" Width="800"   >
+    <Border BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="3">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <user:WindowHeaderWithLogo Grid.ColumnSpan="40" JustHide="True"/>
+
+            <ScrollViewer Grid.Row="1">
+                <StackPanel Background="White" Width="620">
+                    <user:AbilityFocusListBlock FocusListName="Accuracy focuses" FocusList="{Binding AccurayFocuses}"/>
+                    <user:AbilityFocusListBlock FocusListName="Communication focuses" FocusList="{Binding CommunicationFocuses}"/>
+                    <user:AbilityFocusListBlock FocusListName="Constitution focuses" FocusList="{Binding ConstitutionFocuses}"/>
+                    <user:AbilityFocusListBlock FocusListName="Dexterity focuses" FocusList="{Binding DexterityFocuses}"/>
+                    <user:AbilityFocusListBlock FocusListName="Fighting focuses " FocusList="{Binding FightingFocuses}"/>
+                    <user:AbilityFocusListBlock FocusListName="Intelligence focuses " FocusList="{Binding IntelligenceFocuses}"/>
+                    <user:AbilityFocusListBlock FocusListName="Perception focuses " FocusList="{Binding PerceptionFocuses}"/>
+                    <user:AbilityFocusListBlock FocusListName="Strength focuses " FocusList="{Binding StrengthFocuses}"/>
+                    <user:AbilityFocusListBlock FocusListName="Willpower focuses " FocusList="{Binding WillpowerFocuses}"/>
+                </StackPanel>
+            </ScrollViewer>
+
+
+
+        </Grid>
+    </Border>
+</Window>
