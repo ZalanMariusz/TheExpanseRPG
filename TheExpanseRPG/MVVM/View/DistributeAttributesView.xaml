@@ -104,7 +104,7 @@
 
                 <Label Content="{Binding AbilityPool}" Grid.Column="1" Grid.ColumnSpan="3" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
                        Background="Transparent" Grid.Row="9" Margin="5,0"
-                        Visibility="{Binding NeedsReset, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter = invert}"
+                       Visibility="{Binding NeedsReset, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter = invert}"
                        />
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" BorderBrush="Black" Fill="Black" BorderThickness="0" BorderCuts="1,0,0,0" Grid.Row="0">
