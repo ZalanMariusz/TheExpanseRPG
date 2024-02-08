@@ -13,11 +13,6 @@ public class CharacterCreationViewModelBase : ViewModelBase, ICharacterCreationV
         get { return _characterCreationService!; }
         set { _characterCreationService = value; }
     }
-
-    public int? GetCharacterAbilityValue([CallerMemberName] string abilityName = "")
-    {
-        return CharacterCreationService.CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
-    }
     protected void NavigateToInnerView<TViewModel>() where TViewModel : ICharacterCreationViewModel
     {
         TViewModel? viewModelToNavigateTo = (TViewModel?)InnerViewModels.FirstOrDefault(x => x.GetType() == typeof(TViewModel));

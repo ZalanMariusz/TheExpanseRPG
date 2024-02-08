@@ -31,15 +31,15 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public CharacterDrive? SelectedDrive { get { return CharacterCreationService.SelectedCharacterDrive; } }
     public ObservableCollection<CharacterTalent> SelectedTalents { get => GetTalentBonuses(); }
 
-    public int? TotalAccuracyScore { get => CharacterCreationService.GetAccuracyTotal(); }
-    public int? TotalCommunicationScore { get => CharacterCreationService.GetCommunicationTotal(); }
-    public int? TotalConstitutionScore { get => CharacterCreationService.GetConstitutionTotal(); }
-    public int? TotalDexterityScore { get => CharacterCreationService.GetDexterityTotal(); }
-    public int? TotalFightingScore { get => CharacterCreationService.GetFightingTotal(); }
-    public int? TotalIntelligenceScore { get => CharacterCreationService.GetIntelligenceTotal(); }
-    public int? TotalPerceptionScore { get => CharacterCreationService.GetPerceptionTotal(); }
-    public int? TotalStrengthScore { get => CharacterCreationService.GetStrengthTotal(); }
-    public int? TotalWillpowerScore { get => CharacterCreationService.GetWillpowerTotal(); }
+    public int? TotalAccuracyScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetAccuracyTotal(); }
+    public int? TotalCommunicationScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetCommunicationTotal(); }
+    public int? TotalConstitutionScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetConstitutionTotal(); }
+    public int? TotalDexterityScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetDexterityTotal(); }
+    public int? TotalFightingScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetFightingTotal(); }
+    public int? TotalIntelligenceScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetIntelligenceTotal(); }
+    public int? TotalPerceptionScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetPerceptionTotal(); }
+    public int? TotalStrengthScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetStrengthTotal(); }
+    public int? TotalWillpowerScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetWillpowerTotal(); }
 
     public string AccuracyFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Accuracy); }
     public string CommunicationFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Communication); }
@@ -69,7 +69,7 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public bool IsMissingBackgroundBonus { get => CharacterCreationService.IsMissingBackgroundBonus(); }
     public bool IsMissingProfessionBonus { get => CharacterCreationService.IsMissingProfessionBonus(); }
     public bool IsMissingDriveBonus { get => CharacterCreationService.IsMissingDriveBonus(); }
-    public bool IsMissingAbilityRoll { get => CharacterCreationService.IsMissingAbilityRoll(); }
+    public bool IsMissingAbilityRoll { get => CharacterCreationService.CharacterAbilityBlockBuilder.IsMissingAbilityRoll(); }
     public bool CanCreateCharacter { get => CharacterCreationService.CanCreateCharacter(); }
     public string Avatar
     {

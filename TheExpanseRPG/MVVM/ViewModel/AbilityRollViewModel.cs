@@ -9,11 +9,10 @@ public class AbilityRollViewModel : CharacterCreationViewModelBase
 {
     public AbilityRollType SelectedAbilityRollType
     {
-        get { return CharacterCreationService.SelectedAbilityRollType; }
+        get { return CharacterCreationService.CharacterAbilityBlockBuilder.SelectedAbilityRollType; }
         set
         {
-            CharacterCreationService.SelectedAbilityRollType = value;
-            //CharacterCreationService.ResetAbilities();
+            CharacterCreationService.CharacterAbilityBlockBuilder.SelectedAbilityRollType = value;
             NavigateToRollTypeView();
             OnPropertyChanged();
         }
@@ -35,16 +34,12 @@ public class AbilityRollViewModel : CharacterCreationViewModelBase
                 break;
         }
     }
-    //private void ClearAssigneableList()
-    //{
-    //    AssignAbilityRollViewModel? assignableValuesVm = (AssignAbilityRollViewModel?)CurrentInnerViewModel;
-    //    assignableValuesVm?.AssignableAbilityValues.Clear();
-    //}
+
     public AbilityRollViewModel(INavigationService navigationService, ScopedServiceFactory scopedServiceFactory)
     {
         CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
         NavigationService = navigationService;
-        CharacterCreationService.AbilityRollTypeChanged += (sender, args) => NavigateToRollTypeView();
+        CharacterCreationService.CharacterAbilityBlockBuilder.AbilityRollTypeChanged += (sender, args) => NavigateToRollTypeView();
         NavigateToRollTypeView();
     }
 

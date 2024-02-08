@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.Json;
+using TheExpanseRPG.Core.Builders.Interfaces;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Model.Interfaces;
@@ -9,9 +10,7 @@ namespace TheExpanseRPG.Core.Services;
 
 public class CharacterCreationService : IExpanseService
 {
-    private const int MAXABILITYVALUE = 3;
-    private const int MINABILITYVALUE = 0;
-    private const int ABILITYPOOL = 12;
+    public ICharacterAbilityBlockBuilder CharacterAbilityBlockBuilder { get; set; }
 
     public int? GetTotalIncome()
     {
@@ -38,16 +37,9 @@ public class CharacterCreationService : IExpanseService
     public string CharacterName { get; set; } = string.Empty;
     public string CharacterDescription { get; set; } = string.Empty;
     #region Abilities
-    public event EventHandler? AbilityRollTypeChanged;
-    public event EventHandler? LastUsedRollTypeChanged;
-    private AbilityRollType _lastUsedRollType;
-    public AbilityRollType LastUsedRollType { get => _lastUsedRollType; private set { _lastUsedRollType = value; LastUsedRollTypeChanged?.Invoke(this, new EventArgs()); } }
-    public CharacterAbilityBlock CharacterAbilityBlock { get; set; } = new();
-    public List<int?> AbilityValuesToAssign { get; set; } = new();
-    public int PointsToDistribute { get; private set; } = ABILITYPOOL;
-    public int? Speed { get => 10 + (GetDexterityTotal() is null ? 0 : (int)GetDexterityTotal()!); }
-    public int Defense { get => 10 + (GetDexterityTotal() is null ? 0 : (int)GetDexterityTotal()!); }
-    public int Toughness { get => GetConstitutionTotal() is null ? 0 : (int)GetConstitutionTotal()!; }
+    public int? Speed { get => 10 + (CharacterAbilityBlockBuilder.GetDexterityTotal() is null ? 0 : (int)CharacterAbilityBlockBuilder.GetDexterityTotal()!); }
+    public int Defense { get => 10 + (CharacterAbilityBlockBuilder.GetDexterityTotal() is null ? 0 : (int)CharacterAbilityBlockBuilder.GetDexterityTotal()!); }
+    public int Toughness { get => CharacterAbilityBlockBuilder.GetConstitutionTotal() is null ? 0 : (int)CharacterAbilityBlockBuilder.GetConstitutionTotal()!; }
     public int Fortune { get => 15 + (SelectedDriveBonus?.GetType() == typeof(Fortune) ? 5 : 0); }
     #endregion
     #region Origin
@@ -202,20 +194,9 @@ public class CharacterCreationService : IExpanseService
     #region Services
     public ITalentListService TalentListService { get; }
     public IAbilityFocusListService FocusListService { get; }
-    public IDiceRollService DiceRollService { get; }
     public ICharacterProfessionListService ProfessionListService { get; }
     public ICharacterBackgroundListService BackgroundListService { get; }
     public ICharacterDriveListService CharacterDriveListService { get; }
-    private AbilityRollType _selectedAbilityRollType;
-    public AbilityRollType SelectedAbilityRollType
-    {
-        get { return _selectedAbilityRollType; }
-        set
-        {
-            _selectedAbilityRollType = value;
-            AbilityRollTypeChanged?.Invoke(this, new EventArgs());
-        }
-    }
     public List<CharacterTalent> TalentBonuses { get; set; } = new();
     public string CharacterAvatar { get; set; } = string.Empty;
 
@@ -240,21 +221,23 @@ public class CharacterCreationService : IExpanseService
 
     #endregion
     public CharacterCreationService(
+        ICharacterAbilityBlockBuilder characterAbilityBlockBuilder,
         ITalentListService talentListService,
         IAbilityFocusListService focusListService,
         ICharacterBackgroundListService backgroundListService,
-        IDiceRollService diceRollService,
+        //IDiceRollService diceRollService,
         ICharacterProfessionListService professionListService,
         ICharacterDriveListService characterTalentListService
         )
     {
+        CharacterAbilityBlockBuilder = characterAbilityBlockBuilder;
         TalentListService = talentListService;
         FocusListService = focusListService;
-        DiceRollService = diceRollService;
+
+        //DiceRollService = diceRollService;
         ProfessionListService = professionListService;
         BackgroundListService = backgroundListService;
         CharacterDriveListService = characterTalentListService;
-        SelectedAbilityRollType = AbilityRollType.AllRandom;
         InitializeOriginDescriptions();
         InitiliazeSocialClassDescriptions();
         InitiliazeSocialClassWrapperList();
@@ -311,158 +294,7 @@ public class CharacterCreationService : IExpanseService
         RefreshTalentBonuses();
     }
     #region Ability methods
-    public void ResetAbilities()
-    {
-        int? valueToResetTo = SelectedAbilityRollType == AbilityRollType.DistributePoints ? 0 : null;
-        CharacterAbilityBlock.AbilityList.ForEach(x => x.BaseValue = valueToResetTo);
-        PointsToDistribute = ABILITYPOOL;
-    }
-    public void RollAllRandom()
-    {
-        ResetAbilities();
-        AbilityValuesToAssign.Clear();
-        foreach (CharacterAbility ability in CharacterAbilityBlock.AbilityList)
-        {
-            int rollResult = DiceRollService.Roll3D6().GetRollResultSumValue();
-            ability.BaseValue = GetAttributeValueFromRoll(rollResult);
-        }
-        LastUsedRollType = SelectedAbilityRollType;
-    }
-    /*checks if abilities need to be reset when trying to "chose" roll type*/
-    public bool RollsShouldBeReset(AbilityRollType chosenRollType)
-    {
-        if (chosenRollType == LastUsedRollType)
-        {
-            return false;
-        }
-        if (chosenRollType == AbilityRollType.RollAndAssign)
-        {
-            return (LastUsedRollType != AbilityRollType.DistributePoints && CharacterAbilityBlock.AbilityList.Any(x => x.BaseValue is not null))
-                || PointsToDistribute != ABILITYPOOL;
-        }
 
-        if (chosenRollType == AbilityRollType.AllRandom)
-        {
-            return
-                LastUsedRollType == AbilityRollType.RollAndAssign || PointsToDistribute != ABILITYPOOL;
-        }
-        return LastUsedRollType != AbilityRollType.DistributePoints;
-    }
-    public void RollAssignableAbilityList()
-    {
-        ResetAbilities();
-        AbilityValuesToAssign.Clear();
-        for (int i = 0; i < CharacterAbilityBlock.AbilityList.Count; i++)
-        {
-            AbilityValuesToAssign.Add(GetAttributeValueFromRoll(DiceRollService.Roll3D6().GetRollResultSumValue()));
-        }
-        LastUsedRollType = SelectedAbilityRollType;
-    }
-    public void AssignAbilityScore(string abilityName, int? newScore)
-    {
-        int? abilityValue = CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
-        if (abilityValue.HasValue)
-        {
-            AbilityValuesToAssign.Add(abilityValue);
-        }
-        AbilityValuesToAssign.Remove(newScore);
-        CharacterAbilityBlock.GetAbility(abilityName).BaseValue = newScore;
-    }
-
-    public void SetRollTypeToDistribute()
-    {
-        LastUsedRollType = SelectedAbilityRollType;
-        ResetAbilities();
-    }
-    public void DecreaseAttributeFromPool(string abilityName)
-    {
-        if (CanDecrease(abilityName))
-        {
-            CharacterAbilityBlock.GetAbility(abilityName).BaseValue--;
-            PointsToDistribute++;
-        }
-    }
-    public void IncreaseAttributeFromPool(string abilityName)
-    {
-        if (CanIncrease(abilityName))
-        {
-            CharacterAbilityBlock.GetAbility(abilityName).BaseValue++;
-            PointsToDistribute--;
-        }
-    }
-    public bool CanIncrease(string abilityName)
-    {
-        int? propertyValue = CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
-        return PointsToDistribute > 0 && propertyValue < MAXABILITYVALUE && propertyValue != null;
-    }
-    public bool CanDecrease(string abilityName)
-    {
-        int? propertyValue = CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
-        return PointsToDistribute < ABILITYPOOL && propertyValue > MINABILITYVALUE && propertyValue != null;
-    }
-    private static int GetAttributeValueFromRoll(int rollResult)
-    {
-        return rollResult switch
-        {
-            3 => -2,
-            4 or 5 => -1,
-            6 or 7 or 8 => 0,
-            9 or 10 or 11 => 1,
-            12 or 13 or 14 => 2,
-            15 or 16 or 17 => 3,
-            _ => 4,
-        };
-    }
-    public int? GetAbilityTotal(CharacterAbilityName abilityName)
-    {
-        List<int?> abilityValues = new()
-        {
-            CharacterAbilityBlock.GetAbility(abilityName).BaseValue,
-            GetAbilityBonuses(abilityName)
-        };
-        return abilityValues.Any(x => x is not null) ? abilityValues.Sum() : null;
-    }
-    public int? GetAbilityBonuses(CharacterAbilityName abilityName)
-    {
-        IEnumerable<CharacterAbility> abilityBonuses = Bonuses.Values.Where(x => x.GetType() == typeof(CharacterAbility) && ((CharacterAbility)x).AbilityName == abilityName).Cast<CharacterAbility>();
-        return abilityBonuses.Any() ? abilityBonuses.Count() : null;
-    }
-    public int? GetAccuracyTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Accuracy);
-    }
-    public int? GetCommunicationTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Communication);
-    }
-    public int? GetConstitutionTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Constitution);
-    }
-    public int? GetDexterityTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Dexterity);
-    }
-    public int? GetFightingTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Fighting);
-    }
-    public int? GetIntelligenceTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Intelligence);
-    }
-    public int? GetPerceptionTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Perception);
-    }
-    public int? GetStrengthTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Strength);
-    }
-    public int? GetWillpowerTotal()
-    {
-        return GetAbilityTotal(CharacterAbilityName.Willpower);
-    }
     public List<AbilityFocus> GetAbilityFocuses(CharacterAbilityName abilityName)
     {
         return Bonuses.Values.Where(x => x is AbilityFocus focus && focus.AbilityName == abilityName).Cast<AbilityFocus>().Distinct().ToList();
@@ -567,15 +399,7 @@ public class CharacterCreationService : IExpanseService
     {
         return SelectedDriveBonus is null || SelectedDriveTalent is null;
     }
-    public bool IsMissingAbilityRoll()
-    {
-        return LastUsedRollType switch
-        {
-            AbilityRollType.AllRandom or AbilityRollType.RollAndAssign => CharacterAbilityBlock.AbilityList.Any(x => x.AbilityValue is null),
-            AbilityRollType.DistributePoints => PointsToDistribute != 0,
-            _ => false,
-        };
-    }
+
 
     public bool CanCreateCharacter()
     {
@@ -585,7 +409,7 @@ public class CharacterCreationService : IExpanseService
             IsMissingProfessionBonus(),
             IsMissingDriveBonus(),
 
-            IsMissingAbilityRoll(),
+            CharacterAbilityBlockBuilder.IsMissingAbilityRoll(),
 
             HasBackgroundConflict(),
             HasOriginConflict(),
@@ -606,67 +430,67 @@ public class CharacterCreationService : IExpanseService
     }
     public void CreateCharacter()
     {
-        ExpanseCharacter character = new()
-        {
-            Abilities = CharacterAbilityBlock,
-            Focuses = GetAllAbilityFocus(),
-            Talents = TalentBonuses,
-            Name = CharacterName,
-            Description = CharacterDescription,
-            Background = SelectedCharacterBackground!.BackgroundName,
-            Origin = SelectedCharacterOrigin,
-            SocialClass = SelectedCharacterSocialClass,
-            Profession = SelectedCharacterProfession!.ProfessionName,
-            Drive = SelectedCharacterDrive!.DriveName,
-            Fortune = Fortune,
-            Income = GetTotalIncome(),
-            Speed = Speed,
-            Toughness = Toughness,
-            Defense = Defense,
-            Avatar = CharacterAvatar
+        //ExpanseCharacter character = new()
+        //{
+        //    Abilities = CharacterAbilityBlock,
+        //    Focuses = GetAllAbilityFocus(),
+        //    Talents = TalentBonuses,
+        //    Name = CharacterName,
+        //    Description = CharacterDescription,
+        //    Background = SelectedCharacterBackground!.BackgroundName,
+        //    Origin = SelectedCharacterOrigin,
+        //    SocialClass = SelectedCharacterSocialClass,
+        //    Profession = SelectedCharacterProfession!.ProfessionName,
+        //    Drive = SelectedCharacterDrive!.DriveName,
+        //    Fortune = Fortune,
+        //    Income = GetTotalIncome(),
+        //    Speed = Speed,
+        //    Toughness = Toughness,
+        //    Defense = Defense,
+        //    Avatar = CharacterAvatar
 
-        };
+        //};
 
-        string characterJson = JsonSerializer.Serialize(character, new JsonSerializerOptions { WriteIndented = true });
-        Directory.CreateDirectory(ModelResources.CharacterSavePath);
-        File.WriteAllText($"{ModelResources.CharacterSavePath}{CharacterName}.json", characterJson);
+        //string characterJson = JsonSerializer.Serialize(character, new JsonSerializerOptions { WriteIndented = true });
+        //Directory.CreateDirectory(ModelResources.CharacterSavePath);
+        //File.WriteAllText($"{ModelResources.CharacterSavePath}{CharacterName}.json", characterJson);
 
     }
 
     public void RandomizeCharacter()
     {
-        SelectedCharacterOrigin = (CharacterOrigin)Random.Shared.Next(0, 3);
-        SelectedCharacterSocialClass = (CharacterSocialClass)Random.Shared.Next(0, 4);
+        //SelectedCharacterOrigin = (CharacterOrigin)Random.Shared.Next(0, 3);
+        //SelectedCharacterSocialClass = (CharacterSocialClass)Random.Shared.Next(0, 4);
 
-        var possibleBackgrounds = BackgroundListService.CharacterBackgroundList.Where(bg => bg.MainSocialClass == SelectedCharacterSocialClass).ToList();
-        SelectedCharacterBackground = possibleBackgrounds[Random.Shared.Next(0, possibleBackgrounds.Count)];
-        SelectedBackgroundFocus = SelectedCharacterBackground!.PossibleAbilityFocuses[Random.Shared.Next(0, SelectedCharacterBackground.PossibleAbilityFocuses.Count)];
-        while (HasBackgroundConflict())
-        {
-            SelectedBackgroundFocus = SelectedCharacterBackground!.PossibleAbilityFocuses[Random.Shared.Next(0, SelectedCharacterBackground.PossibleAbilityFocuses.Count)];
-        }
-        SelectedBackgroundTalent = SelectedCharacterBackground.PossiblePlayerTalents[Random.Shared.Next(0, SelectedCharacterBackground.PossiblePlayerTalents.Count)];
-        SelectedBackgroundBenefit = SelectedCharacterBackground.BackgroundBenefits[Random.Shared.Next(0, SelectedCharacterBackground.BackgroundBenefits.Count)];
-        while (HasBackgroundConflict())
-        {
-            SelectedBackgroundBenefit = SelectedCharacterBackground.BackgroundBenefits[Random.Shared.Next(0, SelectedCharacterBackground.BackgroundBenefits.Count)];
-        }
+        //var possibleBackgrounds = BackgroundListService.CharacterBackgroundList.Where(bg => bg.MainSocialClass == SelectedCharacterSocialClass).ToList();
+        //SelectedCharacterBackground = possibleBackgrounds[Random.Shared.Next(0, possibleBackgrounds.Count)];
+        //SelectedBackgroundFocus = SelectedCharacterBackground!.PossibleAbilityFocuses[Random.Shared.Next(0, SelectedCharacterBackground.PossibleAbilityFocuses.Count)];
+        //while (HasBackgroundConflict())
+        //{
+        //    SelectedBackgroundFocus = SelectedCharacterBackground!.PossibleAbilityFocuses[Random.Shared.Next(0, SelectedCharacterBackground.PossibleAbilityFocuses.Count)];
+        //}
+        //SelectedBackgroundTalent = SelectedCharacterBackground.PossiblePlayerTalents[Random.Shared.Next(0, SelectedCharacterBackground.PossiblePlayerTalents.Count)];
+        //SelectedBackgroundBenefit = SelectedCharacterBackground.BackgroundBenefits[Random.Shared.Next(0, SelectedCharacterBackground.BackgroundBenefits.Count)];
+        //while (HasBackgroundConflict())
+        //{
+        //    SelectedBackgroundBenefit = SelectedCharacterBackground.BackgroundBenefits[Random.Shared.Next(0, SelectedCharacterBackground.BackgroundBenefits.Count)];
+        //}
 
-        var possibleProfessions = ProfessionListService.ProfessionList.Where(p => p.ProfessionSocialClass <= SelectedCharacterSocialClass).ToList();
-        SelectedCharacterProfession = possibleProfessions[Random.Shared.Next(0, possibleProfessions.Count)];
-        SelectedProfessionFocus = SelectedCharacterProfession.FocusChoices[Random.Shared.Next(0, SelectedCharacterProfession.FocusChoices.Count)];
-        while (HasProfessionConflict())
-        {
-            SelectedProfessionFocus = SelectedCharacterProfession.FocusChoices[Random.Shared.Next(0, SelectedCharacterProfession.FocusChoices.Count)];
-        }
-        SelectedProfessionTalent = SelectedCharacterProfession.TalentChoices[Random.Shared.Next(0, SelectedCharacterProfession.TalentChoices.Count)];
+        //var possibleProfessions = ProfessionListService.ProfessionList.Where(p => p.ProfessionSocialClass <= SelectedCharacterSocialClass).ToList();
+        //SelectedCharacterProfession = possibleProfessions[Random.Shared.Next(0, possibleProfessions.Count)];
+        //SelectedProfessionFocus = SelectedCharacterProfession.FocusChoices[Random.Shared.Next(0, SelectedCharacterProfession.FocusChoices.Count)];
+        //while (HasProfessionConflict())
+        //{
+        //    SelectedProfessionFocus = SelectedCharacterProfession.FocusChoices[Random.Shared.Next(0, SelectedCharacterProfession.FocusChoices.Count)];
+        //}
+        //SelectedProfessionTalent = SelectedCharacterProfession.TalentChoices[Random.Shared.Next(0, SelectedCharacterProfession.TalentChoices.Count)];
 
-        SelectedCharacterDrive = CharacterDriveListService.DriveList[Random.Shared.Next(0, CharacterDriveListService.DriveList.Count)];
-        SelectedDriveBonus = CharacterDriveListService.DriveBonuses[Random.Shared.Next(0, CharacterDriveListService.DriveBonuses.Count)];
-        SelectedDriveTalent = CharacterDriveListService.DriveTalentList[SelectedCharacterDrive.DriveName][Random.Shared.Next(0, CharacterDriveListService.DriveTalentList[SelectedCharacterDrive.DriveName].Count)];
+        //SelectedCharacterDrive = CharacterDriveListService.DriveList[Random.Shared.Next(0, CharacterDriveListService.DriveList.Count)];
+        //SelectedDriveBonus = CharacterDriveListService.DriveBonuses[Random.Shared.Next(0, CharacterDriveListService.DriveBonuses.Count)];
+        //SelectedDriveTalent = CharacterDriveListService.DriveTalentList[SelectedCharacterDrive.DriveName][Random.Shared.Next(0, CharacterDriveListService.DriveTalentList[SelectedCharacterDrive.DriveName].Count)];
 
-        SelectedAbilityRollType = AbilityRollType.AllRandom;
-        RollAllRandom();
+        //SelectedAbilityRollType = AbilityRollType.AllRandom;
+        CharacterAbilityBlockBuilder.RollAllRandom();
 
     }
 }

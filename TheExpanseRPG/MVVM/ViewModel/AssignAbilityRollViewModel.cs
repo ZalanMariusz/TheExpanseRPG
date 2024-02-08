@@ -12,54 +12,43 @@ using TheExpanseRPG.Services;
 
 namespace TheExpanseRPG.MVVM.ViewModel
 {
-    public class AssignAbilityRollViewModel : CharacterCreationViewModelBase
+    public class AssignAbilityRollViewModel : CharacterAbilityRollTypeViewModel
     {
         public RelayCommand RollAbilityValues { get; set; }
         public RelayCommand ClearAbility { get; set; }
         private ObservableCollection<int?> _assignableAbilityValues = new();
         public ObservableCollection<int?> AssignableAbilityValues { get { return _assignableAbilityValues; } set { _assignableAbilityValues = value; OnPropertyChanged(); } }
-        private readonly PopupService _popupService;
-        public int? Accuracy { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
-        public int? Constitution { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
-        public int? Fighting { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
-        public int? Communication { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
-        public int? Dexterity { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
-        public int? Intelligence { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
-        public int? Perception { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
-        public int? Strength { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
-        public int? Willpower { get => GetCharacterAbilityValue(); set => AssignAbilityScore(value); }
-
-        public int? AccuracyBonuses => GetAbilityBonuses();
-        public int? ConstitutionBonuses => GetAbilityBonuses();
-        public int? FightingBonuses => GetAbilityBonuses();
-        public int? CommunicationBonuses => GetAbilityBonuses();
-        public int? DexterityBonuses => GetAbilityBonuses();
-        public int? IntelligenceBonuses => GetAbilityBonuses();
-        public int? PerceptionBonuses => GetAbilityBonuses();
-        public int? StrengthBonuses => GetAbilityBonuses();
-        public int? WillpowerBonuses => GetAbilityBonuses();
-        public AbilityRollType LastUsedRollType { get => CharacterCreationService.LastUsedRollType; }
+        public new int? Accuracy { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
+        public new int? Constitution { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
+        public new int? Fighting { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
+        public new int? Communication { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
+        public new int? Dexterity { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
+        public new int? Intelligence { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
+        public new int? Perception { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
+        public new int? Strength { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
+        public new int? Willpower { get => GetCharacterAbilityValue(); set => AssignAbilityScore(value); }
+        public AbilityRollType LastUsedRollType => CharacterCreationService.CharacterAbilityBlockBuilder.LastUsedRollType;
         public bool CanAbilityBeReset(string abilityName)
         {
-            return CharacterCreationService.SelectedAbilityRollType == CharacterCreationService.LastUsedRollType &&
+            return CharacterCreationService.CharacterAbilityBlockBuilder.SelectedAbilityRollType == CharacterCreationService.CharacterAbilityBlockBuilder.LastUsedRollType &&
                 GetCharacterAbilityValue(abilityName) is not null;
         }
-        public AssignAbilityRollViewModel(ScopedServiceFactory scopedServiceFactory, PopupService popupService)
+        public AssignAbilityRollViewModel(ScopedServiceFactory scopedServiceFactory, PopupService popupService) : base(popupService)
         {
             CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
-            _popupService = popupService;
             AssignableAbilityValues = new ObservableCollection<int?>();
+
             RollAbilityValues = new RelayCommand(o => true, o => RollAssignableList());
             ClearAbility = new RelayCommand(o => true, ClearAbilityValue);
 
-            CharacterCreationService.LastUsedRollTypeChanged += (sender, args) => OnPropertyChanged(nameof(LastUsedRollType));
-            CharacterCreationService.LastUsedRollTypeChanged += (sender, args) => AssignableAbilityValues.Clear();
+            CharacterCreationService.CharacterAbilityBlockBuilder.LastUsedRollTypeChanged += (sender, args) => OnPropertyChanged(nameof(LastUsedRollType));
+            CharacterCreationService.CharacterAbilityBlockBuilder.LastUsedRollTypeChanged += (sender, args) => AssignableAbilityValues.Clear();
         }
 
         private void AssignAbilityScore(int? newValue, [CallerMemberName] string abilityName = "")
         {
             RefreshAssignableValuesList(abilityName, newValue);
-            CharacterCreationService.AssignAbilityScore(abilityName, newValue);
+            CharacterCreationService.CharacterAbilityBlockBuilder.AssignAbilityScore(abilityName, newValue);
             OnPropertyChanged(abilityName);
 
         }
@@ -71,17 +60,12 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
         public void RollAssignableList()
         {
-            if ((CharacterCreationService.RollsShouldBeReset(AbilityRollType.RollAndAssign) &&
-                _popupService.ShowPopup(WPFStringResources.PopupRollTypeChangeResetsCurrentConfirm) == MessageBoxResult.OK) ||
-                !CharacterCreationService.RollsShouldBeReset(AbilityRollType.RollAndAssign))
+            if (!RollsShouldBeReset(AbilityRollType.RollAndAssign) ||
+                ShowRollResetPopup() == MessageBoxResult.OK)
             {
-                CharacterCreationService.RollAssignableAbilityList();
-                CharacterCreationService.ResetAbilities();
-                AssignableAbilityValues = new ObservableCollection<int?>(CharacterCreationService.AbilityValuesToAssign);
-                foreach (CharacterAbility ability in CharacterCreationService.CharacterAbilityBlock.AbilityList)
-                {
-                    OnPropertyChanged(ability.AbilityName.ToString());
-                }
+                CharacterCreationService.CharacterAbilityBlockBuilder.RollAssignableAbilityList();
+                AssignableAbilityValues = new(CharacterCreationService.CharacterAbilityBlockBuilder.AbilityValuesToAssign);
+                NotifyAbilityPropertiesChanged();
             }
         }
         private void RefreshAssignableValuesList(string abilityName, int? newValue)
@@ -94,12 +78,5 @@ namespace TheExpanseRPG.MVVM.ViewModel
             AssignableAbilityValues.Remove(newValue);
             OnPropertyChanged(nameof(AssignableAbilityValues));
         }
-
-        private int? GetAbilityBonuses([CallerMemberName] string abilityName = "")
-        {
-            abilityName = abilityName.Replace("Bonuses", "");
-            return CharacterCreationService.GetAbilityBonuses((CharacterAbilityName)Enum.Parse(typeof(CharacterAbilityName), abilityName));
-        }
-
     }
 }
