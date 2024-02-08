@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:TheExpanseRPG.UserControls"
              mc:Ignorable="d"
-             x:Name="FocusListBlock"
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <StackPanel>
-        <Label Content="{Binding Path=FocusListName, ElementName=FocusListBlock}" 
+    <StackPanel DataContext="{Binding RelativeSource={RelativeSource AncestorType=local:AbilityFocusListBlock}}">
+        <Label Content="{Binding FocusListName}" 
                Foreground="Black" 
                Typography.Capitals="AllSmallCaps" 
                HorizontalAlignment="Stretch" 
@@ -16,7 +16,7 @@
                HorizontalContentAlignment="Center"
                FontSize="20" BorderThickness="0,0,0,3"
                BorderBrush="{StaticResource EXPDarkBlueBrush}"/>
-        <ItemsControl ItemsSource="{Binding Path=FocusList, ElementName=FocusListBlock}" 
+        <ItemsControl ItemsSource="{Binding FocusList}" 
                       IsEnabled="False">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
