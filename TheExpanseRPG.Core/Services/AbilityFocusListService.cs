@@ -22,7 +22,7 @@ namespace TheExpanseRPG.Core.Services
             foreach (DataRow row in rawdata.Rows)
             {
                 CharacterAbilityName abilityName = IntToAbilityName(Convert.ToInt32(row[rawdata.Columns["AbilityId"]!]));
-                FocusList.Add(new AbilityFocus(abilityName, row[rawdata.Columns["FocusName"]!].ToString()!));
+                FocusList.Add(new AbilityFocus(abilityName, row[rawdata.Columns["FocusName"]!].ToString()!, row[rawdata.Columns["FocusDescription"]!].ToString()!));
             }
         }
 

@@ -11,6 +11,7 @@
         Title="GmMainWindow" Height="450" Width="800">
    
     <Grid>
-        <ComboBox></ComboBox>
+        <ScrollBar Template="{DynamicResource ScrollBarTemplate1}">
+        </ScrollBar>
     </Grid>
 </Window>

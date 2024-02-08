@@ -10,7 +10,7 @@ public class SqliteDatabaseConnectorService : ISqliteDatabaseConnectorService
 
     private const string TALENTQUERY = "SELECT TalentName,Description,NoviceDescription,ExpertDescription,MasterDescription FROM Talent";
     private const string TALENTREQUIREMENTQUERY = "SELECT TalentName,RequirementString FROM TalentRequirement";
-    private const string ABILITYFOCUSQUERY = "SELECT AbilityId,FocusName FROM AbilityFocus";
+    private const string ABILITYFOCUSQUERY = "SELECT AbilityId,FocusName,FocusDescription FROM AbilityFocus";
     private const string BACKGROUNDQUERY = "SELECT BackgroundName, BackgroundDescription, MainSocialClass, AbilityBonus FROM Background";
     private const string BACKGROUNDFOCUSQUERY = "SELECT BackgroundName, AbilityId, FocusName FROM BackgroundFocus";
     private const string BACKGROUNDTALENTQUERY = "SELECT BackgroundName, TalentName FROM BackgroundTalent";

@@ -13,6 +13,7 @@
         <ResourceDictionary Source="/Themes/ExpanseComboboxStyle.xaml"/>
         <ResourceDictionary Source="/Themes/ExpanseComboBoxItemControlTemplate.xaml"/>
         <ResourceDictionary Source="/Themes/ExpanseListBoxStyle.xaml"/>
+        <ResourceDictionary Source="/Themes/ExpanseScrollbarStyle.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
     

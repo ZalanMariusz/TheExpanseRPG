@@ -14,6 +14,7 @@ namespace TheExpanseRPG.Core.MVVM.View
 
             services.AddTransient<CharacterCreationWindow>();
             services.AddTransient<TalentListWindow>();
+            services.AddTransient<FocusListWindow>();
 
             return services;
         }

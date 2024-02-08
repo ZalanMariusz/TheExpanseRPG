@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Runtime.CompilerServices;
+using System;
+using System.Windows;
 using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Services;
@@ -12,17 +14,28 @@ public class DistributeAbilitiesViewModel : CharacterCreationViewModelBase
     public RelayCommand IncreaseAbilityValue { get; set; }
     public RelayCommand DecreaseAbilityValue { get; set; }
     public RelayCommand ResetAbilitiesCommand { get; set; }
-    public int? Accuracy { get { return GetCharacterAbilityValue(); } }
-    public int? Constitution { get { return GetCharacterAbilityValue(); } }
-    public int? Fighting { get { return GetCharacterAbilityValue(); } }
-    public int? Communication { get { return GetCharacterAbilityValue(); } }
-    public int? Dexterity { get { return GetCharacterAbilityValue(); } }
-    public int? Intelligence { get { return GetCharacterAbilityValue(); } }
-    public int? Perception { get { return GetCharacterAbilityValue(); } }
-    public int? Strength { get { return GetCharacterAbilityValue(); } }
-    public int? Willpower { get { return GetCharacterAbilityValue(); } }
-    public int AbilityPool { get { return CharacterCreationService!.PointsToDistribute; } }
-    public bool NeedsReset { get => CharacterCreationService.RollsShouldBeReset(AbilityRollType.DistributePoints); }
+    public int? Accuracy => GetCharacterAbilityValue();
+    public int? Constitution => GetCharacterAbilityValue();
+    public int? Fighting => GetCharacterAbilityValue();
+    public int? Communication => GetCharacterAbilityValue();
+    public int? Dexterity => GetCharacterAbilityValue();
+    public int? Intelligence => GetCharacterAbilityValue();
+    public int? Perception => GetCharacterAbilityValue();
+    public int? Strength => GetCharacterAbilityValue();
+    public int? Willpower => GetCharacterAbilityValue();
+
+    public int? AccuracyBonuses => GetAbilityBonuses();
+    public int? ConstitutionBonuses => GetAbilityBonuses();
+    public int? CommunicationBonuses => GetAbilityBonuses();
+    public int? FightingBonuses => GetAbilityBonuses();
+    
+    public int? DexterityBonuses => GetAbilityBonuses();
+    public int? IntelligenceBonuses => GetAbilityBonuses();
+    public int? PerceptionBonuses => GetAbilityBonuses();
+    public int? StrengthBonuses => GetAbilityBonuses();
+    public int? WillpowerBonuses => GetAbilityBonuses();
+    public int AbilityPool => CharacterCreationService!.PointsToDistribute;
+    public bool NeedsReset => CharacterCreationService.RollsShouldBeReset(AbilityRollType.DistributePoints);
 
     private PopupService _popupService;
     public DistributeAbilitiesViewModel(ScopedServiceFactory scopedServiceFactory, PopupService popupService)
@@ -77,5 +90,11 @@ public class DistributeAbilitiesViewModel : CharacterCreationViewModelBase
     {
         return CharacterCreationService!.CanDecrease(abilityName.ToString()!)
             & CharacterCreationService.LastUsedRollType == AbilityRollType.DistributePoints;
+    }
+
+    private int? GetAbilityBonuses([CallerMemberName] string abilityName = "")
+    {
+        abilityName = abilityName.Replace("Bonuses", "");
+        return CharacterCreationService.GetAbilityBonuses((CharacterAbilityName)Enum.Parse(typeof(CharacterAbilityName), abilityName));
     }
 }

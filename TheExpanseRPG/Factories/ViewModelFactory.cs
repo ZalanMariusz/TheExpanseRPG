@@ -23,6 +23,7 @@ public class ViewModelFactory : IViewModelFactory
             { typeof(GmMainWindow), typeof(GmMainViewModel) },
             { typeof(CharacterCreationWindow), typeof(CharacterCreationViewModel) },
             { typeof(TalentListWindow), typeof(TalentListViewModel) },
+            { typeof(FocusListWindow), typeof(FocusListViewModel) },
             { typeof(TalentInfoWindow), typeof(TalentInfoViewModel) }
 
         };

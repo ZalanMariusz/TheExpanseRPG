@@ -191,7 +191,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="1" Grid.Row="0" Margin="5" HasShadow="0" RenderOptions.EdgeMode="Aliased">
-                    <Button Content="Focuses"/>
+                    <Button Content="Focuses" Command="{Binding ShowFocusListCommand}"/>
                 </custom:CutCorner>
                 <custom:CutCorner BorderCuts="1,1,1,1" BorderThickness="1" Grid.Row="1" Margin="5" HasShadow="0" RenderOptions.EdgeMode="Aliased">
                     <Button Content="Talents" Command="{Binding ShowTalentListCommand}"/>
