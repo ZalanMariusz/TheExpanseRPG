@@ -1,6 +1,7 @@
 ﻿using TheExpanseRPG.Core.Builders.Interfaces;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
+using TheExpanseRPG.Core.Model.Interfaces;
 using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.Core.Builders
@@ -15,7 +16,7 @@ namespace TheExpanseRPG.Core.Builders
         private const int ABILITYPOOL = 12;
 
         public CharacterAbilityBlock CharacterAbilityBlock { get; set; }
-        public List<CharacterAbility> AbilityBonuses { get; set; }
+        public List<ICharacterCreationBonus> AbilityBonuses { get; set; }
         private AbilityRollType _selectedAbilityRollType;
         public AbilityRollType SelectedAbilityRollType
         {
@@ -173,7 +174,8 @@ namespace TheExpanseRPG.Core.Builders
         }
         public int? GetAbilityBonuses(CharacterAbilityName abilityName)
         {
-            return AbilityBonuses.Any(x => x.AbilityName == abilityName) ? AbilityBonuses.Count() : null;
+            var abilityBonuses = AbilityBonuses.Where(x => (x is CharacterAbility ability) && ability.AbilityName == abilityName);
+            return abilityBonuses.Any() ? abilityBonuses.Count() : null;
         }
         public int? GetAccuracyTotal()
         {

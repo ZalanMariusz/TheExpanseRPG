@@ -16,16 +16,16 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
 {
 
 
-    private readonly ScopedServiceFactory _scopedServiceFactory;
+    private ScopedServiceFactory ScopedServiceFactory { get; }
 
-    public CharacterOrigin? SelectedOrigin => CharacterCreationService.SelectedCharacterOrigin;
+    public CharacterOrigin? SelectedOrigin => CharacterCreationService.OriginBuilder.SelectedCharacterOrigin;
     public bool HasOriginSelectionConflict => CharacterCreationService.HasOriginConflict();
     public bool HasSocialOrBackgroundSelectionConflict => CharacterCreationService.HasBackgroundConflict();
     public bool HasProfessionSelectionConflict => CharacterCreationService.HasProfessionConflict();
-    public CharacterSocialClass? SelectedSocialClass => CharacterCreationService.SelectedCharacterSocialClass;
-    public CharacterBackGround? SelectedBackground => CharacterCreationService.SelectedCharacterBackground;
-    public CharacterProfession? SelectedProfession => CharacterCreationService.SelectedCharacterProfession;
-    public CharacterDrive? SelectedDrive => CharacterCreationService.SelectedCharacterDrive;
+    public CharacterSocialClass? SelectedSocialClass => CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass;
+    public CharacterBackGround? SelectedBackground => CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterBackground;
+    public CharacterProfession? SelectedProfession => CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession;
+    public CharacterDrive? SelectedDrive => CharacterCreationService.DriveBuilder.SelectedCharacterDrive;
     public string OriginConflicts => string.Join(", ", CharacterCreationService.GetOriginFocusConflicts());
     public string ProfessionConflicts => string.Join(", ", CharacterCreationService.GetProfessionFocusConflicts());
     public string SocialOrBackgroundConflicts => AggregateBackgroundConflicts();
@@ -42,9 +42,9 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
 
     public CharacterCreationViewModel(INavigationService navigationService, ScopedServiceFactory scopedServiceFactory)
     {
-        _scopedServiceFactory = scopedServiceFactory;
         NavigationService = navigationService;
-        CharacterCreationService = (CharacterCreationService)_scopedServiceFactory.GetScopedService<CharacterCreationService>();
+        ScopedServiceFactory = scopedServiceFactory;
+        CharacterCreationService = ScopedServiceFactory.GetScopedService<ICharacterCreationService>();
 
         NavigateToOriginSelectCommand = new(o => true, o => NavigateToNotifierCharacterCreationStep<OriginSelectViewModel>());
         NavigateToAttributeRollCommand = new(o => true, o => NavigateToInnerView<AbilityRollViewModel>());
@@ -59,20 +59,18 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
         
         OpenModals = new();
 
-        CharacterCreationService.OriginChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedOrigin)); };
-        CharacterCreationService.OriginChanged += RefreshConflictProperties;
+        CharacterCreationService.OriginBuilder.OriginChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedOrigin)); };
+        CharacterCreationService.OriginBuilder.OriginChanged += RefreshConflictProperties;
 
-        CharacterCreationService.SocialClassChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedSocialClass)); };
+        CharacterCreationService.SocialAndBackgroundBuilder.SocialClassChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedSocialClass)); };
+        CharacterCreationService.SocialAndBackgroundBuilder.BackgroundChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedBackground)); };
+        CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundBenefitChanged += RefreshConflictProperties;
+        CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundFocusChanged += RefreshConflictProperties;
 
-        CharacterCreationService.BackgroundChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedBackground)); };
-        CharacterCreationService.SelectedBackgroundBenefitChanged += RefreshConflictProperties;
+        CharacterCreationService.ProfessionBuilder.SelectedProfessionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedProfession)); };
+        CharacterCreationService.ProfessionBuilder.ProfessionFocusChanged += RefreshConflictProperties;
 
-        CharacterCreationService.SelectedBackgroundFocusChanged += RefreshConflictProperties;
-
-        CharacterCreationService.ProfessionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedProfession)); };
-        CharacterCreationService.ProfessionFocusChanged += RefreshConflictProperties;
-
-        CharacterCreationService.DriveSelectionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedDrive)); };
+        CharacterCreationService.DriveBuilder.DriveSelectionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedDrive)); };
         NavigateToOriginSelectCommand.Execute(null);
     }
 
@@ -86,7 +84,7 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
         return string.Join(", ", CharacterCreationService.GetBackgroundFocusConflicts().Union(CharacterCreationService.GetBackgroundBenefitConflicts()));
     }
 
-    private void RefreshConflictProperties(object? sender, EventArgs e)
+    private void RefreshConflictProperties(object? sender, string? e)
     {
         OnPropertyChanged(nameof(HasOriginSelectionConflict));
         OnPropertyChanged(nameof(HasSocialOrBackgroundSelectionConflict));
@@ -119,7 +117,7 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
     }
     private void ExecNavigationToPlayerMain(object sender)
     {
-        _scopedServiceFactory.DisposeScope<CharacterCreationService>();
+        ScopedServiceFactory.DisposeScope<ICharacterCreationService>();
         NavigationService.NavigateToNewWindow<PlayerMainWindow>((Window)sender, true);
     }
     private void ShowTalenList()

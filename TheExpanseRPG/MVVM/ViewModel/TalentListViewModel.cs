@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using TheExpanseRPG.Core.Model;
-using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.MVVM.ViewModel

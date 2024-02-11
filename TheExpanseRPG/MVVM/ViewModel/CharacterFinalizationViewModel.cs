@@ -23,23 +23,23 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
         get { return CharacterCreationService.CharacterDescription; }
         set { CharacterCreationService.CharacterDescription = value; OnPropertyChanged(); }
     }
-    public event EventHandler CharacterCreated;
-    public CharacterOrigin? SelectedOrigin { get { return CharacterCreationService.SelectedCharacterOrigin; } }
-    public CharacterSocialClass? SelectedSocialClass { get { return CharacterCreationService.SelectedCharacterSocialClass; } }
-    public CharacterBackGround? SelectedBackground { get { return CharacterCreationService.SelectedCharacterBackground; } }
-    public CharacterProfession? SelectedProfession { get { return CharacterCreationService.SelectedCharacterProfession; } }
-    public CharacterDrive? SelectedDrive { get { return CharacterCreationService.SelectedCharacterDrive; } }
+    public event EventHandler? CharacterCreated;
+    public CharacterOrigin? SelectedOrigin { get { return CharacterCreationService.OriginBuilder.SelectedCharacterOrigin; } }
+    public CharacterSocialClass? SelectedSocialClass { get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass; } }
+    public CharacterBackGround? SelectedBackground { get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterBackground; } }
+    public CharacterProfession? SelectedProfession { get { return CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession; } }
+    public CharacterDrive? SelectedDrive { get { return CharacterCreationService.DriveBuilder.SelectedCharacterDrive; } }
     public ObservableCollection<CharacterTalent> SelectedTalents { get => GetTalentBonuses(); }
 
-    public int? TotalAccuracyScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetAccuracyTotal(); }
-    public int? TotalCommunicationScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetCommunicationTotal(); }
-    public int? TotalConstitutionScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetConstitutionTotal(); }
-    public int? TotalDexterityScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetDexterityTotal(); }
-    public int? TotalFightingScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetFightingTotal(); }
-    public int? TotalIntelligenceScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetIntelligenceTotal(); }
-    public int? TotalPerceptionScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetPerceptionTotal(); }
-    public int? TotalStrengthScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetStrengthTotal(); }
-    public int? TotalWillpowerScore { get => CharacterCreationService.CharacterAbilityBlockBuilder.GetWillpowerTotal(); }
+    public int? TotalAccuracyScore { get => CharacterCreationService.AbilityBlockBuilder.GetAccuracyTotal(); }
+    public int? TotalCommunicationScore { get => CharacterCreationService.AbilityBlockBuilder.GetCommunicationTotal(); }
+    public int? TotalConstitutionScore { get => CharacterCreationService.AbilityBlockBuilder.GetConstitutionTotal(); }
+    public int? TotalDexterityScore { get => CharacterCreationService.AbilityBlockBuilder.GetDexterityTotal(); }
+    public int? TotalFightingScore { get => CharacterCreationService.AbilityBlockBuilder.GetFightingTotal(); }
+    public int? TotalIntelligenceScore { get => CharacterCreationService.AbilityBlockBuilder.GetIntelligenceTotal(); }
+    public int? TotalPerceptionScore { get => CharacterCreationService.AbilityBlockBuilder.GetPerceptionTotal(); }
+    public int? TotalStrengthScore { get => CharacterCreationService.AbilityBlockBuilder.GetStrengthTotal(); }
+    public int? TotalWillpowerScore { get => CharacterCreationService.AbilityBlockBuilder.GetWillpowerTotal(); }
 
     public string AccuracyFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Accuracy); }
     public string CommunicationFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Communication); }
@@ -66,10 +66,10 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public bool HasProfessionConflict { get => CharacterCreationService.HasProfessionConflict() && !IsMissingProfessionBonus; }
     public bool IsProfessionNotSelected { get => SelectedProfession is null; }
     public bool IsDriveNotSelected { get => SelectedDrive is null; }
-    public bool IsMissingBackgroundBonus { get => CharacterCreationService.IsMissingBackgroundBonus(); }
-    public bool IsMissingProfessionBonus { get => CharacterCreationService.IsMissingProfessionBonus(); }
-    public bool IsMissingDriveBonus { get => CharacterCreationService.IsMissingDriveBonus(); }
-    public bool IsMissingAbilityRoll { get => CharacterCreationService.CharacterAbilityBlockBuilder.IsMissingAbilityRoll(); }
+    public bool IsMissingBackgroundBonus { get => CharacterCreationService.SocialAndBackgroundBuilder.IsMissingBackgroundBonus(); }
+    public bool IsMissingProfessionBonus { get => CharacterCreationService.ProfessionBuilder.IsMissingProfessionBonus(); }
+    public bool IsMissingDriveBonus { get => CharacterCreationService.DriveBuilder.IsMissingDriveBonus(); }
+    public bool IsMissingAbilityRoll { get => CharacterCreationService.AbilityBlockBuilder.IsMissingAbilityRoll(); }
     public bool CanCreateCharacter { get => CharacterCreationService.CanCreateCharacter(); }
     public string Avatar
     {
@@ -80,11 +80,11 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public RelayCommand CreateCharacterCommand { get; set; }
     public RelayCommand RandomizeCharacterCommand { get; set; }
     private PopupService PopupService { get; set; }
-    public CharacterFinalizationViewModel(ScopedServiceFactory _scopedService, PopupService popupService, INavigationService navigationService)
+    public CharacterFinalizationViewModel(ScopedServiceFactory scopedService, PopupService popupService, INavigationService navigationService)
     {
         PopupService = popupService;
         NavigationService = navigationService;
-        CharacterCreationService = (CharacterCreationService)_scopedService.GetScopedService<CharacterCreationService>();
+        CharacterCreationService = scopedService.GetScopedService<ICharacterCreationService>();
         SelectAvatarCommand = new RelayCommand(o => true, o => ShowAvatarSelectionAndAssign());
         CreateCharacterCommand = new(o => CanCreateCharacter, CreateCharacter);
         RandomizeCharacterCommand = new(o => true, o => RandomizeCharacter());
@@ -112,7 +112,7 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
 
     private string GetAbilityFocusNames(CharacterAbilityName abilityName)
     {
-        return string.Join(',', CharacterCreationService.GetAbilityFocuses(abilityName).Select(x => x.FocusName));
+        return string.Join(',', CharacterCreationService.FocusBonuses.Where(x => x.AbilityName == abilityName).Select(x => x.FocusName));
     }
     private ObservableCollection<CharacterTalent> GetTalentBonuses()
     {

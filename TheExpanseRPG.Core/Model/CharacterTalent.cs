@@ -87,7 +87,7 @@ public class CharacterTalent : ICharacterCreationBonus
         return result;
     }
 
-    public bool AreRequirementsMet(CharacterAbilityBlock abilityBlock)
+    public bool AreRequirementsMet(List<AbilityFocus> focustList, CharacterAbilityBlock abilityBlock)
     {
         if (RequirementString == "none")
         {
@@ -95,10 +95,10 @@ public class CharacterTalent : ICharacterCreationBonus
         }
 
         return Requirements.All(requirement =>
-            requirement.Any(requirementItem => IsSingleRequirementItemFulfilled(requirementItem, abilityBlock)));
+            requirement.Any(requirementItem => IsSingleRequirementItemFulfilled(requirementItem, focustList, abilityBlock)));
     }
 
-    private static bool IsSingleRequirementItemFulfilled(ICharacterCreationBonus requirement, CharacterAbilityBlock abilityBlock)
+    private static bool IsSingleRequirementItemFulfilled(ICharacterCreationBonus requirement, List<AbilityFocus> focusList, CharacterAbilityBlock abilityBlock)
     {
         if (requirement is CharacterAbility requiredAbility)
         {
@@ -106,7 +106,7 @@ public class CharacterTalent : ICharacterCreationBonus
             return requiredAbility.BaseValue <= actualAbility.BaseValue;
         }
 
-        return abilityBlock.HasFocus((AbilityFocus)requirement);
+        return focusList.Contains((AbilityFocus)requirement);
     }
 
     public ICharacterCreationBonus ShallowCopy()

@@ -22,10 +22,10 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
         public CharacterDrive? SelectedCharacterDrive
         {
-            get { return CharacterCreationService!.SelectedCharacterDrive; }
+            get { return CharacterCreationService!.DriveBuilder.SelectedCharacterDrive; }
             set
             {
-                CharacterCreationService.SelectedCharacterDrive = value;
+                CharacterCreationService.DriveBuilder.SelectedCharacterDrive = value;
                 OnPropertyChanged();
                 //RefreshDriveTalents();
             }
@@ -33,30 +33,30 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
         public ICharacterCreationBonus? SelectedDriveBonus
         {
-            get { return CharacterCreationService!.SelectedDriveBonus; }
+            get { return CharacterCreationService!.DriveBuilder.SelectedDriveBonus; }
             set
             {
-                CharacterCreationService!.SelectedDriveBonus = value;
+                CharacterCreationService!.DriveBuilder.SelectedDriveBonus = value;
                 OnPropertyChanged();
             }
         }
 
         public CharacterTalent? SelectedTalent
         {
-            get { return CharacterCreationService!.SelectedDriveTalent; }
+            get { return CharacterCreationService!.DriveBuilder.SelectedDriveTalent; }
             set
             {
-                CharacterCreationService!.SelectedDriveTalent = value;
+                CharacterCreationService!.DriveBuilder.SelectedDriveTalent = value;
                 OnPropertyChanged();
             }
         }
 
-        public DrivesViewModel(ScopedServiceFactory scopedServiceFactory)
+        public DrivesViewModel(ScopedServiceFactory scopedServiceFactory, ICharacterDriveListService characterDriveListService)
         {
             
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
-            DriveListService = CharacterCreationService.CharacterDriveListService;
-            
+            CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();
+            DriveListService = characterDriveListService;
+
             int listPartitionAtIndex = DriveListService.DriveList.Count / 2;
             
             //DriveList = new(DriveListService.DriveList);
@@ -65,7 +65,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
             RefreshDriveTalents();
             DriveBonuses = new(DriveListService.DriveBonuses);
-            CharacterCreationService.DriveSelectionChanged += (sender, EventArgs) => RefreshDriveTalents();
+            CharacterCreationService.DriveBuilder.DriveSelectionChanged += (sender, EventArgs) => RefreshDriveTalents();
         }
 
         private void RefreshDriveTalents()

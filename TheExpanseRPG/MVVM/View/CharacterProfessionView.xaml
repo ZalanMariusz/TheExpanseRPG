@@ -50,7 +50,7 @@
             </Grid.RowDefinitions>
             <user:ProfessionSelectorList
                 VerticalAlignment="Top"
-                IsEnabled="{Binding CharacterCreationService.SelectedCharacterSocialClass,
+                IsEnabled="{Binding CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
                     ConverterParameter=Outsider}"
                 ProfessionName="Outsider"
@@ -61,7 +61,7 @@
 
             <user:ProfessionSelectorList Grid.Row="1"
                 VerticalAlignment="Top"
-                 IsEnabled="{Binding CharacterCreationService.SelectedCharacterSocialClass,
+                 IsEnabled="{Binding CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
                     ConverterParameter=Lower}"
                  ProfessionName="Lower"
@@ -72,7 +72,7 @@
 
             <user:ProfessionSelectorList Grid.Row="2"
                 VerticalAlignment="Top"                                                                  
-                IsEnabled="{Binding CharacterCreationService.SelectedCharacterSocialClass,
+                IsEnabled="{Binding CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
                     ConverterParameter=Middle}"
                 ProfessionName="Middle"
@@ -83,7 +83,7 @@
 
             <user:ProfessionSelectorList Grid.Row="3" 
                 VerticalAlignment="Top"
-                IsEnabled="{Binding CharacterCreationService.SelectedCharacterSocialClass,
+                IsEnabled="{Binding CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass,
                     Converter={StaticResource SocialClassToProfessionSelectorIsEnabledConverter},
                     ConverterParameter=Upper}"
                 ProfessionName= "Upper"

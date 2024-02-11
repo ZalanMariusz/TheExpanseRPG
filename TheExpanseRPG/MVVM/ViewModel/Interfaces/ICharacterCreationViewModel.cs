@@ -5,6 +5,6 @@ namespace TheExpanseRPG.MVVM.ViewModel.Interfaces
 {
     public interface ICharacterCreationViewModel : IViewModelBase
     {
-        CharacterCreationService CharacterCreationService { get; set; }
+        ICharacterCreationService CharacterCreationService { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
         public AllRandomAbilityRollViewModel(ScopedServiceFactory scopedServiceFactory, PopupService popupService) : base(popupService)
         {
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
+            CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();
             RollAllRandomAbilityCommand = new RelayCommand(o => true, o => RollAllRandom());
         }
         public void RollAllRandom()
@@ -23,7 +23,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
             if (!RollsShouldBeReset(AbilityRollType.AllRandom) ||
                 ShowRollResetPopup() == MessageBoxResult.OK)
             {
-                CharacterCreationService.CharacterAbilityBlockBuilder.RollAllRandom();
+                CharacterCreationService.AbilityBlockBuilder.RollAllRandom();
                 NotifyAbilityPropertiesChanged();
             }
         }

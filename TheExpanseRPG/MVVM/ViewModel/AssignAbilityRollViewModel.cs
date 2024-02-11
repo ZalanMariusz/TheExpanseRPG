@@ -27,28 +27,28 @@ namespace TheExpanseRPG.MVVM.ViewModel
         public new int? Perception { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
         public new int? Strength { get { return GetCharacterAbilityValue(); } set { AssignAbilityScore(value); } }
         public new int? Willpower { get => GetCharacterAbilityValue(); set => AssignAbilityScore(value); }
-        public AbilityRollType LastUsedRollType => CharacterCreationService.CharacterAbilityBlockBuilder.LastUsedRollType;
+        public AbilityRollType LastUsedRollType => CharacterCreationService.AbilityBlockBuilder.LastUsedRollType;
         public bool CanAbilityBeReset(string abilityName)
         {
-            return CharacterCreationService.CharacterAbilityBlockBuilder.SelectedAbilityRollType == CharacterCreationService.CharacterAbilityBlockBuilder.LastUsedRollType &&
+            return CharacterCreationService.AbilityBlockBuilder.SelectedAbilityRollType == CharacterCreationService.AbilityBlockBuilder.LastUsedRollType &&
                 GetCharacterAbilityValue(abilityName) is not null;
         }
         public AssignAbilityRollViewModel(ScopedServiceFactory scopedServiceFactory, PopupService popupService) : base(popupService)
         {
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
+            CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();
             AssignableAbilityValues = new ObservableCollection<int?>();
 
             RollAbilityValues = new RelayCommand(o => true, o => RollAssignableList());
             ClearAbility = new RelayCommand(o => true, ClearAbilityValue);
 
-            CharacterCreationService.CharacterAbilityBlockBuilder.LastUsedRollTypeChanged += (sender, args) => OnPropertyChanged(nameof(LastUsedRollType));
-            CharacterCreationService.CharacterAbilityBlockBuilder.LastUsedRollTypeChanged += (sender, args) => AssignableAbilityValues.Clear();
+            CharacterCreationService.AbilityBlockBuilder.LastUsedRollTypeChanged += (sender, args) => OnPropertyChanged(nameof(LastUsedRollType));
+            CharacterCreationService.AbilityBlockBuilder.LastUsedRollTypeChanged += (sender, args) => AssignableAbilityValues.Clear();
         }
 
         private void AssignAbilityScore(int? newValue, [CallerMemberName] string abilityName = "")
         {
             RefreshAssignableValuesList(abilityName, newValue);
-            CharacterCreationService.CharacterAbilityBlockBuilder.AssignAbilityScore(abilityName, newValue);
+            CharacterCreationService.AbilityBlockBuilder.AssignAbilityScore(abilityName, newValue);
             OnPropertyChanged(abilityName);
 
         }
@@ -63,8 +63,8 @@ namespace TheExpanseRPG.MVVM.ViewModel
             if (!RollsShouldBeReset(AbilityRollType.RollAndAssign) ||
                 ShowRollResetPopup() == MessageBoxResult.OK)
             {
-                CharacterCreationService.CharacterAbilityBlockBuilder.RollAssignableAbilityList();
-                AssignableAbilityValues = new(CharacterCreationService.CharacterAbilityBlockBuilder.AbilityValuesToAssign);
+                CharacterCreationService.AbilityBlockBuilder.RollAssignableAbilityList();
+                AssignableAbilityValues = new(CharacterCreationService.AbilityBlockBuilder.AbilityValuesToAssign);
                 NotifyAbilityPropertiesChanged();
             }
         }

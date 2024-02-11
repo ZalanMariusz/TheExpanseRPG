@@ -2,6 +2,7 @@
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Factories;
+using TheExpanseRPG.MVVM.ViewModel.Interfaces;
 using TheExpanseRPG.Services.Interfaces;
 
 namespace TheExpanseRPG.MVVM.ViewModel;
@@ -9,10 +10,10 @@ public class AbilityRollViewModel : CharacterCreationViewModelBase
 {
     public AbilityRollType SelectedAbilityRollType
     {
-        get { return CharacterCreationService.CharacterAbilityBlockBuilder.SelectedAbilityRollType; }
+        get { return CharacterCreationService.AbilityBlockBuilder.SelectedAbilityRollType; }
         set
         {
-            CharacterCreationService.CharacterAbilityBlockBuilder.SelectedAbilityRollType = value;
+            CharacterCreationService.AbilityBlockBuilder.SelectedAbilityRollType = value;
             NavigateToRollTypeView();
             OnPropertyChanged();
         }
@@ -27,7 +28,6 @@ public class AbilityRollViewModel : CharacterCreationViewModelBase
                 break;
             case AbilityRollType.RollAndAssign:
                 NavigateToInnerView<AssignAbilityRollViewModel>();
-                //ClearAssigneableList();
                 break;
             case AbilityRollType.DistributePoints:
                 NavigateToInnerView<DistributeAbilitiesViewModel>();
@@ -37,9 +37,9 @@ public class AbilityRollViewModel : CharacterCreationViewModelBase
 
     public AbilityRollViewModel(INavigationService navigationService, ScopedServiceFactory scopedServiceFactory)
     {
-        CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
+        CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();
         NavigationService = navigationService;
-        CharacterCreationService.CharacterAbilityBlockBuilder.AbilityRollTypeChanged += (sender, args) => NavigateToRollTypeView();
+        CharacterCreationService.AbilityBlockBuilder.AbilityRollTypeChanged += (sender, args) => NavigateToRollTypeView();
         NavigateToRollTypeView();
     }
 

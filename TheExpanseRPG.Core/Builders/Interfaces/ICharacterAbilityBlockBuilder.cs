@@ -1,5 +1,6 @@
 ﻿using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
+using TheExpanseRPG.Core.Model.Interfaces;
 
 namespace TheExpanseRPG.Core.Builders.Interfaces
 {
@@ -7,7 +8,7 @@ namespace TheExpanseRPG.Core.Builders.Interfaces
     {
         event EventHandler? AbilityRollTypeChanged;
         event EventHandler? LastUsedRollTypeChanged;
-        List<CharacterAbility> AbilityBonuses { get; set; }
+        List<ICharacterCreationBonus> AbilityBonuses { get; set; }
         List<int?> AbilityValuesToAssign { get; set; }
         CharacterAbilityBlock CharacterAbilityBlock { get; set; }
         AbilityRollType LastUsedRollType { get; }

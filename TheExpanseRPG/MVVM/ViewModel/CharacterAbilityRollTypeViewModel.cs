@@ -43,17 +43,17 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
         protected int? GetCharacterAbilityValue([CallerMemberName] string abilityName = "")
         {
-            return CharacterCreationService.CharacterAbilityBlockBuilder.CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
+            return CharacterCreationService.AbilityBlockBuilder.CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
         }
         private int? GetAbilityBonuses([CallerMemberName] string abilityName = "")
         {
             abilityName = abilityName.Replace("Bonuses", "");
-            return CharacterCreationService.CharacterAbilityBlockBuilder.GetAbilityBonuses((CharacterAbilityName)Enum.Parse(typeof(CharacterAbilityName), abilityName));
+            return CharacterCreationService.AbilityBlockBuilder.GetAbilityBonuses((CharacterAbilityName)Enum.Parse(typeof(CharacterAbilityName), abilityName));
         }
 
         protected bool RollsShouldBeReset(AbilityRollType rollType)
         {
-            return CharacterCreationService.CharacterAbilityBlockBuilder.RollsShouldBeReset(rollType);
+            return CharacterCreationService.AbilityBlockBuilder.RollsShouldBeReset(rollType);
         }
 
         protected void NotifyAbilityPropertiesChanged()
