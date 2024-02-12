@@ -12,6 +12,7 @@ public static class RegisterBuilders
         services.AddTransient<ICharacterProfessionBuilder, CharacterProfessionBuilder>();
         services.AddTransient<ICharacterDriveBuilder, CharacterDriveBuilder>();
         services.AddTransient<ICharacterAbilityBlockBuilder, CharacterAbilityBlockBuilder>();
+        //services.AddTransient<IExpanseCharacterBuilder, ExpanseCharacterBuilder>();
         return services;
     }
 }

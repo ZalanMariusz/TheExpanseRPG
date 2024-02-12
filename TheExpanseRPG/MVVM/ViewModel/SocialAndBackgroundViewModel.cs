@@ -67,11 +67,11 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     }
     public bool HasBackgroundFocusConflict
     {
-        get { return CharacterCreationService.GetBackgroundFocusConflicts().Count > 0; }
+        get { return CharacterCreationFocusConflictChecker.GetBackgroundFocusConflicts().Count > 0; }
     }
     public bool HasBackgroundBenefitConflict
     {
-        get { return CharacterCreationService.GetBackgroundBenefitConflicts().Count > 0; }
+        get { return CharacterCreationFocusConflictChecker.GetBackgroundBenefitConflicts().Count > 0; }
     }
 
     public CharacterTalent? SelectedBackgroundTalent

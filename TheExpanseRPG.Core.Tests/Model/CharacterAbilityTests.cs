@@ -6,12 +6,12 @@ namespace TheExpanseRPG.Core.Tests.Model
 {
     public class CharacterAbilityTests
     {
-        readonly string _focusName;
+        //readonly string _focusName;
         readonly int _abilityScore;
         readonly CharacterAbilityName _abilityName;
         public CharacterAbilityTests()
         {
-            _focusName = "testfocus";
+            //_focusName = "testfocus";
             _abilityScore = 11;
             _abilityName = CharacterAbilityName.Strength;
         }

@@ -9,14 +9,14 @@ namespace TheExpanseRPG.Core.Services;
 
 public class CharacterCreationService : ICharacterCreationService
 {
-    public ICharacterAbilityBlockBuilder AbilityBlockBuilder { get; set; }
-    public ICharacterSocialAndBackgroundBuilder SocialAndBackgroundBuilder { get; set; }
-    public ICharacterProfessionBuilder ProfessionBuilder { get; set; }
-    public ICharacterDriveBuilder DriveBuilder { get; set; }
-    public ICharacterOriginBuilder OriginBuilder { get; set; }
-    private IExpanseCharacterBuilder CharacterBuilder { get; set; }
+    public ICharacterAbilityBlockBuilder AbilityBlockBuilder { get; }
+    public ICharacterSocialAndBackgroundBuilder SocialAndBackgroundBuilder { get; }
+    public ICharacterProfessionBuilder ProfessionBuilder { get; }
+    public ICharacterDriveBuilder DriveBuilder { get; }
+    public ICharacterOriginBuilder OriginBuilder { get; }
     public List<CharacterTalent> TalentBonuses { get; set; } = new();
     public List<AbilityFocus> FocusBonuses { get; set; } = new();
+    private List<Income> IncomeBonuses { get; set; } = new();
     public Dictionary<string, ICharacterCreationBonus> AllBonuses { get; set; } = new();
 
     public string CharacterName { get; set; } = string.Empty;
@@ -32,7 +32,7 @@ public class CharacterCreationService : ICharacterCreationService
         {
             ProfessionBuilder.SelectedCharacterProfession?.IncomeBase,
             SocialAndBackgroundBuilder.SelectedCharacterSocialClass - ProfessionBuilder.SelectedCharacterProfession?.ProfessionSocialClass,
-            AllBonuses.Values.Where(x => x is Income).Cast<Income>().Sum(x => x.Value),
+            IncomeBonuses.Sum(x => x.Value),
             (int?)TalentBonuses.FirstOrDefault(x => x is Affluent)?.Degree + 2
         };
 
@@ -44,8 +44,7 @@ public class CharacterCreationService : ICharacterCreationService
         ICharacterSocialAndBackgroundBuilder characterSocialAndBackgroundBuilder,
         ICharacterProfessionBuilder characterProfessionBuilder,
         ICharacterDriveBuilder characterDriveBuilder,
-        ICharacterOriginBuilder characterOriginBuilder,
-        IExpanseCharacterBuilder characterBuilder
+        ICharacterOriginBuilder characterOriginBuilder
         )
     {
         OriginBuilder = characterOriginBuilder;
@@ -53,23 +52,13 @@ public class CharacterCreationService : ICharacterCreationService
         ProfessionBuilder = characterProfessionBuilder;
         DriveBuilder = characterDriveBuilder;
         AbilityBlockBuilder = characterAbilityBlockBuilder;
-        CharacterBuilder = characterBuilder;
 
         SocialAndBackgroundBuilder.SocialClassChanged += (sender, selectedSocialClass) => ProfessionBuilder.ClearSelectedProfession(selectedSocialClass);
-
-
         OriginBuilder.OriginChanged += SyncBonusDictionary;
-
-        SocialAndBackgroundBuilder.BackgroundChanged += SyncBonusDictionary;
-        SocialAndBackgroundBuilder.SelectedBackgroundFocusChanged += SyncBonusDictionary;
-        SocialAndBackgroundBuilder.SelectedBackgroundTalentChanged += SyncBonusDictionary;
-        SocialAndBackgroundBuilder.SelectedBackgroundBenefitChanged += SyncBonusDictionary;
-
-        ProfessionBuilder.ProfessionFocusChanged += SyncBonusDictionary;
-        ProfessionBuilder.ProfessionTalentChanged += SyncBonusDictionary;
-
-        DriveBuilder.SelectedDriveBonusChanged += SyncBonusDictionary;
-        DriveBuilder.SelectedDriveTalentChanged += SyncBonusDictionary;
+        SocialAndBackgroundBuilder.BonusSelectionChanged += SyncBonusDictionary;
+        ProfessionBuilder.BonusSelectionChanged += SyncBonusDictionary;
+        DriveBuilder.BonusSelectionChanged += SyncBonusDictionary;
+        CharacterCreationFocusConflictChecker.AllBonuses = AllBonuses;
 
     }
     #region Bonus sync procs
@@ -92,7 +81,21 @@ public class CharacterCreationService : ICharacterCreationService
         RefreshTalentBonuses();
         RefreshAbilityBonuses();
         RefreshFocusBonuses();
+        RefreshIncomeBonuses();
     }
+
+    private void RefreshIncomeBonuses()
+    {
+        IncomeBonuses.Clear();
+        foreach (var bonus in AllBonuses.Values)
+        {
+            if (bonus is Income incomeBonus)
+            {
+                IncomeBonuses.Add(incomeBonus);
+            }
+        }
+    }
+
     private void RefreshTalentBonuses()
     {
         TalentBonuses.Clear();
@@ -120,49 +123,7 @@ public class CharacterCreationService : ICharacterCreationService
         AbilityBlockBuilder.AbilityBonuses = AllBonuses.Values.Where(x => x is CharacterAbility).ToList();
     }
     #endregion
-    #region Conflict checkers
-    private List<string> GetConflictsWith(string bonusKey)
-    {
-        if (AllBonuses.TryGetValue(bonusKey, out ICharacterCreationBonus? bonus))
-        {
-            return AllBonuses.Where(x =>
-                x.Value?.CreationBonusName == bonus?.CreationBonusName
-                    && x.Key != bonusKey
-                    && x.Value is AbilityFocus).Select(x => x.Key).ToList();
-        }
-        return new();
-    }
-    public List<string> GetBackgroundFocusConflicts()
-    {
-        return GetConflictsWith(nameof(SocialAndBackgroundBuilder.SelectedBackgroundFocus));
-    }
-    public List<string> GetBackgroundBenefitConflicts()
-    {
-        return GetConflictsWith(nameof(SocialAndBackgroundBuilder.SelectedBackgroundBenefit));
-    }
-    public List<string> GetOriginFocusConflicts()
-    {
-        return GetConflictsWith(nameof(OriginBuilder.SelectedCharacterOrigin));
-    }
-
-    public List<string> GetProfessionFocusConflicts()
-    {
-        return GetConflictsWith(nameof(ProfessionBuilder.SelectedProfessionFocus));
-    }
-
-    public bool HasBackgroundConflict()
-    {
-        return GetBackgroundBenefitConflicts().Any() || GetBackgroundFocusConflicts().Any();
-    }
-    public bool HasOriginConflict()
-    {
-        return GetOriginFocusConflicts().Any();
-    }
-    public bool HasProfessionConflict()
-    {
-        return GetProfessionFocusConflicts().Any();
-    }
-    #endregion
+    #region Creation procs
     public bool CanCreateCharacter()
     {
         List<bool> validationProperties = new()
@@ -172,66 +133,42 @@ public class CharacterCreationService : ICharacterCreationService
             DriveBuilder.IsMissingDriveBonus(),
             AbilityBlockBuilder.IsMissingAbilityRoll(),
 
-            HasBackgroundConflict(),
-            HasOriginConflict(),
-            HasProfessionConflict(),
+            CharacterCreationFocusConflictChecker.HasConfclits(),
 
             OriginBuilder.SelectedCharacterOrigin is null,
             string.IsNullOrEmpty(CharacterName)
         };
         return !validationProperties.Any(x => x == true);
     }
-
     public bool CharacterExists()
     {
         return File.Exists($"{ModelResources.CharacterSavePath}{CharacterName}.json");
     }
-
     public void CreateCharacter()
     {
-        CharacterBuilder
-            .SetCharacterAbilityBlock(AbilityBlockBuilder.CharacterAbilityBlock)
-            .SetCharacterFocuses(FocusBonuses)
-            .SetCharacterTalents(TalentBonuses)
+        ExpanseCharacter character = ExpanseCharacterBuilder
+            .StartCreateCharacter()
+            .WithOrigin(OriginBuilder.SelectedCharacterOrigin)
+            .AndSocialClass(SocialAndBackgroundBuilder.SelectedCharacterSocialClass)
+            .AndBackground(SocialAndBackgroundBuilder.SelectedCharacterBackground!.BackgroundName)
+            .AndProfession(ProfessionBuilder.SelectedCharacterProfession!.ProfessionName)
+            .AndDrive(DriveBuilder.SelectedCharacterDrive!.DriveName)
+            .WithDriveBonus(DriveBuilder.SelectedDriveBonus)
+            .AddAbilityBlock(AbilityBlockBuilder.CharacterAbilityBlock)
+            .WithAbilityBonuses(AbilityBlockBuilder.AbilityBonuses)
+            .AddFocuses(FocusBonuses)
+            .AndTalents(TalentBonuses)
             .SetCharacterName(CharacterName)
-            .SetCharacterDescription(CharacterDescription)
-            .SetCharacterOrigin(SocialAndBackgroundBuilder.SelectedCharacterBackground!.BackgroundName)
-            .SetCharacterBackground(OriginBuilder.SelectedCharacterOrigin)
-            .SetCharacterSocialClass(SocialAndBackgroundBuilder.SelectedCharacterSocialClass)
-            .SetCharacterProfession(ProfessionBuilder.SelectedCharacterProfession!.ProfessionName)
-            .SetCharacterDrive(DriveBuilder.SelectedCharacterDrive!.DriveName)
-            .SetCharacterAvatar(CharacterAvatar)
-            .SetCharacterAbilityBonuses(AbilityBlockBuilder.AbilityBonuses)
-            .Create();
+            .AndDescription(CharacterDescription)
+            .AndAvatar(CharacterAvatar)
+            .SetIncome((int)GetTotalIncome()!);
 
-        if (CanCreateCharacter())
-        {
-            ExpanseCharacter character = new()
-            {
-                Abilities = AbilityBlockBuilder.CharacterAbilityBlock,
-                Focuses = FocusBonuses,
-                Talents = TalentBonuses,
-                Name = CharacterName,
-                Description = CharacterDescription,
-                Background = SocialAndBackgroundBuilder.SelectedCharacterBackground!.BackgroundName,
-                Origin = OriginBuilder.SelectedCharacterOrigin,
-                SocialClass = SocialAndBackgroundBuilder.SelectedCharacterSocialClass,
-                Profession = ProfessionBuilder.SelectedCharacterProfession!.ProfessionName,
-                Drive = DriveBuilder.SelectedCharacterDrive!.DriveName,
-                Fortune = Fortune,
-                Income = GetTotalIncome(),
-                Speed = Speed,
-                Toughness = Toughness,
-                Defense = Defense,
-                Avatar = CharacterAvatar
-
-            };
-            string characterJson = JsonSerializer.Serialize(character, new JsonSerializerOptions { WriteIndented = true });
-            Directory.CreateDirectory(ModelResources.CharacterSavePath);
-            File.WriteAllText($"{ModelResources.CharacterSavePath}{CharacterName}.json", characterJson);
-        }
+        string characterJson = JsonSerializer.Serialize(character, new JsonSerializerOptions { WriteIndented = true });
+        string fullPath = Path.Combine(ModelResources.CharacterSavePath, CharacterName);
+        Directory.CreateDirectory(ModelResources.CharacterSavePath);
+        
+        File.WriteAllText($"{fullPath}.json", characterJson);
     }
-
     public void RandomizeCharacter()
     {
         OriginBuilder.GenerateRandom();
@@ -242,6 +179,7 @@ public class CharacterCreationService : ICharacterCreationService
         {
             SocialAndBackgroundBuilder.GenerateRandom();
             ProfessionBuilder.GenerateRandom(SocialAndBackgroundBuilder.SelectedCharacterSocialClass);
-        } while (HasBackgroundConflict() || HasProfessionConflict());
+        } while (CharacterCreationFocusConflictChecker.HasConfclits());
     }
+    #endregion
 }

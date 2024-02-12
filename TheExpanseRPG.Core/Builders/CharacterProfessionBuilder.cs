@@ -13,9 +13,8 @@ internal class CharacterProfessionBuilder : ICharacterProfessionBuilder
     private CharacterTalent? _selectedProfessionTalent;
     private AbilityFocus? _selectedProfessionFocus;
 
+    public event EventHandler<string>? BonusSelectionChanged;
     public event EventHandler<string>? SelectedProfessionChanged;
-    public event EventHandler<string>? ProfessionFocusChanged;
-    public event EventHandler<string>? ProfessionTalentChanged;
     public CharacterProfession? SelectedCharacterProfession
     {
         get => _selectedCharacterProfession;
@@ -32,7 +31,7 @@ internal class CharacterProfessionBuilder : ICharacterProfessionBuilder
         set
         {
             _selectedProfessionTalent = value;
-            ProfessionTalentChanged?.Invoke(this, nameof(SelectedProfessionTalent));
+            BonusSelectionChanged?.Invoke(this, nameof(SelectedProfessionTalent));
         }
     }
     public AbilityFocus? SelectedProfessionFocus
@@ -41,7 +40,7 @@ internal class CharacterProfessionBuilder : ICharacterProfessionBuilder
         set
         {
             _selectedProfessionFocus = value;
-            ProfessionFocusChanged?.Invoke(this, nameof(SelectedProfessionFocus));
+            BonusSelectionChanged?.Invoke(this, nameof(SelectedProfessionFocus));
         }
     }
     public List<CharacterProfession> OutsiderProfessions { get; private set; } = new();

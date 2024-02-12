@@ -8,10 +8,10 @@ public interface ICharacterDriveBuilder
     CharacterDrive? SelectedCharacterDrive { get; set; }
     ICharacterCreationBonus? SelectedDriveBonus { get; set; }
     CharacterTalent? SelectedDriveTalent { get; set; }
+    string? DriveBonusDescription { get; set; }
 
     event EventHandler? DriveSelectionChanged;
-    event EventHandler<string>? SelectedDriveTalentChanged;
-    event EventHandler<string>? SelectedDriveBonusChanged;
+    event EventHandler<string>? BonusSelectionChanged;
 
     void GenerateRandom();
     bool IsMissingDriveBonus();

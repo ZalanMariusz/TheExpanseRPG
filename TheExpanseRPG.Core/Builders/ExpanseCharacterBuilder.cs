@@ -1,87 +1,86 @@
-﻿using TheExpanseRPG.Core.Builders.Interfaces;
+﻿using System.Runtime.CompilerServices;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Model.Interfaces;
 
 namespace TheExpanseRPG.Core.Builders
 {
-    public class ExpanseCharacterBuilder : IExpanseCharacterBuilder
+    public class ExpanseCharacterBuilder :
+        ICharacterOriginCreationStage,
+        ICharacterSocialClassCreationStage,
+        ICharacterBackgroundCreationStage,
+        ICharacterProfessionCreationStage,
+        IDriveCreationStage,
+        IDriveBonusCreationStage,
+        ICharacterAbilityBlockCreationStage,
+        IAbilityBonusCreationStage,
+        ICharacterFocusCreationStage,
+        ICharacterTalentCreationStage,
+        ICharacterNameCreationStage,
+        ICharacterDescriptionCreationStage,
+        ICharacterAvatarCreationStage,
+        IINcomeCreationStage
     {
+        private ExpanseCharacterBuilder() { }
         private readonly ExpanseCharacter _character = new();
-        public ExpanseCharacter Create()
+        public static ICharacterOriginCreationStage StartCreateCharacter()
         {
-            _character.Speed = 10 + _character.Abilities.GetDexterity().AbilityValue;
-            _character.Defense = 10 + (int)_character.Abilities.GetDexterity().AbilityValue!;
-            _character.Toughness = (int)_character.Abilities.GetConstitution().AbilityValue!;
-            return _character;
+            return new ExpanseCharacterBuilder();
         }
-
-        public IExpanseCharacterBuilder SetCharacterAbilityBlock(CharacterAbilityBlock abilityBlock)
+        public ICharacterSocialClassCreationStage WithOrigin(CharacterOrigin? origin)
         {
-            _character.Abilities = abilityBlock;
+            _character.Origin = origin;
             return this;
         }
 
-        public IExpanseCharacterBuilder SetCharacterAvatar(string characterAvatar)
+        public ICharacterBackgroundCreationStage AndSocialClass(CharacterSocialClass? socialClass)
         {
-            _character.Avatar = characterAvatar;
+            _character.SocialClass = socialClass;
             return this;
         }
 
-        public IExpanseCharacterBuilder SetCharacterBackground(CharacterOrigin? characterOrigin)
-        {
-            _character.Origin = characterOrigin;
-            return this;
-        }
-
-        public IExpanseCharacterBuilder SetCharacterDescription(string characterDescription)
-        {
-            _character.Description = characterDescription;
-            return this;
-        }
-
-        public IExpanseCharacterBuilder SetCharacterDrive(string driveName)
-        {
-            _character.Drive = driveName;
-            return this;
-        }
-
-        public IExpanseCharacterBuilder SetCharacterFocuses(List<AbilityFocus> focuses)
-        {
-            _character.Focuses = focuses;
-            return this;
-        }
-
-        public IExpanseCharacterBuilder SetCharacterName(string characterName)
-        {
-            _character.Name = characterName;
-            return this;
-        }
-
-        public IExpanseCharacterBuilder SetCharacterOrigin(string backgroundName)
+        public ICharacterProfessionCreationStage AndBackground(string backgroundName)
         {
             _character.Background = backgroundName;
             return this;
         }
-
-        public IExpanseCharacterBuilder SetCharacterProfession(string professionName)
+        public IDriveCreationStage AndProfession(string professionName)
         {
             _character.Profession = professionName;
             return this;
         }
-
-        public IExpanseCharacterBuilder SetCharacterSocialClass(CharacterSocialClass? selectedCharacterSocialClass)
+        public IDriveBonusCreationStage AndDrive(string driveName)
         {
-            _character.SocialClass = selectedCharacterSocialClass;
+            _character.Drive = driveName;
+            return this;
+        }
+        public ICharacterAbilityBlockCreationStage WithDriveBonus(ICharacterCreationBonus? driveBonus)
+        {
+            if (driveBonus is (Relationship))
+            {
+                _character.Relationships.Add((driveBonus as Relationship)!);
+            }
+            if (driveBonus is (Membership))
+            {
+                _character.Memberships.Add((driveBonus as Membership)!);
+            }
+            if (driveBonus is (Reputation))
+            {
+                _character.Reputations.Add((driveBonus as Reputation)!);
+            }
+            if (driveBonus is (Fortune))
+            {
+                _character.Fortune += 5;
+            }
             return this;
         }
 
-        public IExpanseCharacterBuilder SetCharacterTalents(List<CharacterTalent> talents)
+        public IAbilityBonusCreationStage AddAbilityBlock(CharacterAbilityBlock abilityBlock)
         {
-            _character.Talents = talents;
+            _character.Abilities = abilityBlock;
             return this;
         }
-        public IExpanseCharacterBuilder SetCharacterAbilityBonuses(List<ICharacterCreationBonus> abilityBonuses)
+        public ICharacterFocusCreationStage WithAbilityBonuses(List<ICharacterCreationBonus> abilityBonuses)
         {
             foreach (var abilityBonus in abilityBonuses)
             {
@@ -89,5 +88,97 @@ namespace TheExpanseRPG.Core.Builders
             }
             return this;
         }
+
+        public ICharacterTalentCreationStage AddFocuses(List<AbilityFocus> focuses)
+        {
+            _character.Focuses = focuses;
+            return this;
+        }
+        public ICharacterNameCreationStage AndTalents(List<CharacterTalent> talents)
+        {
+            _character.Talents = talents;
+            return this;
+        }
+
+        public ICharacterDescriptionCreationStage SetCharacterName(string characterName)
+        {
+            _character.Name = characterName;
+            return this;
+        }
+        public ICharacterAvatarCreationStage AndDescription(string description)
+        {
+            _character.Description = description;
+            return this;
+        }
+        public IINcomeCreationStage AndAvatar(string avatarPath)
+        {
+            _character.Avatar = avatarPath;
+            return this;
+        }
+        public ExpanseCharacter SetIncome(int income)
+        {
+            _character.Income = income;
+            return _character;
+        }
+
+
     }
+    public interface ICharacterOriginCreationStage
+    {
+        ICharacterSocialClassCreationStage WithOrigin(CharacterOrigin? origin);
+    }
+    public interface ICharacterSocialClassCreationStage
+    {
+        ICharacterBackgroundCreationStage AndSocialClass(CharacterSocialClass? socialClass);
+    }
+    public interface ICharacterBackgroundCreationStage
+    {
+        ICharacterProfessionCreationStage AndBackground(string backgroundName);
+    }
+    public interface ICharacterProfessionCreationStage
+    {
+        IDriveCreationStage AndProfession(string professionName);
+    }
+    public interface IDriveCreationStage
+    {
+        IDriveBonusCreationStage AndDrive(string driveName);
+    }
+    public interface IDriveBonusCreationStage
+    {
+        ICharacterAbilityBlockCreationStage WithDriveBonus(ICharacterCreationBonus? driveBonus);
+    }
+    public interface ICharacterAbilityBlockCreationStage
+    {
+        IAbilityBonusCreationStage AddAbilityBlock(CharacterAbilityBlock abilityBlock);
+    }
+    public interface IAbilityBonusCreationStage
+    {
+        ICharacterFocusCreationStage WithAbilityBonuses(List<ICharacterCreationBonus> abilityBonuses);
+    }
+
+    public interface ICharacterFocusCreationStage
+    {
+        ICharacterTalentCreationStage AddFocuses(List<AbilityFocus> focuses);
+    }
+    public interface ICharacterTalentCreationStage
+    {
+        ICharacterNameCreationStage AndTalents(List<CharacterTalent> talents);
+    }
+    public interface ICharacterNameCreationStage
+    {
+        ICharacterDescriptionCreationStage SetCharacterName(string characterName);
+    }
+    public interface ICharacterDescriptionCreationStage
+    {
+        ICharacterAvatarCreationStage AndDescription(string characterDescription);
+    }
+    public interface ICharacterAvatarCreationStage
+    {
+        IINcomeCreationStage AndAvatar(string avatarPath);
+    }
+    public interface IINcomeCreationStage
+    {
+        ExpanseCharacter SetIncome(int income);
+    }
+
 }

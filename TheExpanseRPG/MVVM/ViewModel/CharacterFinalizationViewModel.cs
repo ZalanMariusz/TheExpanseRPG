@@ -58,12 +58,12 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public int? Fortune { get => CharacterCreationService.Fortune; }
     public int? TotalIncome { get => CharacterCreationService.GetTotalIncome(); }
 
-    public bool HasOriginConflict { get => CharacterCreationService.HasOriginConflict(); }
+    public static bool HasOriginConflict { get => CharacterCreationFocusConflictChecker.HasOriginConflict(); }
     public bool IsOriginNotSelected { get => SelectedOrigin is null; }
     public bool IsBackgroundNotSelected { get => SelectedBackground is null; }
-    public bool HasBackgroundConflict { get => CharacterCreationService.HasBackgroundConflict() && !IsMissingBackgroundBonus; }
+    public bool HasBackgroundConflict { get => CharacterCreationFocusConflictChecker.HasBackgroundConflict() && !IsMissingBackgroundBonus; }
     public bool IsSocialClassNotSelected { get => SelectedSocialClass is null; }
-    public bool HasProfessionConflict { get => CharacterCreationService.HasProfessionConflict() && !IsMissingProfessionBonus; }
+    public bool HasProfessionConflict { get => CharacterCreationFocusConflictChecker.HasProfessionConflict() && !IsMissingProfessionBonus; }
     public bool IsProfessionNotSelected { get => SelectedProfession is null; }
     public bool IsDriveNotSelected { get => SelectedDrive is null; }
     public bool IsMissingBackgroundBonus { get => CharacterCreationService.SocialAndBackgroundBuilder.IsMissingBackgroundBonus(); }

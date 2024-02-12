@@ -179,11 +179,17 @@
                    />
 
             <custom:CutCorner Margin="1,-1,0,0"  RenderOptions.EdgeMode="Aliased" HasShadow="0" BorderCuts="0,0,1,0">
-                <TextBox BorderThickness="0" Grid.Row = "8" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch"  Background="Transparent"
+                <TextBox BorderThickness="0" 
+                         Grid.Row = "8" 
+                         Grid.ColumnSpan="2" 
+                         VerticalScrollBarVisibility="Auto" 
+                         VerticalAlignment="Stretch"  
+                         Background="Transparent"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
+                         Padding="5"
                          Text="{Binding CharacterDescription}"
-                         Foreground="{StaticResource EXPLightBlueBrush}" Padding="5"
+                         Foreground="{StaticResource EXPLightBlueBrush}"
                          CaretBrush="{StaticResource EXPLightBlueBrush}"/>
             </custom:CutCorner>
         </DockPanel>

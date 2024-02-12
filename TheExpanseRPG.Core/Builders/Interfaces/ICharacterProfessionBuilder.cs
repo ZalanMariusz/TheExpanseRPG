@@ -13,10 +13,8 @@ public interface ICharacterProfessionBuilder
     CharacterTalent? SelectedProfessionTalent { get; set; }
     
 
-    event EventHandler<string>? ProfessionFocusChanged;
-    event EventHandler<string>? ProfessionTalentChanged;
+    event EventHandler<string>? BonusSelectionChanged;
     event EventHandler<string>? SelectedProfessionChanged;
-
     void ClearSelectedProfession(CharacterSocialClass? selectedCharacterSocialClass);
     void GenerateRandom(CharacterSocialClass? selectedCharacterSocialClass);
     bool IsMissingProfessionBonus();

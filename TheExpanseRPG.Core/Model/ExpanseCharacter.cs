@@ -6,6 +6,7 @@ namespace TheExpanseRPG.Core.Model
     {
         public ExpanseCharacter()
         {
+            Fortune = 15;
             Talents = new List<CharacterTalent>();
             Focuses = new List<AbilityFocus>();
         }
@@ -26,7 +27,9 @@ namespace TheExpanseRPG.Core.Model
         public int Toughness { get; set; }
         public int Defense { get; set; }
         public string Avatar { get; set; } = string.Empty;
-
+        public List<Relationship> Relationships { get; set; } = new();
+        public List<Membership> Memberships { get; set; } = new();
+        public List<Reputation> Reputations { get; set; } = new();
         public bool CanLearnTalent(CharacterTalent talent)
         {
             return talent.AreRequirementsMet(Focuses, Abilities);

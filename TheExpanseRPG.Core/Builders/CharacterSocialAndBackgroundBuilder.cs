@@ -12,7 +12,7 @@ public class CharacterSocialAndBackgroundBuilder : ICharacterSocialAndBackground
 
     public string? SelectedCharacterSocialClassDescription
     {
-        get { return SelectedCharacterSocialClass is null ? null : _socialClassDescriptions[(CharacterSocialClass)SelectedCharacterSocialClass]; }
+        get => SelectedCharacterSocialClass is null ? null : _socialClassDescriptions[(CharacterSocialClass)SelectedCharacterSocialClass];
     }
     private CharacterSocialClass? _selectedCharacterSocialClass;
     public CharacterSocialClass? SelectedCharacterSocialClass
@@ -27,10 +27,7 @@ public class CharacterSocialAndBackgroundBuilder : ICharacterSocialAndBackground
     public List<SocialClassWrapper> SocialClassesWithDescription { get; set; } = new();
 
     public event EventHandler<CharacterSocialClass?>? SocialClassChanged;
-    public event EventHandler<string>? BackgroundChanged;
-    public event EventHandler<string>? SelectedBackgroundBenefitChanged;
-    public event EventHandler<string>? SelectedBackgroundFocusChanged;
-    public event EventHandler<string>? SelectedBackgroundTalentChanged;
+    public event EventHandler<string>? BonusSelectionChanged;
 
     private CharacterBackGround? _selectedCharacterBackground;
     public CharacterBackGround? SelectedCharacterBackground
@@ -39,7 +36,7 @@ public class CharacterSocialAndBackgroundBuilder : ICharacterSocialAndBackground
         set
         {
             _selectedCharacterBackground = value;
-            BackgroundChanged?.Invoke(this, nameof(SelectedCharacterBackground));
+            BonusSelectionChanged?.Invoke(this, nameof(SelectedCharacterBackground));
         }
     }
     private ICharacterCreationBonus? _selectedBackgroundBenefit;
@@ -49,7 +46,7 @@ public class CharacterSocialAndBackgroundBuilder : ICharacterSocialAndBackground
         set
         {
             _selectedBackgroundBenefit = value;
-            SelectedBackgroundBenefitChanged?.Invoke(this, nameof(SelectedBackgroundBenefit));
+            BonusSelectionChanged?.Invoke(this, nameof(SelectedBackgroundBenefit));
         }
     }
     public CharacterTalent? _selectedBackgroundTalent;
@@ -59,7 +56,7 @@ public class CharacterSocialAndBackgroundBuilder : ICharacterSocialAndBackground
         set
         {
             _selectedBackgroundTalent = value;
-            SelectedBackgroundTalentChanged?.Invoke(this, nameof(SelectedBackgroundTalent));
+            BonusSelectionChanged?.Invoke(this, nameof(SelectedBackgroundTalent));
         }
     }
     public AbilityFocus? _selectedBackgroundFocus;
@@ -69,7 +66,7 @@ public class CharacterSocialAndBackgroundBuilder : ICharacterSocialAndBackground
         set
         {
             _selectedBackgroundFocus = value;
-            SelectedBackgroundFocusChanged?.Invoke(this, nameof(SelectedBackgroundFocus));
+            BonusSelectionChanged?.Invoke(this, nameof(SelectedBackgroundFocus));
         }
     }
     private ICharacterBackgroundListService CharacterBackgroundListService { get; set; }

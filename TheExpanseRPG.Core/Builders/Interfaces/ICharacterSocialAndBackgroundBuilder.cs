@@ -16,10 +16,7 @@ namespace TheExpanseRPG.Core.Builders.Interfaces
         //string? SelectedCharacterSocialClassDescription { get; }
         List<SocialClassWrapper> SocialClassesWithDescription { get; set; }
 
-        event EventHandler<string>? BackgroundChanged;
-        event EventHandler<string>? SelectedBackgroundBenefitChanged;
-        event EventHandler<string>? SelectedBackgroundFocusChanged;
-        event EventHandler<string>? SelectedBackgroundTalentChanged;
+        event EventHandler<string>? BonusSelectionChanged;
         event EventHandler<CharacterSocialClass?>? SocialClassChanged;
 
         void GenerateRandom();

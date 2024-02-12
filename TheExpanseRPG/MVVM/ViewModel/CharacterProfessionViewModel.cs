@@ -52,7 +52,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
         public bool HasProfessionFocusConflict
         {
-            get { return CharacterCreationService.HasProfessionConflict(); }
+            get { return CharacterCreationFocusConflictChecker.HasProfessionConflict(); }
         }
         private bool _isSelectionLocked;
         public bool IsSelectionLocked { get => _isSelectionLocked; set { _isSelectionLocked = value; OnPropertyChanged(); } }

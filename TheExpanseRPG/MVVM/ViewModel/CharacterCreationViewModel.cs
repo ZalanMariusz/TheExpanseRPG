@@ -19,15 +19,15 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
     private ScopedServiceFactory ScopedServiceFactory { get; }
 
     public CharacterOrigin? SelectedOrigin => CharacterCreationService.OriginBuilder.SelectedCharacterOrigin;
-    public bool HasOriginSelectionConflict => CharacterCreationService.HasOriginConflict();
-    public bool HasSocialOrBackgroundSelectionConflict => CharacterCreationService.HasBackgroundConflict();
-    public bool HasProfessionSelectionConflict => CharacterCreationService.HasProfessionConflict();
+    public bool HasOriginSelectionConflict => CharacterCreationFocusConflictChecker.HasOriginConflict();
+    public bool HasSocialOrBackgroundSelectionConflict => CharacterCreationFocusConflictChecker.HasBackgroundConflict();
+    public bool HasProfessionSelectionConflict => CharacterCreationFocusConflictChecker.HasProfessionConflict();
     public CharacterSocialClass? SelectedSocialClass => CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass;
     public CharacterBackGround? SelectedBackground => CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterBackground;
     public CharacterProfession? SelectedProfession => CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession;
     public CharacterDrive? SelectedDrive => CharacterCreationService.DriveBuilder.SelectedCharacterDrive;
-    public string OriginConflicts => string.Join(", ", CharacterCreationService.GetOriginFocusConflicts());
-    public string ProfessionConflicts => string.Join(", ", CharacterCreationService.GetProfessionFocusConflicts());
+    public string OriginConflicts => string.Join(", ", CharacterCreationFocusConflictChecker.GetOriginFocusConflicts());
+    public string ProfessionConflicts => string.Join(", ", CharacterCreationFocusConflictChecker.GetProfessionFocusConflicts());
     public string SocialOrBackgroundConflicts => AggregateBackgroundConflicts();
 
     public RelayCommand ShowTalentListCommand { get; set; }
@@ -60,17 +60,15 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
         OpenModals = new();
 
         CharacterCreationService.OriginBuilder.OriginChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedOrigin)); };
-        CharacterCreationService.OriginBuilder.OriginChanged += RefreshConflictProperties;
-
         CharacterCreationService.SocialAndBackgroundBuilder.SocialClassChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedSocialClass)); };
-        CharacterCreationService.SocialAndBackgroundBuilder.BackgroundChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedBackground)); };
-        CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundBenefitChanged += RefreshConflictProperties;
-        CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundFocusChanged += RefreshConflictProperties;
-
+        CharacterCreationService.SocialAndBackgroundBuilder.BonusSelectionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedBackground)); };
         CharacterCreationService.ProfessionBuilder.SelectedProfessionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedProfession)); };
-        CharacterCreationService.ProfessionBuilder.ProfessionFocusChanged += RefreshConflictProperties;
-
         CharacterCreationService.DriveBuilder.DriveSelectionChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedDrive)); };
+
+        CharacterCreationService.OriginBuilder.OriginChanged += RefreshConflictProperties;
+        CharacterCreationService.SocialAndBackgroundBuilder.BonusSelectionChanged += RefreshConflictProperties;
+        CharacterCreationService.ProfessionBuilder.BonusSelectionChanged += RefreshConflictProperties;
+
         NavigateToOriginSelectCommand.Execute(null);
     }
 
@@ -79,9 +77,10 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
         NavigationService.NavigateToModal<FocusListWindow>(this, false);
     }
 
-    private string AggregateBackgroundConflicts()
+    private static string AggregateBackgroundConflicts()
     {
-        return string.Join(", ", CharacterCreationService.GetBackgroundFocusConflicts().Union(CharacterCreationService.GetBackgroundBenefitConflicts()));
+        return string.Join(", ", CharacterCreationFocusConflictChecker.GetBackgroundFocusConflicts()
+            .Union(CharacterCreationFocusConflictChecker.GetBackgroundBenefitConflicts()));
     }
 
     private void RefreshConflictProperties(object? sender, string? e)
