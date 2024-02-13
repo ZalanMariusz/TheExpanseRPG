@@ -146,28 +146,31 @@ public class CharacterCreationService : ICharacterCreationService
     }
     public void CreateCharacter()
     {
-        ExpanseCharacter character = ExpanseCharacterBuilder
-            .StartCreateCharacter()
-            .WithOrigin(OriginBuilder.SelectedCharacterOrigin)
-            .AndSocialClass(SocialAndBackgroundBuilder.SelectedCharacterSocialClass)
-            .AndBackground(SocialAndBackgroundBuilder.SelectedCharacterBackground!.BackgroundName)
-            .AndProfession(ProfessionBuilder.SelectedCharacterProfession!.ProfessionName)
-            .AndDrive(DriveBuilder.SelectedCharacterDrive!.DriveName)
-            .WithDriveBonus(DriveBuilder.SelectedDriveBonus)
-            .AddAbilityBlock(AbilityBlockBuilder.CharacterAbilityBlock)
-            .WithAbilityBonuses(AbilityBlockBuilder.AbilityBonuses)
-            .AddFocuses(FocusBonuses)
-            .AndTalents(TalentBonuses)
-            .SetCharacterName(CharacterName)
-            .AndDescription(CharacterDescription)
-            .AndAvatar(CharacterAvatar)
-            .SetIncome((int)GetTotalIncome()!);
+        if (CanCreateCharacter())
+        {
+            ExpanseCharacter character = ExpanseCharacterBuilder
+                .StartCreateCharacter()
+                .WithOrigin(OriginBuilder.SelectedCharacterOrigin)
+                .AndSocialClass(SocialAndBackgroundBuilder.SelectedCharacterSocialClass)
+                .AndBackground(SocialAndBackgroundBuilder.SelectedCharacterBackground!.BackgroundName)
+                .AndProfession(ProfessionBuilder.SelectedCharacterProfession!.ProfessionName)
+                .AndDrive(DriveBuilder.SelectedCharacterDrive!.DriveName)
+                .WithDriveBonus(DriveBuilder.SelectedDriveBonus)
+                .AddAbilityBlock(AbilityBlockBuilder.CharacterAbilityBlock)
+                .WithAbilityBonuses(AbilityBlockBuilder.AbilityBonuses)
+                .AddFocuses(FocusBonuses)
+                .AndTalents(TalentBonuses)
+                .SetCharacterName(CharacterName)
+                .AndDescription(CharacterDescription)
+                .AndAvatar(CharacterAvatar)
+                .SetIncome((int)GetTotalIncome()!);
 
-        string characterJson = JsonSerializer.Serialize(character, new JsonSerializerOptions { WriteIndented = true });
-        string fullPath = Path.Combine(ModelResources.CharacterSavePath, CharacterName);
-        Directory.CreateDirectory(ModelResources.CharacterSavePath);
-        
-        File.WriteAllText($"{fullPath}.json", characterJson);
+            string characterJson = JsonSerializer.Serialize(character, new JsonSerializerOptions { WriteIndented = true });
+            string fullPath = Path.Combine(ModelResources.CharacterSavePath, CharacterName);
+            Directory.CreateDirectory(ModelResources.CharacterSavePath);
+
+            File.WriteAllText($"{fullPath}.json", characterJson);
+        }
     }
     public void RandomizeCharacter()
     {

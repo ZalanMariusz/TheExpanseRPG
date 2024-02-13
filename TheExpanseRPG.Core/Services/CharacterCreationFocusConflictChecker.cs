@@ -30,12 +30,10 @@ namespace TheExpanseRPG.Core.Services
         {
             return GetConflictsWith(nameof(CharacterOriginBuilder.SelectedCharacterOrigin));
         }
-
         public static List<string> GetProfessionFocusConflicts()
         {
             return GetConflictsWith(nameof(CharacterProfessionBuilder.SelectedProfessionFocus));
         }
-
         public static bool HasBackgroundConflict()
         {
             return GetBackgroundBenefitConflicts().Any() || GetBackgroundFocusConflicts().Any();
@@ -52,6 +50,5 @@ namespace TheExpanseRPG.Core.Services
         {
             return HasBackgroundConflict() || HasOriginConflict() || HasProfessionConflict();
         }
-
     }
 }
