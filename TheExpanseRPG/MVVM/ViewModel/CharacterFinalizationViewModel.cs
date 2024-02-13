@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media.Converters;
 using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
+using TheExpanseRPG.Core.Model.Talents;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Factories;
 using TheExpanseRPG.Services;
@@ -24,58 +28,80 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
         set { CharacterCreationService.CharacterDescription = value; OnPropertyChanged(); }
     }
     public event EventHandler? CharacterCreated;
-    public CharacterOrigin? SelectedOrigin { get { return CharacterCreationService.OriginBuilder.SelectedCharacterOrigin; } }
-    public CharacterSocialClass? SelectedSocialClass { get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass; } }
-    public CharacterBackGround? SelectedBackground { get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterBackground; } }
-    public CharacterProfession? SelectedProfession { get { return CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession; } }
-    public CharacterDrive? SelectedDrive { get { return CharacterCreationService.DriveBuilder.SelectedCharacterDrive; } }
-    public ObservableCollection<CharacterTalent> SelectedTalents { get => GetTalentBonuses(); }
+    public CharacterOrigin? SelectedOrigin => CharacterCreationService.OriginBuilder.SelectedCharacterOrigin;
+    public CharacterSocialClass? SelectedSocialClass => CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass;
+    public CharacterBackGround? SelectedBackground => CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterBackground;
+    public CharacterProfession? SelectedProfession => CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession;
+    public CharacterDrive? SelectedDrive => CharacterCreationService.DriveBuilder.SelectedCharacterDrive;
+    public ObservableCollection<CharacterTalent> SelectedTalents => GetTalentBonuses();
 
-    public int? TotalAccuracyScore { get => CharacterCreationService.AbilityBlockBuilder.GetAccuracyTotal(); }
-    public int? TotalCommunicationScore { get => CharacterCreationService.AbilityBlockBuilder.GetCommunicationTotal(); }
-    public int? TotalConstitutionScore { get => CharacterCreationService.AbilityBlockBuilder.GetConstitutionTotal(); }
-    public int? TotalDexterityScore { get => CharacterCreationService.AbilityBlockBuilder.GetDexterityTotal(); }
-    public int? TotalFightingScore { get => CharacterCreationService.AbilityBlockBuilder.GetFightingTotal(); }
-    public int? TotalIntelligenceScore { get => CharacterCreationService.AbilityBlockBuilder.GetIntelligenceTotal(); }
-    public int? TotalPerceptionScore { get => CharacterCreationService.AbilityBlockBuilder.GetPerceptionTotal(); }
-    public int? TotalStrengthScore { get => CharacterCreationService.AbilityBlockBuilder.GetStrengthTotal(); }
-    public int? TotalWillpowerScore { get => CharacterCreationService.AbilityBlockBuilder.GetWillpowerTotal(); }
+    public int? TotalAccuracyScore => CharacterCreationService.AbilityBlockBuilder.GetAccuracyTotal();
+    public int? TotalCommunicationScore => CharacterCreationService.AbilityBlockBuilder.GetCommunicationTotal();
+    public int? TotalConstitutionScore => CharacterCreationService.AbilityBlockBuilder.GetConstitutionTotal();
+    public int? TotalDexterityScore => CharacterCreationService.AbilityBlockBuilder.GetDexterityTotal();
+    public int? TotalFightingScore => CharacterCreationService.AbilityBlockBuilder.GetFightingTotal();
+    public int? TotalIntelligenceScore => CharacterCreationService.AbilityBlockBuilder.GetIntelligenceTotal();
+    public int? TotalPerceptionScore => CharacterCreationService.AbilityBlockBuilder.GetPerceptionTotal();
+    public int? TotalStrengthScore => CharacterCreationService.AbilityBlockBuilder.GetStrengthTotal();
+    public int? TotalWillpowerScore => CharacterCreationService.AbilityBlockBuilder.GetWillpowerTotal();
 
-    public string AccuracyFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Accuracy); }
-    public string CommunicationFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Communication); }
-    public string ConstitutionFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Constitution); }
-    public string DexterityFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Dexterity); }
-    public string FightingFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Fighting); }
-    public string IntelligenceFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Intelligence); }
-    public string PerceptionFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Perception); }
-    public string StrengthFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Strength); }
-    public string WillpowerFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Willpower); }
+    public string AccuracyFocuses => GetAbilityFocusNames(CharacterAbilityName.Accuracy);
+    public string CommunicationFocuses => GetAbilityFocusNames(CharacterAbilityName.Communication);
+    public string ConstitutionFocuses => GetAbilityFocusNames(CharacterAbilityName.Constitution);
+    public string DexterityFocuses => GetAbilityFocusNames(CharacterAbilityName.Dexterity);
+    public string FightingFocuses => GetAbilityFocusNames(CharacterAbilityName.Fighting);
+    public string IntelligenceFocuses => GetAbilityFocusNames(CharacterAbilityName.Intelligence);
+    public string PerceptionFocuses => GetAbilityFocusNames(CharacterAbilityName.Perception);
+    public string StrengthFocuses => GetAbilityFocusNames(CharacterAbilityName.Strength);
+    public string WillpowerFocuses => GetAbilityFocusNames(CharacterAbilityName.Willpower);
 
 
-    public int? Speed { get => CharacterCreationService.AbilityBlockBuilder.Speed; }
-    public int? Defense { get => CharacterCreationService.AbilityBlockBuilder.Defense; }
-    public int? Toughness { get => CharacterCreationService.AbilityBlockBuilder.Toughness; }
-    public int? Fortune { get => 15 + (CharacterCreationService.DriveBuilder.SelectedDriveBonus?.GetType() == typeof(Fortune) ? 5 : 0); }
-    public int? TotalIncome { get => CharacterCreationService.GetTotalIncome(); }
+    public int? Speed => CharacterCreationService.AbilityBlockBuilder.Speed;
+    public int? Defense => CharacterCreationService.AbilityBlockBuilder.Defense;
+    public int? Toughness => CharacterCreationService.AbilityBlockBuilder.Toughness;
+    public int? Fortune => 15 + (CharacterCreationService.DriveBuilder.SelectedDriveBonus?.GetType() == typeof(Fortune) ? 5 : 0);
+    public int? TotalIncome => CharacterCreationService.GetTotalIncome();
 
-    public static bool HasOriginConflict { get => CharacterCreationFocusConflictChecker.HasOriginConflict(); }
-    public bool IsOriginNotSelected { get => SelectedOrigin is null; }
-    public bool IsBackgroundNotSelected { get => SelectedBackground is null; }
-    public bool HasBackgroundConflict { get => CharacterCreationFocusConflictChecker.HasBackgroundConflict() && !IsMissingBackgroundBonus; }
-    public bool IsSocialClassNotSelected { get => SelectedSocialClass is null; }
-    public bool HasProfessionConflict { get => CharacterCreationFocusConflictChecker.HasProfessionConflict() && !IsMissingProfessionBonus; }
-    public bool IsProfessionNotSelected { get => SelectedProfession is null; }
-    public bool IsDriveNotSelected { get => SelectedDrive is null; }
-    public bool IsMissingBackgroundBonus { get => CharacterCreationService.SocialAndBackgroundBuilder.IsMissingBackgroundBonus(); }
-    public bool IsMissingProfessionBonus { get => CharacterCreationService.ProfessionBuilder.IsMissingProfessionBonus(); }
-    public bool IsMissingDriveBonus { get => CharacterCreationService.DriveBuilder.IsMissingDriveBonus(); }
-    public bool IsMissingAbilityRoll { get => CharacterCreationService.AbilityBlockBuilder.IsMissingAbilityRoll(); }
-    public bool CanCreateCharacter { get => CharacterCreationService.CanCreateCharacter(); }
+    public static bool HasOriginConflict => CharacterCreationFocusConflictChecker.HasOriginConflict();
+    public bool IsOriginNotSelected => SelectedOrigin is null;
+    public bool IsBackgroundNotSelected => SelectedBackground is null;
+    public bool HasBackgroundConflict => CharacterCreationFocusConflictChecker.HasBackgroundConflict() && !IsMissingBackgroundBonus;
+    public bool IsSocialClassNotSelected => SelectedSocialClass is null;
+    public bool HasProfessionConflict => CharacterCreationFocusConflictChecker.HasProfessionConflict() && !IsMissingProfessionBonus;
+    public bool IsProfessionNotSelected => SelectedProfession is null;
+    public bool IsDriveNotSelected => SelectedDrive is null;
+    public bool IsMissingBackgroundBonus => CharacterCreationService.SocialAndBackgroundBuilder.IsMissingBackgroundBonus();
+    public bool IsMissingProfessionBonus => CharacterCreationService.ProfessionBuilder.IsMissingProfessionBonus();
+    public bool IsMissingDriveBonus => CharacterCreationService.DriveBuilder.IsMissingDriveBonus();
+    public bool IsMissingAbilityRoll => CharacterCreationService.AbilityBlockBuilder.IsMissingAbilityRoll();
+    public bool CanCreateCharacter => CharacterCreationService.CanCreateCharacter();
     public string Avatar
     {
         get { return CharacterCreationService.CharacterAvatar; }
         set { CharacterCreationService.CharacterAvatar = value; OnPropertyChanged(); }
     }
+    public string IncomeSources => AssembleIncomeSources();
+
+    private string AssembleIncomeSources()
+    {
+        string retval = string.Empty;
+
+        int? incomeBase = SelectedProfession?.IncomeBase;
+        int? socialClassDiff = SelectedSocialClass - SelectedProfession?.ProfessionSocialClass;
+        int? bonuses = CharacterCreationService.IncomeBonuses.Sum(x => x.Value);
+        int? affluentBonus = (int?)SelectedTalents.FirstOrDefault(x => x is Affluent)?.Degree + 2;
+
+        List<string> sources = new();
+        if (incomeBase is not null) sources.Add($"Base from profession: {incomeBase}");
+        if (socialClassDiff is not null) sources.Add($"Social class vs Profession bonus: {socialClassDiff}");
+        if (bonuses != 0) sources.Add($"Bonuses selected: {bonuses}");
+        if (affluentBonus is not null) sources.Add($"From Affluent talent: {affluentBonus}");
+
+        retval = string.Join("\n", sources);
+
+        return retval;
+    }
+
     public RelayCommand SelectAvatarCommand { get; set; }
     public RelayCommand CreateCharacterCommand { get; set; }
     public RelayCommand RandomizeCharacterCommand { get; set; }

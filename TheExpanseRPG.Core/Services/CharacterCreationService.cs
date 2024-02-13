@@ -16,7 +16,7 @@ public class CharacterCreationService : ICharacterCreationService
     public ICharacterOriginBuilder OriginBuilder { get; }
     public List<CharacterTalent> TalentBonuses { get; set; } = new();
     public List<AbilityFocus> FocusBonuses { get; set; } = new();
-    private List<Income> IncomeBonuses { get; set; } = new();
+    public List<Income> IncomeBonuses { get; set; } = new();
     public Dictionary<string, ICharacterCreationBonus> AllBonuses { get; set; } = new();
 
     public string CharacterName { get; set; } = string.Empty;

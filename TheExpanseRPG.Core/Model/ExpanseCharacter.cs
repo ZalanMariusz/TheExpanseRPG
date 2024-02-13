@@ -1,9 +1,13 @@
-﻿using TheExpanseRPG.Core.Enums;
+﻿using System.Text.Json.Serialization;
+using TheExpanseRPG.Core.Enums;
 
 namespace TheExpanseRPG.Core.Model
 {
     public class ExpanseCharacter
     {
+        private const int THOUGHNESSBASE = 0;
+        private const int DEFENSEBASE = 10;
+        private const int SPEEDBASE = 10;
         public ExpanseCharacter()
         {
             Fortune = 15;
@@ -23,9 +27,17 @@ namespace TheExpanseRPG.Core.Model
         public string Drive { get; set; } = string.Empty;
         public int Fortune { get; set; }
         public int? Income { get; set; }
-        public int? Speed { get; set; }
-        public int Toughness { get; set; }
-        public int Defense { get; set; }
+        public List<int> IncomeModifiers { get; } = new();
+        [JsonIgnore]
+        public int? Speed => SPEEDBASE + SpeedModifiers.Sum();
+        public List<int> SpeedModifiers { get; } = new();
+        [JsonIgnore]
+        public int Toughness => THOUGHNESSBASE + ThoughnessModifiers.Sum();
+        public List<int> ThoughnessModifiers { get; } = new();
+        [JsonIgnore]
+        public int Defense => DEFENSEBASE + DefenseModifiers.Sum();
+        public List<int> DefenseModifiers { get; } = new();
+
         public string Avatar { get; set; } = string.Empty;
         public List<Relationship> Relationships { get; set; } = new();
         public List<Membership> Memberships { get; set; } = new();

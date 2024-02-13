@@ -18,14 +18,7 @@ namespace TheExpanseRPG.Core.Model
                 AbilityList.Add(new CharacterAbility(ability));
             }
         }
-        //public bool HasFocus(AbilityFocus focus)
-        //{
-        //    return GetAbility(focus.AbilityName).GetAbilityFocus(focus.FocusName) != null;
-        //}
-        //public void AddFocus(AbilityFocus focus)
-        //{
-        //    GetAbility(focus.AbilityName).AddFocus(focus);
-        //}
+
         #region character attribute getters
         public CharacterAbility GetAbility(CharacterAbilityName attributeName)
         {

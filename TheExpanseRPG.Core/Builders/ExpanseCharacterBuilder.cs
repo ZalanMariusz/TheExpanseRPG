@@ -78,6 +78,10 @@ namespace TheExpanseRPG.Core.Builders
         public IAbilityBonusCreationStage AddAbilityBlock(CharacterAbilityBlock abilityBlock)
         {
             _character.Abilities = abilityBlock;
+            _character.SpeedModifiers.Add((int)abilityBlock.GetDexterity().AbilityValue!);
+            _character.DefenseModifiers.Add((int)abilityBlock.GetDexterity().AbilityValue!);
+            _character.ThoughnessModifiers.Add((int)abilityBlock.GetConstitution().AbilityValue!);
+            
             return this;
         }
         public ICharacterFocusCreationStage WithAbilityBonuses(List<ICharacterCreationBonus> abilityBonuses)

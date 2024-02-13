@@ -14,9 +14,11 @@ namespace TheExpanseRPG.Core.Services
         ICharacterDriveBuilder DriveBuilder { get; }
         ICharacterAbilityBlockBuilder AbilityBlockBuilder { get; }
         
+        int? GetTotalIncome();
         Dictionary<string, ICharacterCreationBonus> AllBonuses { get; set; }
         List<AbilityFocus> FocusBonuses { get; set; }
         List<CharacterTalent> TalentBonuses { get; set; }
+        List<Income> IncomeBonuses { get; set; }
         string CharacterAvatar { get; set; }
         string CharacterName { get; set; }
         string CharacterDescription { get; set; }
@@ -25,7 +27,6 @@ namespace TheExpanseRPG.Core.Services
         bool CanCreateCharacter();
         bool CharacterExists();
         void CreateCharacter();
-        int? GetTotalIncome();
         void RandomizeCharacter();
     }
 }
