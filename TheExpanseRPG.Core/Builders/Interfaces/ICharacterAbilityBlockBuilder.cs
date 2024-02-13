@@ -14,8 +14,11 @@ namespace TheExpanseRPG.Core.Builders.Interfaces
         AbilityRollType LastUsedRollType { get; }
         int PointsToDistribute { get; }
         AbilityRollType SelectedAbilityRollType { get; set; }
-        
 
+
+        int Speed { get; }
+        int Defense { get; }
+        int Toughness { get; }
 
         bool IsMissingAbilityRoll();
         void AssignAbilityScore(string abilityName, int? newScore);

@@ -8,6 +8,10 @@ namespace TheExpanseRPG.Core.Builders
 {
     public class CharacterAbilityBlockBuilder : ICharacterAbilityBlockBuilder
     {
+        public int Speed => 10 + (GetDexterityTotal() is null ? 0 : (int)GetDexterityTotal()!);
+        public int Defense => 10 + (GetDexterityTotal() is null ? 0 : (int)GetDexterityTotal()!);
+        public int Toughness => GetConstitutionTotal() is null ? 0 : (int)GetConstitutionTotal()!;
+
         public event EventHandler? AbilityRollTypeChanged;
         public event EventHandler? LastUsedRollTypeChanged;
 

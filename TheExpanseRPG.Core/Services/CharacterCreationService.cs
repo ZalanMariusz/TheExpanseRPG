@@ -22,10 +22,7 @@ public class CharacterCreationService : ICharacterCreationService
     public string CharacterName { get; set; } = string.Empty;
     public string CharacterDescription { get; set; } = string.Empty;
     public string CharacterAvatar { get; set; } = string.Empty;
-    public int Speed => 10 + (AbilityBlockBuilder.GetDexterityTotal() is null ? 0 : (int)AbilityBlockBuilder.GetDexterityTotal()!);
-    public int Defense => 10 + (AbilityBlockBuilder.GetDexterityTotal() is null ? 0 : (int)AbilityBlockBuilder.GetDexterityTotal()!);
-    public int Toughness => AbilityBlockBuilder.GetConstitutionTotal() is null ? 0 : (int)AbilityBlockBuilder.GetConstitutionTotal()!;
-    public int Fortune => 15 + (DriveBuilder.SelectedDriveBonus?.GetType() == typeof(Fortune) ? 5 : 0);
+
     public int? GetTotalIncome()
     {
         List<int?> totalIncome = new()

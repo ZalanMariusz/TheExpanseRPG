@@ -52,10 +52,10 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public string WillpowerFocuses { get => GetAbilityFocusNames(CharacterAbilityName.Willpower); }
 
 
-    public int? Speed { get => CharacterCreationService.Speed; }
-    public int? Defense { get => CharacterCreationService.Defense; }
-    public int? Toughness { get => CharacterCreationService.Toughness; }
-    public int? Fortune { get => CharacterCreationService.Fortune; }
+    public int? Speed { get => CharacterCreationService.AbilityBlockBuilder.Speed; }
+    public int? Defense { get => CharacterCreationService.AbilityBlockBuilder.Defense; }
+    public int? Toughness { get => CharacterCreationService.AbilityBlockBuilder.Toughness; }
+    public int? Fortune { get => 15 + (CharacterCreationService.DriveBuilder.SelectedDriveBonus?.GetType() == typeof(Fortune) ? 5 : 0); }
     public int? TotalIncome { get => CharacterCreationService.GetTotalIncome(); }
 
     public static bool HasOriginConflict { get => CharacterCreationFocusConflictChecker.HasOriginConflict(); }

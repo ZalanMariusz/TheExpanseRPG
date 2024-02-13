@@ -21,10 +21,6 @@ namespace TheExpanseRPG.Core.Services
         string CharacterName { get; set; }
         string CharacterDescription { get; set; }
         
-        int Defense { get; }
-        int Fortune { get; }
-        int Speed { get; }
-        int Toughness { get; }
 
         bool CanCreateCharacter();
         bool CharacterExists();
