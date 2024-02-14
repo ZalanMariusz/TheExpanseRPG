@@ -7,23 +7,22 @@ namespace TheExpanseRPG.Factories;
 
 public class ScopedServiceFactory
 {
-    public Dictionary<Type, IServiceScope> Scopes { get; private set; }
+    public Dictionary<Type, IServiceScope> Scopes { get; private set; } = new();
     public IServiceProvider Provider { get; }
     public ScopedServiceFactory(IServiceProvider provider)
     {
         Provider = provider;
-        Scopes = new();
     }
 
-    public IExpanseService GetScopedService<TExpanseService>() where TExpanseService : IExpanseService
+    public TExpanseService GetScopedService<TExpanseService>() where TExpanseService : IExpanseService
     {
         if (Scopes.TryGetValue(typeof(TExpanseService), out IServiceScope? activeScope))
         {
             return activeScope.ServiceProvider.GetRequiredService<TExpanseService>();
         }
         IServiceScope newScope = Provider.CreateScope();
-        IExpanseService scopedService = newScope.ServiceProvider.GetRequiredService<TExpanseService>();
-        Scopes.Add(scopedService.GetType(), newScope);
+        TExpanseService scopedService = newScope.ServiceProvider.GetRequiredService<TExpanseService>();
+        Scopes.Add(typeof(TExpanseService), newScope);
         return scopedService;
     }
     public void DisposeScope<TExpanseService>() where TExpanseService : IExpanseService

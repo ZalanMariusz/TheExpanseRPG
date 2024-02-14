@@ -7,16 +7,11 @@ namespace TheExpanseRPG.MVVM.ViewModel;
 
 public class CharacterCreationViewModelBase : ViewModelBase, ICharacterCreationViewModel
 {
-    private CharacterCreationService? _characterCreationService;
-    public CharacterCreationService CharacterCreationService
+    private ICharacterCreationService? _characterCreationService;
+    public ICharacterCreationService CharacterCreationService
     {
         get { return _characterCreationService!; }
         set { _characterCreationService = value; }
-    }
-
-    public int? GetCharacterAbilityValue([CallerMemberName] string abilityName = "")
-    {
-        return CharacterCreationService.CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
     }
     protected void NavigateToInnerView<TViewModel>() where TViewModel : ICharacterCreationViewModel
     {

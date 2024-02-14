@@ -13,20 +13,20 @@ namespace TheExpanseRPG.MVVM.ViewModel
         public ObservableCollection<CharacterProfession> UpperclassProfessions { get; }
         public CharacterTalent? SelectedTalent
         {
-            get { return CharacterCreationService.SelectedProfessionTalent; }
+            get { return CharacterCreationService.ProfessionBuilder.SelectedProfessionTalent; }
             set
             {
-                CharacterCreationService.SelectedProfessionTalent = value;
+                CharacterCreationService.ProfessionBuilder.SelectedProfessionTalent = value;
                 OnPropertyChanged();
             }
         }
 
         public AbilityFocus? SelectedFocus
         {
-            get { return CharacterCreationService.SelectedProfessionFocus; }
+            get { return CharacterCreationService.ProfessionBuilder.SelectedProfessionFocus; }
             set
             {
-                CharacterCreationService.SelectedProfessionFocus = value;
+                CharacterCreationService.ProfessionBuilder.SelectedProfessionFocus = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(HasProfessionFocusConflict));
             }
@@ -36,13 +36,13 @@ namespace TheExpanseRPG.MVVM.ViewModel
         {
             get
             {
-                return CharacterCreationService.SelectedCharacterProfession;
+                return CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession;
             }
             set
             {
-                if (!(value == null && CharacterCreationService.SelectedCharacterProfession != null))
+                if (!(value == null && CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession != null))
                 {
-                    CharacterCreationService.SelectedCharacterProfession = value;
+                    CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(SelectedFocus));
                     OnPropertyChanged(nameof(SelectedTalent));
@@ -52,19 +52,18 @@ namespace TheExpanseRPG.MVVM.ViewModel
 
         public bool HasProfessionFocusConflict
         {
-            get { return CharacterCreationService.HasProfessionConflict(); }
+            get { return CharacterCreationFocusConflictChecker.HasProfessionConflict(); }
         }
         private bool _isSelectionLocked;
         public bool IsSelectionLocked { get => _isSelectionLocked; set { _isSelectionLocked = value; OnPropertyChanged(); } }
         public CharacterProfessionViewModel(ScopedServiceFactory scopedServiceFactory)
         {
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
+            CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();
 
-            OutsiderProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.OutsiderProfessions);
-            LowerclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.LowerclassProfessions);
-            MiddleclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.MiddleclassProfessions);
-            UpperclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.UpperclassProfessions);
-            //EventAggregator_ToDelete.Subscribe(this);
+            OutsiderProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.ProfessionBuilder.OutsiderProfessions);
+            LowerclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.ProfessionBuilder.LowerclassProfessions);
+            MiddleclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.ProfessionBuilder.MiddleclassProfessions);
+            UpperclassProfessions = new ObservableCollection<CharacterProfession>(CharacterCreationService.ProfessionBuilder.UpperclassProfessions);
         }
     }
 }

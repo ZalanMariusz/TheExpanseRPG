@@ -14,13 +14,15 @@
     <UserControl.Resources>
         <conv:NullToHiddenVisibilityConverter x:Key="NullToHiddenVisibilityConverter"/>
         <conv:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <conv:DriveBonusToLabelContentConverter x:Key="DriveBonusToLabelContentConverter"/>
     </UserControl.Resources>
 
     <UserControl.Background>
         <ImageBrush ImageSource="\Images\DrivesBackground.png" Stretch="UniformToFill" Opacity="0.3"/>
     </UserControl.Background>
 
-    <Grid ShowGridLines="False">
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition/>
@@ -247,7 +249,9 @@
             </custom:CutCorner>
         </Grid>
 
-        <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding SelectedCharacterDrive, Converter={StaticResource NullToHiddenVisibilityConverter}}" Margin="0,0,0,0" IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}">
+        <StackPanel Grid.Row="1" Grid.Column="1" Visibility="{Binding SelectedCharacterDrive, Converter={StaticResource NullToHiddenVisibilityConverter}}" Margin="0,0,0,0" 
+                    IsEnabled="{Binding IsSelectionLocked, Converter={StaticResource InverseBooleanConverter}}"
+                    >
             <custom:CutCorner BorderCuts="1,1,1,1" Margin="10" HasShadow="0" BorderThickness="0" VerticalAlignment="Top" >
                 <StackPanel>
                     <Label HorizontalContentAlignment="Center" Content="Quality" Background="Black" FontWeight="Bold" Foreground="White"/>
@@ -268,7 +272,7 @@
                 <custom:CutCorner Margin="10" BorderThickness="0" BorderCuts="1,1,1,1" Grid.ColumnSpan="2" HasShadow="0">
                     <StackPanel Grid.Column="1">
                         <Label HorizontalContentAlignment="Center" Content="Pick a talent" Background="Black" FontWeight="Bold" Foreground="White" Margin="-1,0,0,0"/>
-                        <ListBox ItemsSource="{Binding DriveTalents, Mode=TwoWay}"
+                        <ListBox ItemsSource="{Binding DriveTalents, Mode=OneWay}"
                          Style="{StaticResource ListBoxStyle}"
                          SelectedItem="{Binding SelectedTalent, Mode=TwoWay}"
                          Background="{StaticResource EXPDarkBlueBrush}"
@@ -318,7 +322,38 @@
                     </StackPanel>
                 </custom:CutCorner>
             </Grid>
+
+            <Label Margin="10,10,10,0" HorizontalContentAlignment="Center" Content="{Binding SelectedDriveBonus, Converter={StaticResource DriveBonusToLabelContentConverter}}" Background="Black" FontWeight="Bold" Foreground="White"
+                   Visibility="{Binding IsDescriptionRequired, Converter={StaticResource BoolToVisibilityConverter}}"
+                   />
+            <Border  BorderThickness="2,0,2,2"
+                     BorderBrush="Black"
+                     Margin="10,0"
+                     Visibility="{Binding IsDescriptionRequired, Converter={StaticResource BoolToVisibilityConverter}}"
+                     >
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="30" />
+                </Border.Effect>
+                <TextBox
+                     BorderThickness="0"
+                     VerticalScrollBarVisibility="Auto" 
+                     VerticalAlignment="Stretch"  
+                     Background="#FF0B5879"
+                     Height="80"
+                     TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     Padding="5"
+                     Text="{Binding DriveBonusDescription}"
+                     Foreground="{StaticResource EXPLightBlueBrush}"
+                     CaretBrush="{StaticResource EXPLightBlueBrush}"
+                     
+                     />
+            </Border>
+
+
+
         </StackPanel>
+
         <Grid Name="lockerGrid" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

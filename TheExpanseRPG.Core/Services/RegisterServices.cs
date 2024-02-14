@@ -7,14 +7,14 @@ namespace TheExpanseRPG.Core.Services
     {
         public static IServiceCollection RegisterCoreServices(this IServiceCollection services)
         {
-            services.AddSingleton<IDiceRollService,DiceRollService>();
-            services.AddSingleton<ITalentListService,TalentListService>();
-            services.AddSingleton<ICharacterBackgroundListService,CharacterBackgroundListService>();
-            services.AddSingleton<IAbilityFocusListService,AbilityFocusListService>();
-            services.AddSingleton<ICharacterProfessionListService,CharacterProfessionListService>();
-            services.AddSingleton<ICharacterDriveListService,CharacterDriveListService>();
-            services.AddSingleton<ISqliteDatabaseConnectorService,SqliteDatabaseConnectorService>();
-            services.AddScoped<CharacterCreationService>();
+            services.AddSingleton<IDiceRollService, DiceRollService>();
+            services.AddSingleton<ITalentListService, TalentListService>();
+            services.AddSingleton<ICharacterBackgroundListService, CharacterBackgroundListService>();
+            services.AddSingleton<IAbilityFocusListService, AbilityFocusListService>();
+            services.AddSingleton<ICharacterProfessionListService, CharacterProfessionListService>();
+            services.AddSingleton<ICharacterDriveListService, CharacterDriveListService>();
+            services.AddSingleton<ISqliteDatabaseConnectorService, SqliteDatabaseConnectorService>();
+            services.AddScoped<ICharacterCreationService, CharacterCreationService>();
             return services;
         }
     }

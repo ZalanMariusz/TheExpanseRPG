@@ -179,11 +179,17 @@
                    />
 
             <custom:CutCorner Margin="1,-1,0,0"  RenderOptions.EdgeMode="Aliased" HasShadow="0" BorderCuts="0,0,1,0">
-                <TextBox BorderThickness="0" Grid.Row = "8" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch"  Background="Transparent"
+                <TextBox BorderThickness="0" 
+                         Grid.Row = "8" 
+                         Grid.ColumnSpan="2" 
+                         VerticalScrollBarVisibility="Auto" 
+                         VerticalAlignment="Stretch"  
+                         Background="Transparent"
                          TextWrapping="Wrap"
                          AcceptsReturn="True"
+                         Padding="5"
                          Text="{Binding CharacterDescription}"
-                         Foreground="{StaticResource EXPLightBlueBrush}" Padding="5"
+                         Foreground="{StaticResource EXPLightBlueBrush}"
                          CaretBrush="{StaticResource EXPLightBlueBrush}"/>
             </custom:CutCorner>
         </DockPanel>
@@ -395,7 +401,7 @@
 
                         </Grid.ColumnDefinitions>
 
-                        <HeaderedContentControl>
+                        <HeaderedContentControl ToolTip="10 + Dex">
                             <HeaderedContentControl.Header>
                                 <Label Content="Speed" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="5,0"/>
                             </HeaderedContentControl.Header>
@@ -404,7 +410,7 @@
                             </HeaderedContentControl.Content>
                         </HeaderedContentControl>
 
-                        <HeaderedContentControl Grid.Column="1">
+                        <HeaderedContentControl Grid.Column="1" ToolTip="10 + Dex">
                             <HeaderedContentControl.Header>
                                 <Label Content="Defense" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="5,0"/>
                             </HeaderedContentControl.Header>
@@ -413,7 +419,7 @@
                             </HeaderedContentControl.Content>
                         </HeaderedContentControl>
 
-                        <HeaderedContentControl Grid.Column="2">
+                        <HeaderedContentControl Grid.Column="2" ToolTip="Constitution">
                             <HeaderedContentControl.Header>
                                 <Label Content="Toughness" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="5,0"/>
                             </HeaderedContentControl.Header>
@@ -422,7 +428,7 @@
                             </HeaderedContentControl.Content>
                         </HeaderedContentControl>
 
-                        <HeaderedContentControl Grid.Column="3">
+                        <HeaderedContentControl Grid.Column="3" ToolTip="15 + Drive bonus">
                             <HeaderedContentControl.Header>
                                 <Label Content="Fortune" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="5,0"/>
                             </HeaderedContentControl.Header>
@@ -431,7 +437,7 @@
                             </HeaderedContentControl.Content>
                         </HeaderedContentControl>
 
-                        <HeaderedContentControl Grid.Column="4">
+                        <HeaderedContentControl Grid.Column="4" ToolTip="{Binding IncomeSources}">
                             <HeaderedContentControl.Header>
                                 <Label Content="Income" HorizontalContentAlignment="Center" Background="{StaticResource EXPDarkBlueBrush}" Margin="10,0"/>
                             </HeaderedContentControl.Header>

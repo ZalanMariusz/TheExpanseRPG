@@ -14,15 +14,15 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
 {
     public CharacterSocialClass? SelectedCharacterSocialClass
     {
-        get { return CharacterCreationService.SelectedCharacterSocialClass; }
+        get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass; }
         set
         {
-            if ((value < CharacterCreationService.SelectedCharacterProfession?.ProfessionSocialClass &&
+            if ((value < CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession?.ProfessionSocialClass &&
                 _popupService.ShowPopup(WPFStringResources.PopupProfessionResetConfirm) == MessageBoxResult.OK) ||
-                value >= CharacterCreationService.SelectedCharacterProfession?.ProfessionSocialClass ||
-                CharacterCreationService.SelectedCharacterProfession is null)
+                value >= CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession?.ProfessionSocialClass ||
+                CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession is null)
             {
-                CharacterCreationService.SelectedCharacterSocialClass = value;
+                CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SelectedCharacterSocialClassDescription));
             }
@@ -31,18 +31,18 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     }
     public CharacterBackGround? SelectedBackground
     {
-        get { return CharacterCreationService.SelectedCharacterBackground; }
+        get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterBackground; }
         set
         {
-            CharacterCreationService.SelectedCharacterBackground = value; ClearSelectedBonuses(); OnPropertyChanged();
+            CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterBackground = value; ClearSelectedBonuses(); OnPropertyChanged();
         }
     }
     public ICharacterCreationBonus? SelectedBenefit
     {
-        get { return CharacterCreationService.SelectedBackgroundBenefit; }
+        get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundBenefit; }
         set
         {
-            CharacterCreationService.SelectedBackgroundBenefit = value;
+            CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundBenefit = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(HasBackgroundFocusConflict));
             OnPropertyChanged(nameof(HasBackgroundBenefitConflict));
@@ -56,10 +56,10 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     }
     public AbilityFocus? SelectedBackgroundFocus
     {
-        get { return CharacterCreationService.SelectedBackgroundFocus; }
+        get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundFocus; }
         set
         {
-            CharacterCreationService.SelectedBackgroundFocus = value;
+            CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundFocus = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(HasBackgroundFocusConflict));
             OnPropertyChanged(nameof(HasBackgroundBenefitConflict));
@@ -67,37 +67,36 @@ public class SocialAndBackgroundViewModel : CharacterCreationViewModelBase
     }
     public bool HasBackgroundFocusConflict
     {
-        get { return CharacterCreationService.GetBackgroundFocusConflicts().Count > 0; }
+        get { return CharacterCreationFocusConflictChecker.GetBackgroundFocusConflicts().Count > 0; }
     }
     public bool HasBackgroundBenefitConflict
     {
-        get { return CharacterCreationService.GetBackgroundBenefitConflicts().Count > 0; }
+        get { return CharacterCreationFocusConflictChecker.GetBackgroundBenefitConflicts().Count > 0; }
     }
 
     public CharacterTalent? SelectedBackgroundTalent
     {
-        get { return CharacterCreationService.SelectedBackgroundTalent; }
-        set { CharacterCreationService.SelectedBackgroundTalent = value; OnPropertyChanged(); }
+        get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundTalent; }
+        set { CharacterCreationService.SocialAndBackgroundBuilder.SelectedBackgroundTalent = value; OnPropertyChanged(); }
     }
     public string? SelectedCharacterSocialClassDescription
     {
-        get { return CharacterCreationService.SelectedCharacterSocialClassDescription; }
+        get { return CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClassDescription; }
     }
     public ICharacterBackgroundListService BackgroundListService { get; set; }
 
     private readonly PopupService _popupService;
     public ObservableCollection<SocialClassWrapper> SocialClassesWithDescription { get; }
 
-    public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory, /*INavigationService navigationService*/ PopupService popupService)
+    public SocialAndBackgroundViewModel(ScopedServiceFactory scopedServiceFactory, PopupService popupService, ICharacterBackgroundListService characterBackgroundListService)
     {
-        CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
-        BackgroundListService = CharacterCreationService.BackgroundListService;
+        CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();
+        BackgroundListService = characterBackgroundListService;
         _popupService = popupService;
-        SocialClassesWithDescription = new(CharacterCreationService.SocialClassesWithDescription);
+        SocialClassesWithDescription = new(CharacterCreationService.SocialAndBackgroundBuilder.SocialClassesWithDescription);
         RefreshAvailableBackgrounds();
-        CharacterCreationService.SocialClassChanged += (sender, args) => { RefreshAvailableBackgrounds(); };
+        CharacterCreationService.SocialAndBackgroundBuilder.SocialClassChanged += (sender, args) => { RefreshAvailableBackgrounds(); };
 
-        //EventAggregator_ToDelete.RegisterNotifier(this);
     }
 
     private bool _isSelectionLocked;

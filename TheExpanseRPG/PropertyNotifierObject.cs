@@ -9,7 +9,7 @@ namespace TheExpanseRPG
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        public void OnPropertyChanged([CallerMemberName] string? propertyName = "")
         {
             var t = PropertyChanged?.GetInvocationList();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

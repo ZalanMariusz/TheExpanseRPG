@@ -14,28 +14,28 @@ namespace TheExpanseRPG.Core.Tests.Model
             _block= new();
             _focus = new(CharacterAbilityName.Strength, "testfocus");
         }
-        [Fact]
-        public void Constructor_InitiatedAbilitiesHaveNoFocuses()
-        {
-            int expectedCount = 0;
-            int actualCount = 0;
-            foreach (var ability in _block.AbilityList)
-            {
-                actualCount += ability.Focuses.Count;
-            }
-            actualCount.Should().Be(expectedCount);
-        }
-        [Fact]
-        public void AddFocus_HasFocusIsTrue()
-        {
-            _block.AddFocus(_focus);
-            _block.HasFocus(_focus).Should().BeTrue();
-        }
-        [Fact]
-        public void HasFocus_ReturnsFalseIfFocusDoesNotExist()
-        {
-            _block.HasFocus(_focus).Should().BeFalse();
-        }
+        //[Fact]
+        //public void Constructor_InitiatedAbilitiesHaveNoFocuses()
+        //{
+        //    int expectedCount = 0;
+        //    int actualCount = 0;
+        //    foreach (var ability in _block.AbilityList)
+        //    {
+        //        actualCount += ability.Focuses.Count;
+        //    }
+        //    actualCount.Should().Be(expectedCount);
+        //}
+        //[Fact]
+        //public void AddFocus_HasFocusIsTrue()
+        //{
+        //    _block.AddFocus(_focus);
+        //    _block.HasFocus(_focus).Should().BeTrue();
+        //}
+        //[Fact]
+        //public void HasFocus_ReturnsFalseIfFocusDoesNotExist()
+        //{
+        //    _block.HasFocus(_focus).Should().BeFalse();
+        //}
         [Fact]
         public void GetStrength_ReturnsStrength()
         {

@@ -13,66 +13,72 @@ namespace TheExpanseRPG.MVVM.ViewModel
     public class DrivesViewModel : CharacterCreationViewModelBase
     {
         public ICharacterDriveListService DriveListService { get; }
-        //public ObservableCollection<CharacterDrive> DriveList { get; }
-        public ObservableCollection<CharacterDrive> DriveListPartOne { get; }
-        public ObservableCollection<CharacterDrive> DriveListPartTwo { get; }
-        public ObservableCollection<ICharacterCreationBonus> DriveBonuses { get; }
-        private ObservableCollection<CharacterTalent>? _driveTalents;
-        public ObservableCollection<CharacterTalent>? DriveTalents { get { return _driveTalents; } set { _driveTalents = value; OnPropertyChanged(); } }
-
+        public List<CharacterDrive> DriveListPartOne { get; }
+        public List<CharacterDrive> DriveListPartTwo { get; }
+        public List<ICharacterCreationBonus> DriveBonuses => DriveListService.DriveBonuses;
+        public List<CharacterTalent>? DriveTalents => DriveListService.GetDriveTalentOptions(SelectedCharacterDrive?.DriveName);
+        public bool IsDescriptionRequired => IsDescriptionRequiredBasedOnBonus();
         public CharacterDrive? SelectedCharacterDrive
         {
-            get { return CharacterCreationService!.SelectedCharacterDrive; }
+            get => CharacterCreationService!.DriveBuilder.SelectedCharacterDrive;
             set
             {
-                CharacterCreationService.SelectedCharacterDrive = value;
+                CharacterCreationService.DriveBuilder.SelectedCharacterDrive = value;
                 OnPropertyChanged();
-                //RefreshDriveTalents();
             }
         }
 
         public ICharacterCreationBonus? SelectedDriveBonus
         {
-            get { return CharacterCreationService!.SelectedDriveBonus; }
+            get => CharacterCreationService!.DriveBuilder.SelectedDriveBonus;
             set
             {
-                CharacterCreationService!.SelectedDriveBonus = value;
+                CharacterCreationService!.DriveBuilder.SelectedDriveBonus = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsDescriptionRequired));
+                OnPropertyChanged(nameof(DriveBonusDescription));
             }
         }
 
         public CharacterTalent? SelectedTalent
         {
-            get { return CharacterCreationService!.SelectedDriveTalent; }
+            get => CharacterCreationService!.DriveBuilder.SelectedDriveTalent;
             set
             {
-                CharacterCreationService!.SelectedDriveTalent = value;
+                CharacterCreationService!.DriveBuilder.SelectedDriveTalent = value;
                 OnPropertyChanged();
             }
         }
-
-        public DrivesViewModel(ScopedServiceFactory scopedServiceFactory)
+        public string? DriveBonusDescription
         {
-            
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
-            DriveListService = CharacterCreationService.CharacterDriveListService;
-            
-            int listPartitionAtIndex = DriveListService.DriveList.Count / 2;
-            
-            //DriveList = new(DriveListService.DriveList);
-            DriveListPartOne = new(DriveListService.DriveList.Take(listPartitionAtIndex));
-            DriveListPartTwo = new(DriveListService.DriveList.TakeLast(DriveListService.DriveList.Count-listPartitionAtIndex));
-
-            RefreshDriveTalents();
-            DriveBonuses = new(DriveListService.DriveBonuses);
-            CharacterCreationService.DriveSelectionChanged += (sender, EventArgs) => RefreshDriveTalents();
-        }
-
-        private void RefreshDriveTalents()
-        {
-            DriveTalents = new ObservableCollection<CharacterTalent>(DriveListService.GetDriveTalentOptions(SelectedCharacterDrive?.DriveName));
+            get => CharacterCreationService.DriveBuilder.DriveBonusDescription;
+            set => CharacterCreationService.DriveBuilder.DriveBonusDescription = value;
         }
         private bool _isSelectionLocked;
-        public bool IsSelectionLocked { get => _isSelectionLocked; set { _isSelectionLocked = value; OnPropertyChanged(); } }
+        public bool IsSelectionLocked
+        {
+            get => _isSelectionLocked;
+            set
+            {
+                _isSelectionLocked = value;
+                OnPropertyChanged();
+            }
+        }
+        public DrivesViewModel(ScopedServiceFactory scopedServiceFactory, ICharacterDriveListService characterDriveListService)
+        {
+            CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();
+            DriveListService = characterDriveListService;
+
+            int listPartitionAtIndex = DriveListService.DriveList.Count / 2;
+
+            DriveListPartOne = new(DriveListService.DriveList.Take(listPartitionAtIndex));
+            DriveListPartTwo = new(DriveListService.DriveList.TakeLast(DriveListService.DriveList.Count - listPartitionAtIndex));
+
+            CharacterCreationService.DriveBuilder.DriveSelectionChanged += (sender, EventArgs) => OnPropertyChanged(nameof(DriveTalents));
+        }
+        private bool IsDescriptionRequiredBasedOnBonus()
+        {
+            return SelectedDriveBonus is Relationship || SelectedDriveBonus is Membership || SelectedDriveBonus is Reputation;
+        }
     }
 }

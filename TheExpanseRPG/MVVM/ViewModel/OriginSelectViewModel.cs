@@ -8,21 +8,21 @@ namespace TheExpanseRPG.MVVM.ViewModel
     {
         public string? SelectedOriginDescription
         {
-            get { return CharacterCreationService.CurrentOriginDescription; }
+            get { return CharacterCreationService.OriginBuilder.CurrentOriginDescription; }
         }
         public CharacterOrigin? SelectedOrigin
         {
-            get { return CharacterCreationService!.SelectedCharacterOrigin; }
+            get { return CharacterCreationService!.OriginBuilder.SelectedCharacterOrigin; }
             set
             {
-                CharacterCreationService.SelectedCharacterOrigin = value;
+                CharacterCreationService.OriginBuilder.SelectedCharacterOrigin = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SelectedOriginDescription));
             }
         }
         public OriginSelectViewModel(ScopedServiceFactory scopedServiceFactory)
         {
-            CharacterCreationService = (CharacterCreationService)scopedServiceFactory.GetScopedService<CharacterCreationService>();
+            CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();
         }
     }
 }

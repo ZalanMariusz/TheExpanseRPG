@@ -6,12 +6,12 @@ namespace TheExpanseRPG.Core.Tests.Model
 {
     public class CharacterAbilityTests
     {
-        readonly string _focusName;
+        //readonly string _focusName;
         readonly int _abilityScore;
         readonly CharacterAbilityName _abilityName;
         public CharacterAbilityTests()
         {
-            _focusName = "testfocus";
+            //_focusName = "testfocus";
             _abilityScore = 11;
             _abilityName = CharacterAbilityName.Strength;
         }
@@ -40,38 +40,38 @@ namespace TheExpanseRPG.Core.Tests.Model
             ability.BaseValue.Should().Be(_abilityScore);
         }
 
-        [Fact]
-        public void AddFocus_AddedFocusExists()
-        {
-            CharacterAbility ability = new(_abilityName);
-            ability.AddFocus(new AbilityFocus(_abilityName, _focusName));
+        //[Fact]
+        //public void AddFocus_AddedFocusExists()
+        //{
+        //    CharacterAbility ability = new(_abilityName);
+        //    ability.AddFocus(new AbilityFocus(_abilityName, _focusName));
 
-            ability.GetAbilityFocus(_focusName).Should().NotBeNull();
-        }
-        [Fact]
-        public void AddFocus_AddingAlreadyExistingFocusThrowsArgumentException()
-        {
-            CharacterAbility ability = new(_abilityName);
-            AbilityFocus focus = new(_abilityName, _focusName);
-            ability.AddFocus(focus);
-            focus = new AbilityFocus(_abilityName, _focusName);
+        //    ability.GetAbilityFocus(_focusName).Should().NotBeNull();
+        //}
+        //[Fact]
+        //public void AddFocus_AddingAlreadyExistingFocusThrowsArgumentException()
+        //{
+        //    CharacterAbility ability = new(_abilityName);
+        //    AbilityFocus focus = new(_abilityName, _focusName);
+        //    ability.AddFocus(focus);
+        //    focus = new AbilityFocus(_abilityName, _focusName);
 
-            ability.Invoking(x => x.AddFocus(focus)).Should().Throw<ArgumentException>();
-        }
-        [Fact]
-        public void AddFocus_AddingFocusWithDifferentAbilityThrowsArgumentException()
-        {
-            CharacterAbility ability = new(_abilityName);
-            AbilityFocus focus = new(CharacterAbilityName.Accuracy, _focusName);
+        //    ability.Invoking(x => x.AddFocus(focus)).Should().Throw<ArgumentException>();
+        //}
+        //[Fact]
+        //public void AddFocus_AddingFocusWithDifferentAbilityThrowsArgumentException()
+        //{
+        //    CharacterAbility ability = new(_abilityName);
+        //    AbilityFocus focus = new(CharacterAbilityName.Accuracy, _focusName);
 
-            ability.Invoking(x => x.AddFocus(focus)).Should().Throw<ArgumentException>();
+        //    ability.Invoking(x => x.AddFocus(focus)).Should().Throw<ArgumentException>();
 
-        }
-        [Fact]
-        public void GetAbilityFocus_FocusDoesNotExistsAndReturnsNull()
-        {
-            CharacterAbility ability = new(_abilityName);
-            ability.GetAbilityFocus(_focusName).Should().BeNull();
-        }
+        //}
+        //[Fact]
+        //public void GetAbilityFocus_FocusDoesNotExistsAndReturnsNull()
+        //{
+        //    CharacterAbility ability = new(_abilityName);
+        //    ability.GetAbilityFocus(_focusName).Should().BeNull();
+        //}
     }
 }

@@ -19,12 +19,12 @@ namespace TheExpanseRPG.MVVM.ViewModel
         private void Ok(object sender)
         {
             PopupResult = MessageBoxResult.OK;
-            (sender as Window).Close();
+            (sender as Window)!.Close();
         }
         private void Cancel(object sender)
         {
             PopupResult = MessageBoxResult.Cancel;
-            (sender as Window).Close();
+            (sender as Window)!.Close();
         }
     }
 }
