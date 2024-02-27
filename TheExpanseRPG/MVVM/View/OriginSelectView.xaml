@@ -95,7 +95,6 @@
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected" Value="True">
                                                     <Setter TargetName="ListboxImage" Property="Source" Value="{Binding Converter={StaticResource OriginToImageConverter}}"/>
-                                                    <!--<Setter TargetName="contentborder" Property="BorderBrush" Value="#BB1EE135"/>-->
                                                     <Setter TargetName="ListboxImage" Property="Opacity" Value="1"/>
                                                 </Trigger>
                                                 <Trigger Property="IsMouseOver" Value="True">

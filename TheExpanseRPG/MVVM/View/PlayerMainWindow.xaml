@@ -6,55 +6,121 @@
         xmlns:local="clr-namespace:TheExpanseRPG.MVVM.View"
         xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
         xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
+        xmlns:conv="clr-namespace:TheExpanseRPG.Converters"
         mc:Ignorable="d"
         SizeToContent="Width"
         xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
         d:DataContext="{d:DesignInstance Type=vm:PlayerMainViewModel}"
         WindowStartupLocation="CenterScreen"
         Style="{StaticResource ExpanseWindowStyle}"
-        Title="PlayerMainWindow" Height="500"
+        Title="PlayerMainWindow" Height="800"
+        MouseDown="Window_MouseDown"
         Closing="Window_Closing"
         >
+
     <Grid>
+        <Grid.Resources>
+            <conv:OriginToListImagePathConverter x:Key="OriginToListImagePathConverter"/>
+            <DataTemplate DataType="{x:Type vm:CharacterDetailsViewModel}">
+                <local:CharacterDetailsView/>
+            </DataTemplate>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"/>
             <RowDefinition/>
-            <RowDefinition Height="20"/>
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10"/>
+            <!--<ColumnDefinition Width="10"/>-->
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
-        <user:WindowHeaderWithLogo Grid.ColumnSpan="40"/>
-        <custom:CutCorner Grid.Column="1" Grid.Row="1" BorderCuts="1,0,0,1" Margin="0" Fill="#FF0B5879">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+        <Border Grid.Row="1" Grid.ColumnSpan="2" Margin="0,0,0,0">
+            <Border.Background>
+                <ImageBrush ImageSource="/Images/PlayerMainBackground.png" Stretch="UniformToFill" Opacity="0.3"/>
+            </Border.Background>
+        </Border>
+        <Border Grid.ColumnSpan="100" Grid.RowSpan="100" BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="2"/>
+        <!-- Around border -->
+        <Border Grid.ColumnSpan="100" BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="2"/>
+        <!-- Header border -->
+        <Border Grid.Row="1"  BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="0,0,4,0"/>
+        <!-- Menu-Charlist border -->
+        <Border Grid.Column="1" Grid.Row="1"  BorderBrush="{StaticResource EXPDarkBlueBrush}" BorderThickness="0,0,4,0"/>
+        <!-- Charlist-CharDetails border -->
 
-                <StackPanel>
-                    <custom:CutCorner BorderCuts="1,0,0,1" Margin="5" BorderThickness="2" >
-                        <Button Content="New Character" FontSize="15" Width="160" Height="25"  
+        <user:WindowHeaderWithLogo Grid.ColumnSpan="40"/>
+        <Grid Grid.Row="1" Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel>
+                <custom:CutCorner BorderCuts="1,0,0,1" Margin="5" BorderThickness="2" RenderOptions.EdgeMode="Aliased">
+                    <Button Content="New Character" FontSize="15" Width="160" Height="25"  
                                 Command="{Binding NavigateToCreateNewCharacter}"
                                 CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                                 />
-                    </custom:CutCorner>
-                    <custom:CutCorner BorderCuts="1,0,0,1" Margin="5" BorderThickness="2" >
-                        <Button Content="Join Session" FontSize="15" Width="160" Height="25"/>
-                    </custom:CutCorner>
-                </StackPanel>
-                <custom:CutCorner Grid.Row="1" VerticalAlignment="Bottom" BorderCuts="1,0,0,1" Margin="5" BorderThickness="2">
-                    <Button Content="Back to Role Select" FontSize="15" Width="160" Height="25"
+                </custom:CutCorner>
+                <custom:CutCorner BorderCuts="1,0,0,1" Margin="5" BorderThickness="2" RenderOptions.EdgeMode="Aliased">
+                    <Button Content="Join Session" FontSize="15" Width="160" Height="25"/>
+                </custom:CutCorner>
+            </StackPanel>
+            <custom:CutCorner Grid.Row="1" VerticalAlignment="Bottom" BorderCuts="1,0,0,1" Margin="5" BorderThickness="2" RenderOptions.EdgeMode="Aliased">
+                <Button Content="Back to Role Select" FontSize="15" Width="160" Height="25"
                             Command="{Binding NavigateToSplash}"
                             CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                </custom:CutCorner>
-            </Grid>
-        </custom:CutCorner>
-        <custom:CutCorner Grid.Column="2" Grid.Row="1"  Width="500" BorderCuts="0,1,1,0" Margin="5,0,0,0" >
-            <ListBox Background="Transparent" BorderThickness="0"/>
-        </custom:CutCorner>
+            </custom:CutCorner>
+        </Grid>
+        <ListView Background="Transparent" 
+                  BorderThickness="0" 
+                  ItemsSource="{Binding CharacterList}" 
+                  Margin="0,5"
+                  Template="{DynamicResource ExpanseListViewTemplate}"   
+                  
+                  SelectedValue="{Binding SelectedCharacter, Mode=TwoWay}"
+                  Grid.Column="1"
+                  SelectionMode="Single" 
+                  Grid.Row="1"
+                  Width="450"
+                  x:Name="characterList">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Grid>
+                                    <Border Margin="5,0" x:Name="BackgroundBorder" BorderThickness="0,1" BorderBrush="{StaticResource EXPLightBlueBrush}" Visibility="Hidden"/>
+                                    <Image x:Name="ItemBackgroundImage" Height="80" Width="400" Stretch="Fill">
+                                        <Image.Source>
+                                            <FormatConvertedBitmap Source="{Binding Origin, Converter={StaticResource OriginToListImagePathConverter}}" DestinationFormat="Gray8"/>
+                                        </Image.Source>
+                                    </Image>
+                                    <user:CharacterAsListItem Character="{Binding}" 
+                                                              x:Name="listItem" 
+                                                              Margin="5,1" 
+                                                              DeleteCharacterCommand="{Binding DataContext.DeleteCharacterCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                              OpenCharacterSheetCommand="{Binding DataContext.OpenCharacterSheetCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                              >
+                                    </user:CharacterAsListItem>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Source" TargetName="ItemBackgroundImage" Value="{Binding Origin, Converter={StaticResource OriginToListImagePathConverter}}" />
+                                        <Setter TargetName="BackgroundBorder" Property="Visibility" Value="Visible"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Source" TargetName="ItemBackgroundImage" Value="{Binding Origin, Converter={StaticResource OriginToListImagePathConverter}}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <ContentControl Content="{Binding CurrentInnerViewModel}" Grid.Column="2" Grid.Row="1" />
     </Grid>
 </Window>

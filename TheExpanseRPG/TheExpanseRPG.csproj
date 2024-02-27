@@ -9,6 +9,17 @@
     <PublishReadyToRunComposite>false</PublishReadyToRunComposite>
     <!--<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>-->
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\CharacterDetailsBackground.jpg" />
+    <None Remove="Images\CharacterListBelt.png" />
+    <None Remove="Images\CharacterListEarth.png" />
+    <None Remove="Images\CharacterListMars.png" />
+    <None Remove="Images\delete.png" />
+    <None Remove="Images\levelup.png" />
+    <None Remove="Images\OpenCharacterSheet.png" />
+    <None Remove="Images\PlayerMainBackground.png" />
+  </ItemGroup>
   
   <ItemGroup>
     <Content Include="Images\CharacterProfiles\000_blank.png">
@@ -136,19 +147,27 @@
 
   <ItemGroup>
     <Resource Include="Images\AbilitiesBackground.png" />
+    <Resource Include="Images\CharacterDetailsBackground.jpg" />
+    <Resource Include="Images\CharacterListBelt.png" />
+    <Resource Include="Images\CharacterListEarth.png" />
+    <Resource Include="Images\CharacterListMars.png" />
     <Resource Include="Images\CharacterOriginBelt.png" />
     <Resource Include="Images\CharacterOriginEarth.png" />
     <Resource Include="Images\CharacterOriginMars.png" />
+    <Resource Include="Images\delete.png" />
     <Resource Include="Images\DrivesBackground.png" />
     <Resource Include="Images\error_icon.png" />
     <Resource Include="Images\FInalizeBackground.png" />
     <Resource Include="Images\infobuttonicon.png" />
+    <Resource Include="Images\levelup.png" />
     <Resource Include="Images\OOjs_UI_icon_alert_image_warning.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\OpenCharacterSheet.png" />
     <Resource Include="Images\OriginBackground.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\PlayerMainBackground.png" />
     <Resource Include="Images\pngwing.png" />
     <Resource Include="Images\ProfessionBackground.png" />
     <Resource Include="Images\shutdown-icon.png" />

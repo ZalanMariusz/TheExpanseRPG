@@ -7,7 +7,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
         public static IServiceCollection RegisterViewModels(this IServiceCollection services)
         {
             services.AddSingleton<WelcomeSplashViewModel>();
-            services.AddSingleton<PlayerMainViewModel>();
+            services.AddTransient<PlayerMainViewModel>();
             services.AddSingleton<GmMainViewModel>();
             
             services.AddTransient<TalentInfoViewModel>();
@@ -25,6 +25,8 @@ namespace TheExpanseRPG.MVVM.ViewModel
             services.AddTransient<FocusListViewModel>();
             services.AddTransient<PopupViewModelBase>();
             services.AddTransient<CharacterFinalizationViewModel>();
+            services.AddTransient<CharacterSheetViewModel>();
+            services.AddTransient<CharacterDetailsViewModel>();
             return services;
         }
     }

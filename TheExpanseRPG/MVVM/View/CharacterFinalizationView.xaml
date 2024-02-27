@@ -71,10 +71,9 @@
                 </Grid.RowDefinitions>-->
 
                 <Grid>
-                    <Grid.ColumnDefinitions>
+                    <!--<Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>-->
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -82,86 +81,96 @@
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <Border BorderBrush="{StaticResource EXPLightBlueBrush}" BorderThickness="1" Grid.ColumnSpan="2" Grid.RowSpan="6" />
-                    <Label Content="Origin" VerticalAlignment="Center" FontWeight="Bold" Margin="5"/>
-
-                    <user:CharacterCreationWarningIcon
-                        Margin="0,0,-5,0"
-                        WarningVisibility="{Binding HasOriginConflict,Converter={StaticResource BoolToVisibilityConverter}}"
-                        TooltipContent="Conflict"
-                        />
-
-                    <user:CharacterCreationErrorIcon 
-                        Margin="0,0,-5,0"
-                        TooltipContent="Missing selection"
-                        ErrorVisibility="{Binding IsOriginNotSelected, Converter={StaticResource BoolToVisibilityConverter}}"
-                        />
-
-                    <custom:CutCorner RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0"  HasShadow="0" Grid.Column="1" Margin="5">
-                        <Label Content="{Binding SelectedOrigin}" VerticalAlignment="Center" />
-                    </custom:CutCorner>
-                    <Label Grid.Row="1" Content="Social Class" VerticalAlignment="Center" FontWeight="Bold" Margin="5"/>
-
-                    <user:CharacterCreationErrorIcon
-                        Grid.Row="1"
-                        Margin="0,0,-5,0"
-                        TooltipContent="Missing selection"
-                        ErrorVisibility="{Binding IsSocialClassNotSelected, Converter={StaticResource BoolToVisibilityConverter}}"
-                        />
-
-                    <custom:CutCorner Grid.Row="1" RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0" HasShadow="0" Grid.Column="1" Margin="5">
-                        <Label Content="{Binding SelectedSocialClass}" VerticalAlignment="Center"/>
-                    </custom:CutCorner>
-                    <Label Content="Background" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="2" Margin="5"/>
-
-                    <custom:CutCorner RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0" HasShadow="0" Grid.Row="2" Margin="5" Grid.Column="1">
-                        <Label Content="{Binding SelectedBackground.BackgroundName}" VerticalAlignment="Center"/>
+                    
+                    <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" HasShadow="0" BorderThickness="0" Margin="7">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Background="Black" Content="Origin" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center"/>
+                            <Label Content="{Binding SelectedOrigin}" Grid.Column="1" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
+                            <user:CharacterCreationWarningIcon
+                                Grid.Column="1"
+                                WarningVisibility="{Binding HasOriginConflict,Converter={StaticResource BoolToVisibilityConverter}}"
+                                TooltipContent="Conflict"/>
+                            <user:CharacterCreationErrorIcon 
+                                Grid.Column="1"
+                                TooltipContent="Missing selection"
+                                ErrorVisibility="{Binding IsOriginNotSelected, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Grid>
                     </custom:CutCorner>
 
-                    <user:CharacterCreationWarningIcon
-                        Grid.Row="2"
-                        Margin="0,0,-5,0"
-                        WarningVisibility="{Binding HasBackgroundConflict,Converter={StaticResource BoolToVisibilityConverter}}"
-                        TooltipContent="Conflict"
-                     />
-
-                    <user:CharacterCreationErrorIcon
-                        Grid.Row="2"
-                        Margin="0,0,-5,0"
-                        TooltipContent="Missing selection"
-                        ErrorVisibility="{Binding IsMissingBackgroundBonus, Converter={StaticResource BoolToVisibilityConverter}}"
-                        />
-
-                    <Label Content="Profession" VerticalAlignment="Center" FontWeight="Bold" Grid.Row="3" Margin="5" />
-                    <user:CharacterCreationWarningIcon
-                        Grid.Row="3"
-                        Margin="0,0,-5,0"
-                        WarningVisibility="{Binding HasProfessionConflict,Converter={StaticResource BoolToVisibilityConverter}}"
-                        TooltipContent="Conflict"
-                    />
-                    <user:CharacterCreationErrorIcon
-                        Grid.Row="3"
-                        Margin="0,0,-5,0"
-                        TooltipContent="Missing selection"
-                        ErrorVisibility="{Binding IsMissingProfessionBonus, Converter={StaticResource BoolToVisibilityConverter}}"
-                        />
-
-                    <custom:CutCorner RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0" HasShadow="0" Grid.Row="3" Margin="5" Grid.Column="1">
-                        <Label Content="{Binding SelectedProfession.ProfessionName}" VerticalAlignment="Center"/>
+                    <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" HasShadow="0" BorderThickness="0" Margin="7" Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Background="Black" Content="Social Class" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center"/>
+                            <Label Content="{Binding SelectedSocialClass}" Grid.Column="1" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
+                            <user:CharacterCreationErrorIcon 
+                                Grid.Column="1"
+                                TooltipContent="Missing selection"
+                                ErrorVisibility="{Binding IsSocialClassNotSelected, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Grid>
                     </custom:CutCorner>
 
-                    <Label Content="Drive" VerticalAlignment="Center"  FontWeight="Bold" Grid.Row="4" Margin="5"/>
-                    <custom:CutCorner RenderOptions.EdgeMode="Aliased" BorderCuts="0,0,1,0"  HasShadow="0" Grid.Row="4" Margin="5" Grid.Column="1">
-                        <Label Content="{Binding SelectedDrive.DriveName}" VerticalAlignment="Center"/>
+                    <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" HasShadow="0" BorderThickness="0" Margin="7" Grid.Row="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Background="Black" Content="Background" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center"/>
+                            <Label Content="{Binding SelectedBackground.BackgroundName}" Grid.Column="1" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
+                            <user:CharacterCreationWarningIcon
+                                Grid.Column="1"
+                                WarningVisibility="{Binding HasBackgroundConflict,Converter={StaticResource BoolToVisibilityConverter}}"
+                                TooltipContent="Conflict"/>
+
+                            <user:CharacterCreationErrorIcon
+                                Grid.Column="1"
+                                TooltipContent="Missing selection"
+                                ErrorVisibility="{Binding IsMissingBackgroundBonus, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Grid>
                     </custom:CutCorner>
 
-                    <user:CharacterCreationErrorIcon
-                        Grid.Row="4"
-                        Margin="0,0,-5,0"
-                        TooltipContent="Missing selection"
-                        ErrorVisibility="{Binding IsMissingDriveBonus, Converter={StaticResource BoolToVisibilityConverter}}"
-                        />
+                    <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" HasShadow="0" BorderThickness="0" Margin="7" Grid.Row="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Background="Black" Content="Profession" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center"/>
+                            <Label Content="{Binding SelectedProfession.ProfessionName}" Grid.Column="1" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
+                            <user:CharacterCreationWarningIcon
+                                Grid.Column="1"
+                                WarningVisibility="{Binding HasProfessionConflict,Converter={StaticResource BoolToVisibilityConverter}}"
+                                TooltipContent="Conflict"/>
 
+                            <user:CharacterCreationErrorIcon
+                                Grid.Column="1"
+                                TooltipContent="Missing selection"
+                                ErrorVisibility="{Binding IsMissingProfessionBonus, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Grid>
+                    </custom:CutCorner>
+
+                    <custom:CutCorner BorderCuts="1,0,1,0" RenderOptions.EdgeMode="Aliased" HasShadow="0" BorderThickness="0" Margin="7" Grid.Row="4">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Background="Black" Content="Drive" FontWeight="Bold" Foreground="White" VerticalContentAlignment="Center"/>
+                            <Label Content="{Binding SelectedDrive.DriveName}" Grid.Column="1" Background="White" Foreground="Black" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" />
+
+                            <user:CharacterCreationErrorIcon
+                                Grid.Column="1"
+                                TooltipContent="Missing selection"
+                                ErrorVisibility="{Binding IsMissingDriveBonus, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                        </Grid>
+                    </custom:CutCorner>
                 </Grid>
 
                 <Border BorderBrush="{StaticResource EXPLightBlueBrush}" BorderThickness="1" Grid.ColumnSpan="2" RenderOptions.EdgeMode="Aliased"/>

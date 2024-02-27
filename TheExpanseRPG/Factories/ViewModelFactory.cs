@@ -24,7 +24,8 @@ public class ViewModelFactory : IViewModelFactory
             { typeof(CharacterCreationWindow), typeof(CharacterCreationViewModel) },
             { typeof(TalentListWindow), typeof(TalentListViewModel) },
             { typeof(FocusListWindow), typeof(FocusListViewModel) },
-            { typeof(TalentInfoWindow), typeof(TalentInfoViewModel) }
+            { typeof(TalentInfoWindow), typeof(TalentInfoViewModel) },
+            { typeof(CharacterSheetWindow), typeof(CharacterSheetViewModel) }
 
         };
     }
@@ -37,7 +38,7 @@ public class ViewModelFactory : IViewModelFactory
 
     public IViewModelBase GetWindowViewModel<TWindow>() where TWindow : Window
     {
-        var viewmodel = ViewModelAssociationDictionary!.Single(x => typeof(TWindow) == x.Key).Value;
+        var viewmodel = ViewModelAssociationDictionary[typeof(TWindow)];
         return _factory(viewmodel);
     }
     public IViewModelBase GetViewModel<TViewModelType>() where TViewModelType : IViewModelBase

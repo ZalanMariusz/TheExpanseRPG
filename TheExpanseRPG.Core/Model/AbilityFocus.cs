@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model.Interfaces;
+using TheExpanseRPG.Core.Services.JSONDeserializers;
 
 namespace TheExpanseRPG.Core.Model
 {
@@ -32,6 +33,10 @@ namespace TheExpanseRPG.Core.Model
         public ICharacterCreationBonus ShallowCopy()
         {
             return (AbilityFocus)MemberwiseClone();
+        }
+        public override string ToString()
+        {
+            return $"{AbilityName}({this.FocusName})";
         }
     }
 }

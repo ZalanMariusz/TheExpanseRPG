@@ -4,7 +4,7 @@ namespace TheExpanseRPG.Core.Model
 {
     public class CharacterAbilityBlock
     {
-        public List<CharacterAbility> AbilityList { get; private set; }
+        public List<CharacterAbility> AbilityList { get; set; }
         public CharacterAbilityBlock()
         {
             AbilityList = new List<CharacterAbility>();
