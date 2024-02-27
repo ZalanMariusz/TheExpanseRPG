@@ -15,7 +15,7 @@ public class CharacterCreationViewModelBase : ViewModelBase, ICharacterCreationV
     }
     protected void NavigateToInnerView<TViewModel>() where TViewModel : ICharacterCreationViewModel
     {
-        TViewModel? viewModelToNavigateTo = (TViewModel?)InnerViewModels.FirstOrDefault(x => x.GetType() == typeof(TViewModel));
+        //TViewModel? viewModelToNavigateTo = (TViewModel?)InnerViewModels.FirstOrDefault(x => x.GetType() == typeof(TViewModel));
         NavigationService.NavigateToInnerView<TViewModel>(this);
     }
 }

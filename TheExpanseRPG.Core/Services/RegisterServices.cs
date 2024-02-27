@@ -15,6 +15,7 @@ namespace TheExpanseRPG.Core.Services
             services.AddSingleton<ICharacterDriveListService, CharacterDriveListService>();
             services.AddSingleton<ISqliteDatabaseConnectorService, SqliteDatabaseConnectorService>();
             services.AddScoped<ICharacterCreationService, CharacterCreationService>();
+            services.AddSingleton<ICharacterListService, CharacterListService>();
             return services;
         }
     }

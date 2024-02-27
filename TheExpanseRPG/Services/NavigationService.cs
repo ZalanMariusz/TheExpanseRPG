@@ -3,7 +3,10 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using TheExpanseRPG.Core.Factories.Interfaces;
+using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Factories.Interfaces;
+using TheExpanseRPG.MVVM.View;
+using TheExpanseRPG.MVVM.ViewModel;
 using TheExpanseRPG.MVVM.ViewModel.Interfaces;
 using TheExpanseRPG.Services.Interfaces;
 
@@ -21,14 +24,21 @@ namespace TheExpanseRPG.Services
         }
         public void NavigateToInnerView<TViewModelBase>(IViewModelBase owner) where TViewModelBase : IViewModelBase
         {
-            IViewModelBase viewModel = owner.GetInnerViewModel<TViewModelBase>()!;
-            IViewModelBase CurrentViewModel = viewModel ?? _viewModelFactory.GetViewModel<TViewModelBase>();
+            IViewModelBase CurrentViewModel = owner.GetInnerViewModel<TViewModelBase>() ?? _viewModelFactory.GetViewModel<TViewModelBase>();
             owner.AddInnerViewModel(CurrentViewModel);
             owner.SetCurrentInnerViewModel(CurrentViewModel);
         }
         public void NavigateToNewWindow<TWindow>(Window? sender = null, bool closeWindow = false) where TWindow : Window
         {
             ShowWindow<TWindow>(sender, closeWindow);
+        }
+        public void NavigateToCharacterSheet(IViewModelBase sender, object character)
+        {
+            var window = _viewFactory.GetWindow<CharacterSheetWindow>();
+            window.DataContext = _viewModelFactory.GetWindowViewModel<CharacterSheetWindow>();
+            ((CharacterSheetViewModel)window.DataContext).Character = (ExpanseCharacter)character!;
+            sender?.OpenModals?.Add(window);
+            window.ShowDialog();
         }
         public void NavigateToModal<TWindow>(IViewModelBase sender, bool isDialog = true) where TWindow : Window
         {

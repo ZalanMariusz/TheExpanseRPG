@@ -1,16 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows;
 using TheExpanseRPG.Core;
-using TheExpanseRPG.MVVM;
 using TheExpanseRPG.MVVM.View;
 using TheExpanseRPG.Services.Interfaces;
 
 namespace TheExpanseRPG
 {
-    
+
     public partial class App : Application
     {
         public static bool IsNavigating { get; set; } = false;
@@ -18,8 +16,9 @@ namespace TheExpanseRPG
         private readonly IServiceProvider _serviceProvider;
         public App()
         {
+            //ShutdownMode = ShutdownMode.OnExplicitShutdown;
             _services = new ServiceCollection();
-            
+
             _services.RegisterCoreDepdendencies();
             _services.RegisterMVVMDependencies();
 

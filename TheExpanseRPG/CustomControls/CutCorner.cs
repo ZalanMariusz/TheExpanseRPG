@@ -97,7 +97,7 @@ namespace TheExpanseRPG.CustomControls
             nameof(HasShadow),
             typeof(int),
             typeof(CutCorner),
-            new PropertyMetadata(1));
+            new PropertyMetadata(0));
 
         public static new readonly DependencyProperty BorderThicknessProperty = DependencyProperty.Register(
             nameof(BorderThickness),

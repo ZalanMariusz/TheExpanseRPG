@@ -110,7 +110,7 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
         }
     }
 
-    private void NavigateBackAfterCreation(object? sender, System.EventArgs e)
+    private void NavigateBackAfterCreation(object? sender, EventArgs e)
     {
         NavigateBackToMainCommand.Execute(sender);
     }

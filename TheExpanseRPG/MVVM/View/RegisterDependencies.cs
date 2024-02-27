@@ -8,9 +8,10 @@ namespace TheExpanseRPG.Core.MVVM.View
         public static IServiceCollection RegisterViews(this IServiceCollection services)
         {
             services.AddSingleton<WelcomeSplashWindow>();
-            services.AddSingleton<PlayerMainWindow>();
+            services.AddTransient<PlayerMainWindow>();
             services.AddSingleton<GmMainWindow>();
             services.AddTransient<TalentInfoWindow>();
+            services.AddTransient<CharacterSheetWindow>();
 
             services.AddTransient<CharacterCreationWindow>();
             services.AddTransient<TalentListWindow>();
