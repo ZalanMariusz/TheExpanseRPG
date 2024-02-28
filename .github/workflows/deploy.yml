@@ -1,4 +1,4 @@
-name: "Deploy\\"
+name: "Deploy"
 on:
     push:
     tags:
@@ -9,11 +9,11 @@ jobs:
     deploy:
         runs-on: windows-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             
-            - uses: actions/setup-dotnet@v1
+            - uses: actions/setup-dotnet@v4
                 with:
-                    dotnet-version: net7.0-windows
+                    dotnet-version: 7.0.x
             -run: dotnet restore ${{ env.PROJECT_PATH }}
 
             -run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore
