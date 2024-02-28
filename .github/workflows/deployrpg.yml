@@ -2,8 +2,6 @@ name: "DeployRPG"
 
 on:
   push:
-    tags:
-      - "expanserpg-release/v*"
 
 env:
   PROJECT_PATH: TheExpanseRPG/TheExpanseRPG.csproj
