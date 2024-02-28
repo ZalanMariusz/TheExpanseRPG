@@ -16,17 +16,21 @@ jobs:
       with:
           dotnet-version: 7.0.x
 
-    - run:  dotnet restore ${{ env.PROJECT_PATH }}
+    - name: restore Project
+      run: dotnet restore ${{ env.PROJECT_PATH }}
+    
+    - name: Build Project
+      run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore --self-contained
 
-    - run:  dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore --self-contained
-
-    - run:  dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 --no-build --no-restore
+    - name: Publish Project
+      run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 --no-build --no-restore
 
     - uses: actions/create-release@v1
       id: create_release
       env:
         GITHUB_TOKEN: $"{{ secrets.GITHUB_TOKEN }}"
       with:
+        tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
 
     - uses: csexton/release-asset-action@v2
