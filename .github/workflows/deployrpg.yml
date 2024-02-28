@@ -16,8 +16,8 @@ jobs:
       with:
           dotnet-version: 7.0.x
 
-     - name: Restore Project
-       run: dotnet restore ${{ env.PROJECT_PATH }}
+    - name: Restore Project
+      run: dotnet restore ${{ env.PROJECT_PATH }}
     
     - name: Build Project
       run: dotnet build ${{ env.PROJECT_PATH }} -c Release --no-restore --self-contained
