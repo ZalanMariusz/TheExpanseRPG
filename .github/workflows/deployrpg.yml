@@ -30,6 +30,6 @@ jobs:
         release_name: ${{ github.ref }}
 
     - uses: csexton/release-asset-action@v2
-        GITHUB_TOKEN: $"{{ secrets.GITHUB_TOKEN }}"
+        github_token: $"{{ secrets.GITHUB_TOKEN }}"
         release-url: ${{ steps.create_release.outputs.upload_url }}
         
