@@ -28,13 +28,13 @@ jobs:
     - uses: actions/create-release@v1
       id: create_release
       env:
-        GITHUB_TOKEN: $"{{ secrets.GITHUB_TOKEN }}"
+        GITHUB_TOKEN: $"{{ secrets.EXPANSERPGDEPLOYMENT }}"
       with:
         tag_name: ${{ github.ref }}
         release_name: ${{ github.ref }}
 
     - uses: csexton/release-asset-action@v2
       with:
-        github_token: $"{{ secrets.GITHUB_TOKEN }}"
+        github_token: $"{{ secrets.EXPANSERPGDEPLOYMENT }}"
         release-url: ${{ steps.create_release.outputs.upload_url }}
         
