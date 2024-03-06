@@ -37,8 +37,7 @@
                 </custom:CutCorner>
                 <custom:CutCorner BorderCuts="0,1,1,0" Margin="5" BorderThickness="2">
                     <Button Content="I am a GM" FontSize="20" Width="160" Height="50" 
-                            Command="{Binding NavigateToGmMain}"
-                            CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                            Click="Button_Click"
                             />
                 </custom:CutCorner>
             </StackPanel>

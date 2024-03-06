@@ -65,7 +65,7 @@
                                 />
                 </custom:CutCorner>
                 <custom:CutCorner BorderCuts="1,0,0,1" Margin="5" BorderThickness="2" RenderOptions.EdgeMode="Aliased">
-                    <Button Content="Join Session" FontSize="15" Width="160" Height="25"/>
+                    <Button Content="Join Session" FontSize="15" Width="160" Height="25" Click="Button_Click"/>
                 </custom:CutCorner>
             </StackPanel>
             <custom:CutCorner Grid.Row="1" VerticalAlignment="Bottom" BorderCuts="1,0,0,1" Margin="5" BorderThickness="2" RenderOptions.EdgeMode="Aliased">

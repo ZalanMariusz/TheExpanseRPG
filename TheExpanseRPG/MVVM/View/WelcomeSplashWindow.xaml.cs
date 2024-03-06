@@ -14,5 +14,10 @@ namespace TheExpanseRPG.MVVM.View
             if (e.ChangedButton == MouseButton.Left)
                 this.DragMove();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("WIP");
+        }
     }
 }

@@ -30,8 +30,15 @@ public class CharacterListService : ICharacterListService
             }
         };
         string characterFolderPath = ModelResources.CharacterSavePath;
-        string[] charJsonPaths = Directory.GetFiles(characterFolderPath, "*.json");
-
+        string[] charJsonPaths;
+        if (Directory.Exists(characterFolderPath))
+        {
+            charJsonPaths = Directory.GetFiles(characterFolderPath, "*.json");
+        }
+        else
+        {
+            charJsonPaths = Array.Empty<string>();
+        }
         foreach (string expanseCharacterPath in charJsonPaths)
         {
             string charJson = File.ReadAllText(expanseCharacterPath);
