@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using TheExpanseRPG.Core.Enums;
+﻿using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Model.Interfaces;
 
@@ -81,7 +80,7 @@ namespace TheExpanseRPG.Core.Builders
             _character.SpeedModifiers.Add((int)abilityBlock.GetDexterity().AbilityValue!);
             _character.DefenseModifiers.Add((int)abilityBlock.GetDexterity().AbilityValue!);
             _character.ThoughnessModifiers.Add((int)abilityBlock.GetConstitution().AbilityValue!);
-            
+
             return this;
         }
         public ICharacterFocusCreationStage WithAbilityBonuses(List<ICharacterCreationBonus> abilityBonuses)

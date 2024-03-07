@@ -25,7 +25,7 @@ namespace TheExpanseRPG.Converters
             {
                 retval += $" - {values[1]}";
             }
-            
+
 
             return retval;
         }

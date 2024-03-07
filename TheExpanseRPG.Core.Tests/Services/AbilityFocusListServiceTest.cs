@@ -14,6 +14,7 @@ public class AbilityFocusListServiceTest
         DataRow row = table.NewRow();
         row["FocusName"] = focusName;
         row["AbilityId"] = abilityId;
+        row["FocusDescription"] = string.Empty;
         return row;
     }
     private static DataTable CreateFocusDataTable()
@@ -21,6 +22,8 @@ public class AbilityFocusListServiceTest
         DataTable focusTable = new();
         focusTable.Columns.Add("FocusName", typeof(string));
         focusTable.Columns.Add("AbilityId", typeof(int));
+        focusTable.Columns.Add("FocusDescription", typeof(string));
+
         focusTable.Rows.Add(CreateFocusDataRow(focusTable, "focus", 0));
 
         return focusTable;
@@ -60,5 +63,4 @@ public class AbilityFocusListServiceTest
     {
         _sut.GetAbilityFocusList(CharacterAbilityName.Strength).Count.Should().Be(0);
     }
-
 }

@@ -8,6 +8,7 @@
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <PublishReadyToRunComposite>false</PublishReadyToRunComposite>
     <ApplicationIcon>ExpRpgIcon.ico</ApplicationIcon>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
     <!--<IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>-->
   </PropertyGroup>
 
@@ -177,7 +178,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TheExpanseRPG.Core.Tests\TheExpanseRPG.Core.Tests.csproj" />
     <ProjectReference Include="..\TheExpanseRPG.Core\TheExpanseRPG.Core.csproj" />
   </ItemGroup>
 
@@ -194,6 +194,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>WPFStringResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

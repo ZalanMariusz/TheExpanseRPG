@@ -9,7 +9,7 @@ public partial class CreationStepViewHeaderTextBlock : UserControl
     {
         InitializeComponent();
     }
-    
+
 
     public string HeaderText
     {

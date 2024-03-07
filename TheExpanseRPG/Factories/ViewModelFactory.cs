@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using TheExpanseRPG.Factories.Interfaces;
 using TheExpanseRPG.MVVM.View;
@@ -11,7 +10,7 @@ namespace TheExpanseRPG.Factories;
 
 public class ViewModelFactory : IViewModelFactory
 {
-    private Dictionary<Type, Type>? ViewModelAssociationDictionary;
+    private Dictionary<Type, Type> ViewModelAssociationDictionary { get; set; } = new();
 
     private readonly Func<Type, IViewModelBase> _factory;
     private void PopulateViewModelAssociationDictionary()
@@ -26,7 +25,6 @@ public class ViewModelFactory : IViewModelFactory
             { typeof(FocusListWindow), typeof(FocusListViewModel) },
             { typeof(TalentInfoWindow), typeof(TalentInfoViewModel) },
             { typeof(CharacterSheetWindow), typeof(CharacterSheetViewModel) }
-
         };
     }
 
@@ -38,7 +36,7 @@ public class ViewModelFactory : IViewModelFactory
 
     public IViewModelBase GetWindowViewModel<TWindow>() where TWindow : Window
     {
-        var viewmodel = ViewModelAssociationDictionary[typeof(TWindow)];
+        Type viewmodel = ViewModelAssociationDictionary[typeof(TWindow)];
         return _factory(viewmodel);
     }
     public IViewModelBase GetViewModel<TViewModelType>() where TViewModelType : IViewModelBase

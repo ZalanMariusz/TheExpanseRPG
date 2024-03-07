@@ -19,7 +19,7 @@ public class CustomItemTemplateSelector : DataTemplateSelector
             if (comboBox is not null && comboBox.SelectedItem == item)
             {
                 return ComboSelectedTemplate;
-            }            
+            }
         }
         return ComboItemTemplate;
     }

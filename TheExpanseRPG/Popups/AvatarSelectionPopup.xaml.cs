@@ -53,7 +53,7 @@ namespace TheExpanseRPG.Popups
             await Application.Current.Dispatcher.BeginInvoke(() =>
             {
                 Button avatarButton = new();
-                
+
                 BitmapImage bi = new();
                 bi.BeginInit();
                 bi.UriSource = new(avatarPath, UriKind.Relative);

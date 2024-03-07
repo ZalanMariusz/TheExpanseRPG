@@ -36,7 +36,6 @@ namespace TheExpanseRPG.Core.Services
                 if (talentName == "Affluent")
                 {
                     TalentList.Add(new Affluent(
-                      row[0].ToString()!,
                       ParseRequirements(requirements),
                       row[1].ToString()!,
                       row[2].ToString()!,
@@ -46,14 +45,14 @@ namespace TheExpanseRPG.Core.Services
                 }
                 else
                 {
-                   TalentList.Add(new CharacterTalent(
-                       row[0].ToString()!,
-                       ParseRequirements(requirements),
-                       row[1].ToString()!,
-                       row[2].ToString()!,
-                       row[3].ToString()!,
-                       row[4].ToString()!)
-                   );
+                    TalentList.Add(new CharacterTalent(
+                        row[0].ToString()!,
+                        ParseRequirements(requirements),
+                        row[1].ToString()!,
+                        row[2].ToString()!,
+                        row[3].ToString()!,
+                        row[4].ToString()!)
+                    );
                 }
             }
         }

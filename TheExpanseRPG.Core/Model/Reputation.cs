@@ -2,7 +2,7 @@
 
 namespace TheExpanseRPG.Core.Model;
 
-public class Reputation : ICharacterCreationBonus
+public class Reputation : CharacterTie, ICharacterCreationBonus
 {
     public string CreationBonusName => "Reputation";
 
@@ -10,5 +10,4 @@ public class Reputation : ICharacterCreationBonus
     {
         return (Reputation)MemberwiseClone();
     }
-    public string? Description { get; set; } = string.Empty;
 }

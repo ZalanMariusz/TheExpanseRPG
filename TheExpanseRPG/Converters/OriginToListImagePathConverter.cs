@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media.Imaging;
 using TheExpanseRPG.Core.Enums;
 
 namespace TheExpanseRPG.Converters;
@@ -18,7 +17,7 @@ public class OriginToListImagePathConverter : IValueConverter
             _ => string.Empty,
         };
     }
-    
+
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();

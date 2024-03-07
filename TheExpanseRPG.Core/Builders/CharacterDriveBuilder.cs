@@ -7,6 +7,7 @@ namespace TheExpanseRPG.Core.Builders
 {
     public class CharacterDriveBuilder : ICharacterDriveBuilder
     {
+        private const int FORTUNEBONUS = 5;
         public event EventHandler? DriveSelectionChanged;
         public event EventHandler<string>? BonusSelectionChanged;
 
@@ -50,40 +51,32 @@ namespace TheExpanseRPG.Core.Builders
             set => SetDriveBonusDescription(value);
         }
 
-        
-
-        public CharacterDriveBuilder(ICharacterDriveListService characterDriveListService)
+        public int FortuneBonus => (SelectedDriveBonus is Fortune) ? FORTUNEBONUS : 0;
+        private IRandomGenerator RandomGenerator { get; set; }
+        public CharacterDriveBuilder(ICharacterDriveListService characterDriveListService, IRandomGenerator randomGenerator)
         {
             DriveListService = characterDriveListService;
+            RandomGenerator = randomGenerator;
         }
         public bool IsMissingDriveBonus()
         {
-            return SelectedDriveBonus is null || SelectedDriveTalent is null || (
-                   (SelectedDriveBonus is Relationship && string.IsNullOrEmpty((SelectedDriveBonus as Relationship)!.Description))
-                || (SelectedDriveBonus is Membership && string.IsNullOrEmpty((SelectedDriveBonus as Membership)!.Description))
-                || (SelectedDriveBonus is Reputation && string.IsNullOrEmpty((SelectedDriveBonus as Reputation)!.Description))
-            );
+            return SelectedDriveBonus is null
+                || SelectedDriveTalent is null
+                || (SelectedDriveBonus is CharacterTie characterTie && string.IsNullOrEmpty(characterTie.Description));
         }
 
         public void GenerateRandom()
         {
-            SelectedCharacterDrive = DriveListService.DriveList[Random.Shared.Next(0, DriveListService.DriveList.Count)];
-            SelectedDriveBonus = DriveListService.DriveBonuses[Random.Shared.Next(0, DriveListService.DriveBonuses.Count)];
-            SelectedDriveTalent = DriveListService.DriveTalentList[SelectedCharacterDrive.DriveName][Random.Shared.Next(0, DriveListService.DriveTalentList[SelectedCharacterDrive.DriveName].Count)];
+            SelectedCharacterDrive = DriveListService.DriveList[RandomGenerator.GetRandomInteger(0, DriveListService.DriveList.Count)];
+            SelectedDriveBonus = DriveListService.DriveBonuses[RandomGenerator.GetRandomInteger(0, DriveListService.DriveBonuses.Count)];
+            var actualDriveTalentList = DriveListService.DriveTalentList[SelectedCharacterDrive.DriveName];
+            SelectedDriveTalent = actualDriveTalentList[RandomGenerator.GetRandomInteger(0, actualDriveTalentList.Count)];
         }
         private string? GetDriveBonusDescription()
         {
-            if (SelectedDriveBonus is Membership)
+            if (SelectedDriveBonus is CharacterTie characterTie)
             {
-                return (SelectedDriveBonus as Membership)?.Description;
-            }
-            if (SelectedDriveBonus is Relationship)
-            {
-                return (SelectedDriveBonus as Relationship)?.Description;
-            }
-            if (SelectedDriveBonus is Reputation)
-            {
-                return (SelectedDriveBonus as Reputation)?.Description;
+                return characterTie.Description;
             }
             return string.Empty;
         }
@@ -91,17 +84,9 @@ namespace TheExpanseRPG.Core.Builders
 
         private void SetDriveBonusDescription(string? value)
         {
-            if (SelectedDriveBonus is Membership membership)
+            if (SelectedDriveBonus is CharacterTie characterTie)
             {
-                membership.Description = value;
-            }
-            if (SelectedDriveBonus is Relationship relationship)
-            {
-                relationship.Description = value;
-            }
-            if (SelectedDriveBonus is Reputation reputation)
-            {
-                reputation.Description = value;
+                characterTie.Description = value ?? string.Empty;
             }
         }
 

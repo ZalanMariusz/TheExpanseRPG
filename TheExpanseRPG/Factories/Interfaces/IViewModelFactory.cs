@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using TheExpanseRPG.MVVM.ViewModel;
 using TheExpanseRPG.MVVM.ViewModel.Interfaces;
 
 namespace TheExpanseRPG.Factories.Interfaces

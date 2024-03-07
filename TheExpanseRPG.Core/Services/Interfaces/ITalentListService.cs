@@ -1,5 +1,4 @@
-﻿using System.Data;
-using TheExpanseRPG.Core.Model;
+﻿using TheExpanseRPG.Core.Model;
 
 namespace TheExpanseRPG.Core.Services.Interfaces
 {

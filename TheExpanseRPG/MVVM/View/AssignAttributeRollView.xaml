@@ -99,9 +99,11 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Accuracy" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Accuracy" Grid.Column="1"
                                AllowDrop="True"
-                               x:Name="accuracyHeader" 
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               x:Name="AccuracyHeader" 
                                Drop="Label_AbilityHeader_Drop"
                                />
                         <Label Content="{Binding AccuracyBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
@@ -125,9 +127,12 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Constitution" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Constitution" Grid.Column="1"
                                AllowDrop="True"
                                Drop="Label_AbilityHeader_Drop"
+                               HorizontalAlignment="Stretch"
+                               x:Name="ConstitutionHeader"
+                               HorizontalContentAlignment="Center"
                                />
                         <Label Content="{Binding ConstitutionBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
@@ -152,9 +157,12 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Fighting" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Fighting" Grid.Column="1"
                                AllowDrop="True"
                                Drop="Label_AbilityHeader_Drop"
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               x:Name="FightingHeader"
                                />
                         <Label Content="{Binding FightingBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
@@ -179,9 +187,12 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Communication" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Communication"  Grid.Column="1"
                                AllowDrop="True"
                                Drop="Label_AbilityHeader_Drop"
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               x:Name="CommunicationHeader"
                                />
                         <Label Content="{Binding CommunicationBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
@@ -206,9 +217,12 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Dexterity" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Dexterity" Grid.Column="1"
                                AllowDrop="True"
                                Drop="Label_AbilityHeader_Drop"
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               x:Name="DexterityHeader"
                                />
                         <Label Content="{Binding DexterityBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
@@ -231,9 +245,12 @@
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
 
-                        <Label Content="Intelligence" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Intelligence" Grid.Column="1"
                                AllowDrop="True"
                                Drop="Label_AbilityHeader_Drop"
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               x:Name="IntelligenceHeader"
                                />
                         <Label Content="{Binding IntelligenceBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
@@ -255,8 +272,11 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Perception" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Perception" Grid.Column="1"
                                AllowDrop="True"
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               x:Name="PerceptionHeader"
                                Drop="Label_AbilityHeader_Drop"/>
                         <Label Content="{Binding PerceptionBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
@@ -277,8 +297,11 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Strength" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Strength" Grid.Column="1"
                                AllowDrop="True"
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               x:Name="StrengthHeader"
                                Drop="Label_AbilityHeader_Drop"/>
                         <Label Content="{Binding StrengthBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
@@ -299,8 +322,11 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="1*"/>
                         </Grid.ColumnDefinitions>
-                        <Label Content="Willpower" HorizontalAlignment="Center" Grid.Column="1"
+                        <Label Content="Willpower" Grid.Column="1"
                                AllowDrop="True"
+                               HorizontalAlignment="Stretch"
+                               HorizontalContentAlignment="Center"
+                               x:Name="WillpowerHeader"
                                Drop="Label_AbilityHeader_Drop"/>
                         <Label Content="{Binding WillpowerBonuses}" HorizontalAlignment="Left" Foreground="LightGreen" ContentStringFormat="+{0}" Grid.Column="2" Padding="0"/>
                         <Button Background="Black" Foreground="Red" Content="X" HorizontalAlignment="Right" Width="20" 
@@ -313,35 +339,34 @@
                             </Button.Visibility>
                         </Button>
                     </Grid>
-
                 </custom:CutCorner>
 
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" x:Name="accuracyValue" Foreground = "Black" Content="{Binding Accuracy, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="AccuracyValue" Foreground = "Black" Content="{Binding Accuracy, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="1" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" x:Name="constitutionValue" Foreground = "Black" Content="{Binding Constitution, Mode=TwoWay}" AllowDrop="True"  Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="ConstitutionValue" Foreground = "Black" Content="{Binding Constitution, Mode=TwoWay}" AllowDrop="True"  Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="2" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" x:Name="fightingValue" Foreground = "Black" Content="{Binding Fighting, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="FightingValue" Foreground = "Black" Content="{Binding Fighting, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="3" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" x:Name="communicationValue" Foreground = "Black" Content="{Binding Communication, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="CommunicationValue" Foreground = "Black" Content="{Binding Communication, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="4" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" x:Name="dexterityValue" Foreground = "Black" Content="{Binding Dexterity, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="DexterityValue" Foreground = "Black" Content="{Binding Dexterity, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="5" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" x:Name="intelligenceValue" Foreground = "Black" Content="{Binding Intelligence, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="IntelligenceValue" Foreground = "Black" Content="{Binding Intelligence, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="6" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" x:Name="perceptionValue" Foreground = "Black" Content="{Binding Perception, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="PerceptionValue" Foreground = "Black" Content="{Binding Perception, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="7" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0" >
-                    <Label Tag="attributeLabel" x:Name="strengthValue" Foreground = "Black" Content="{Binding Strength, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="StrengthValue" Foreground = "Black" Content="{Binding Strength, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
                 <custom:CutCorner Margin="0,5,0,0" HasShadow="0" Grid.Column ="1" Grid.Row="8" BorderBrush="White" Fill="White" BorderCuts="0,0,1,0" BorderThickness="0">
-                    <Label Tag="attributeLabel" x:Name="willpowerValue" Foreground = "Black" Content="{Binding Willpower, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+                    <Label Tag="attributeLabel" x:Name="WillpowerValue" Foreground = "Black" Content="{Binding Willpower, Mode=TwoWay}" AllowDrop="True" Drop="Label_AbilityValue_Drop" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
                 </custom:CutCorner>
 
 

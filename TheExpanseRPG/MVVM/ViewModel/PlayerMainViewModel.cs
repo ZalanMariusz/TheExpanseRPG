@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -54,7 +53,7 @@ public class PlayerMainViewModel : ViewModelBase
         {
             if (SelectedCharacter is null)
             {
-                CurrentInnerViewModel = null;
+                SetCurrentInnerViewModel(null);
                 OnPropertyChanged(nameof(InnerViewModels));
             }
             else

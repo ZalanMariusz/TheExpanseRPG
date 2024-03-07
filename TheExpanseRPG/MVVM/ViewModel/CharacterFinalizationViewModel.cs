@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Documents;
-using System.Windows.Media.Converters;
 using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
@@ -17,6 +15,7 @@ using TheExpanseRPG.Services.Interfaces;
 namespace TheExpanseRPG.MVVM.ViewModel;
 public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
 {
+    private const int FORTUNEBASE = 15;
     public string CharacterName
     {
         get { return CharacterCreationService.CharacterName; }
@@ -59,15 +58,15 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
     public int? Speed => CharacterCreationService.AbilityBlockBuilder.Speed;
     public int? Defense => CharacterCreationService.AbilityBlockBuilder.Defense;
     public int? Toughness => CharacterCreationService.AbilityBlockBuilder.Toughness;
-    public int? Fortune => 15 + (CharacterCreationService.DriveBuilder.SelectedDriveBonus?.GetType() == typeof(Fortune) ? 5 : 0);
+    public int? Fortune => FORTUNEBASE + (CharacterCreationService.DriveBuilder.FortuneBonus);
     public int? TotalIncome => CharacterCreationService.GetTotalIncome();
 
-    public static bool HasOriginConflict => CharacterCreationFocusConflictChecker.HasOriginConflict();
+    public bool HasOriginConflict => ConflictChecker.HasOriginConflict();
     public bool IsOriginNotSelected => SelectedOrigin is null;
     public bool IsBackgroundNotSelected => SelectedBackground is null;
-    public bool HasBackgroundConflict => CharacterCreationFocusConflictChecker.HasBackgroundConflict() && !IsMissingBackgroundBonus;
+    public bool HasBackgroundConflict => ConflictChecker.HasBackgroundConflict() && !IsMissingBackgroundBonus;
     public bool IsSocialClassNotSelected => SelectedSocialClass is null;
-    public bool HasProfessionConflict => CharacterCreationFocusConflictChecker.HasProfessionConflict() && !IsMissingProfessionBonus;
+    public bool HasProfessionConflict => ConflictChecker.HasProfessionConflict() && !IsMissingProfessionBonus;
     public bool IsProfessionNotSelected => SelectedProfession is null;
     public bool IsDriveNotSelected => SelectedDrive is null;
     public bool IsMissingBackgroundBonus => CharacterCreationService.SocialAndBackgroundBuilder.IsMissingBackgroundBonus();

@@ -1,13 +1,24 @@
-﻿using TheExpanseRPG.Core.Model.Interfaces;
+﻿using TheExpanseRPG.Core.Builders;
 using TheExpanseRPG.Core.Model;
-using TheExpanseRPG.Core.Builders;
+using TheExpanseRPG.Core.Model.Interfaces;
+using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.Core.Services
 {
-    public class CharacterCreationFocusConflictChecker
+    public class CharacterCreationFocusConflictChecker : ICharacterCreationFocusConflictChecker
     {
-        public static Dictionary<string, ICharacterCreationBonus> AllBonuses { get; set; } = new();
-        private static List<string> GetConflictsWith(string bonusKey)
+        private CharacterCreationFocusConflictChecker() { }
+        private static CharacterCreationFocusConflictChecker? _instance;
+        public static CharacterCreationFocusConflictChecker Instance
+        {
+            get
+            {
+                _instance ??= new();
+                return _instance;
+            }
+        }
+        public Dictionary<string, ICharacterCreationBonus> AllBonuses { get; set; } = new();
+        private List<string> ConflictsWith(string bonusKey)
         {
             if (AllBonuses.TryGetValue(bonusKey, out ICharacterCreationBonus? bonus))
             {
@@ -18,35 +29,35 @@ namespace TheExpanseRPG.Core.Services
             }
             return new();
         }
-        public static List<string> GetBackgroundFocusConflicts()
+        public List<string> BackgroundFocusConflicts()
         {
-            return GetConflictsWith(nameof(CharacterSocialAndBackgroundBuilder.SelectedBackgroundFocus));
+            return ConflictsWith(nameof(CharacterSocialAndBackgroundBuilder.SelectedBackgroundFocus));
         }
-        public static List<string> GetBackgroundBenefitConflicts()
+        public List<string> BackgroundBenefitConflicts()
         {
-            return GetConflictsWith(nameof(CharacterSocialAndBackgroundBuilder.SelectedBackgroundBenefit));
+            return ConflictsWith(nameof(CharacterSocialAndBackgroundBuilder.SelectedBackgroundBenefit));
         }
-        public static List<string> GetOriginFocusConflicts()
+        public List<string> OriginFocusConflicts()
         {
-            return GetConflictsWith(nameof(CharacterOriginBuilder.SelectedCharacterOrigin));
+            return ConflictsWith(nameof(CharacterOriginBuilder.SelectedCharacterOrigin));
         }
-        public static List<string> GetProfessionFocusConflicts()
+        public List<string> ProfessionFocusConflicts()
         {
-            return GetConflictsWith(nameof(CharacterProfessionBuilder.SelectedProfessionFocus));
+            return ConflictsWith(nameof(CharacterProfessionBuilder.SelectedProfessionFocus));
         }
-        public static bool HasBackgroundConflict()
+        public bool HasBackgroundConflict()
         {
-            return GetBackgroundBenefitConflicts().Any() || GetBackgroundFocusConflicts().Any();
+            return BackgroundBenefitConflicts().Any() || BackgroundFocusConflicts().Any();
         }
-        public static bool HasOriginConflict()
+        public bool HasOriginConflict()
         {
-            return GetOriginFocusConflicts().Any();
+            return OriginFocusConflicts().Any();
         }
-        public static bool HasProfessionConflict()
+        public bool HasProfessionConflict()
         {
-            return GetProfessionFocusConflicts().Any();
+            return ProfessionFocusConflicts().Any();
         }
-        public static bool HasConfclits()
+        public bool HasConfclits()
         {
             return HasBackgroundConflict() || HasOriginConflict() || HasProfessionConflict();
         }

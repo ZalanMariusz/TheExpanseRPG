@@ -11,7 +11,7 @@ public interface ICharacterProfessionBuilder
     CharacterProfession? SelectedCharacterProfession { get; set; }
     AbilityFocus? SelectedProfessionFocus { get; set; }
     CharacterTalent? SelectedProfessionTalent { get; set; }
-    
+
 
     event EventHandler<string>? BonusSelectionChanged;
     event EventHandler<string>? SelectedProfessionChanged;

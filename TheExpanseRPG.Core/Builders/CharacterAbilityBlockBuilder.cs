@@ -8,17 +8,18 @@ namespace TheExpanseRPG.Core.Builders
 {
     public class CharacterAbilityBlockBuilder : ICharacterAbilityBlockBuilder
     {
-        public int Speed => 10 + GetDexterityTotal() ?? 0;
-        public int Defense => 10 + GetDexterityTotal() ?? 0;
+        private const int SPEEDBASE = 10;
+        private const int DEFENSEBASE = 10;
+        private const int MAXABILITYVALUE = 3;
+        private const int MINABILITYVALUE = 0;
+        private const int ABILITYPOOL = 12;
+        public int Speed => SPEEDBASE + GetDexterityTotal() ?? 0;
+        public int Defense => DEFENSEBASE + GetDexterityTotal() ?? 0;
         public int Toughness => GetConstitutionTotal() ?? 0;
 
         public event EventHandler? AbilityRollTypeChanged;
         public event EventHandler? LastUsedRollTypeChanged;
 
-        private const int MAXABILITYVALUE = 3;
-        private const int MINABILITYVALUE = 0;
-        private const int ABILITYPOOL = 12;
-        
         public CharacterAbilityBlock CharacterAbilityBlock { get; set; }
         public List<ICharacterCreationBonus> AbilityBonuses { get; set; }
         private AbilityRollType _selectedAbilityRollType;
@@ -45,7 +46,6 @@ namespace TheExpanseRPG.Core.Builders
         public int PointsToDistribute { get; private set; } = ABILITYPOOL;
         public List<int?> AbilityValuesToAssign { get; set; } = new();
         private IDiceRollService DiceRollService { get; set; }
-
         public CharacterAbilityBlockBuilder(IDiceRollService diceRollService)
         {
             DiceRollService = diceRollService;
@@ -61,25 +61,31 @@ namespace TheExpanseRPG.Core.Builders
         }
         public void RollAllRandom()
         {
-            ResetAbilities();
-            AbilityValuesToAssign.Clear();
-            foreach (CharacterAbility ability in CharacterAbilityBlock.AbilityList)
+            if (SelectedAbilityRollType == AbilityRollType.AllRandom)
             {
-                int rollResult = DiceRollService.Roll3D6().GetRollResultSumValue();
-                ability.BaseValue = GetAbilityValueFromRoll(rollResult);
+                ResetAbilities();
+                AbilityValuesToAssign.Clear();
+                foreach (CharacterAbility ability in CharacterAbilityBlock.AbilityList)
+                {
+                    int rollResult = DiceRollService.Roll3D6().GetRollResultSumValue();
+                    ability.BaseValue = GetAbilityValueFromRoll(rollResult);
+                }
+                LastUsedRollType = SelectedAbilityRollType;
             }
-            LastUsedRollType = SelectedAbilityRollType;
         }
 
         public void RollAssignableAbilityList()
         {
-            ResetAbilities();
-            AbilityValuesToAssign.Clear();
-            for (int i = 0; i < CharacterAbilityBlock.AbilityList.Count; i++)
+            if (SelectedAbilityRollType == AbilityRollType.RollAndAssign)
             {
-                AbilityValuesToAssign.Add(GetAbilityValueFromRoll(DiceRollService.Roll3D6().GetRollResultSumValue()));
+                ResetAbilities();
+                AbilityValuesToAssign.Clear();
+                for (int i = 0; i < CharacterAbilityBlock.AbilityList.Count; i++)
+                {
+                    AbilityValuesToAssign.Add(GetAbilityValueFromRoll(DiceRollService.Roll3D6().GetRollResultSumValue()));
+                }
+                LastUsedRollType = SelectedAbilityRollType;
             }
-            LastUsedRollType = SelectedAbilityRollType;
         }
         public void AssignAbilityScore(string abilityName, int? newScore)
         {

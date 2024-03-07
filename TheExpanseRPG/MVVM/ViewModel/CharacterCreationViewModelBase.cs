@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Runtime.CompilerServices;
-using TheExpanseRPG.Core.Services;
+﻿using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.MVVM.ViewModel.Interfaces;
 
 namespace TheExpanseRPG.MVVM.ViewModel;
@@ -18,4 +16,5 @@ public class CharacterCreationViewModelBase : ViewModelBase, ICharacterCreationV
         //TViewModel? viewModelToNavigateTo = (TViewModel?)InnerViewModels.FirstOrDefault(x => x.GetType() == typeof(TViewModel));
         NavigationService.NavigateToInnerView<TViewModel>(this);
     }
+    protected CharacterCreationFocusConflictChecker ConflictChecker { get; set; } = CharacterCreationFocusConflictChecker.Instance;
 }

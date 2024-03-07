@@ -1,7 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model.Interfaces;
-using TheExpanseRPG.Core.Services.JSONDeserializers;
 
 namespace TheExpanseRPG.Core.Model
 {

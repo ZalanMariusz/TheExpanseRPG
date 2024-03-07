@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Services;

@@ -70,9 +70,11 @@ public class CharacterSocialAndBackgroundBuilder : ICharacterSocialAndBackground
         }
     }
     private ICharacterBackgroundListService CharacterBackgroundListService { get; set; }
-    public CharacterSocialAndBackgroundBuilder(ICharacterBackgroundListService characterBackgroundListService)
+    private IRandomGenerator RandomGenerator { get; set; }
+    public CharacterSocialAndBackgroundBuilder(ICharacterBackgroundListService characterBackgroundListService, IRandomGenerator randomGenerator)
     {
         CharacterBackgroundListService = characterBackgroundListService;
+        RandomGenerator = randomGenerator;
         InitiliazeSocialClassDescriptions();
         InitiliazeSocialClassWrapperList();
     }
@@ -103,12 +105,12 @@ public class CharacterSocialAndBackgroundBuilder : ICharacterSocialAndBackground
 
     public void GenerateRandom()
     {
-        SelectedCharacterSocialClass = (CharacterSocialClass)Random.Shared.Next(0, 4);
+        SelectedCharacterSocialClass = (CharacterSocialClass)RandomGenerator.GetRandomInteger(0, 4);
         var possibleBackgrounds = CharacterBackgroundListService.CharacterBackgroundList.Where(bg => bg.MainSocialClass == SelectedCharacterSocialClass).ToList();
-        SelectedCharacterBackground = possibleBackgrounds[Random.Shared.Next(0, possibleBackgrounds.Count)];
-        SelectedBackgroundFocus = SelectedCharacterBackground!.PossibleAbilityFocuses[Random.Shared.Next(0, SelectedCharacterBackground.PossibleAbilityFocuses.Count)];
-        SelectedBackgroundTalent = SelectedCharacterBackground.PossiblePlayerTalents[Random.Shared.Next(0, SelectedCharacterBackground.PossiblePlayerTalents.Count)];
-        SelectedBackgroundBenefit = SelectedCharacterBackground.BackgroundBenefits[Random.Shared.Next(0, SelectedCharacterBackground.BackgroundBenefits.Count)];
+        SelectedCharacterBackground = possibleBackgrounds[RandomGenerator.GetRandomInteger(0, possibleBackgrounds.Count)];
+        SelectedBackgroundFocus = SelectedCharacterBackground!.PossibleAbilityFocuses[RandomGenerator.GetRandomInteger(0, SelectedCharacterBackground.PossibleAbilityFocuses.Count)];
+        SelectedBackgroundTalent = SelectedCharacterBackground.PossiblePlayerTalents[RandomGenerator.GetRandomInteger(0, SelectedCharacterBackground.PossiblePlayerTalents.Count)];
+        SelectedBackgroundBenefit = SelectedCharacterBackground.BackgroundBenefits[RandomGenerator.GetRandomInteger(0, SelectedCharacterBackground.BackgroundBenefits.Count)];
     }
 
     public CharacterAbility? GetAbilityBonus()

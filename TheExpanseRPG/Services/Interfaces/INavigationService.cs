@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using TheExpanseRPG.Core.Services.Interfaces;
-using TheExpanseRPG.MVVM.ViewModel;
 using TheExpanseRPG.MVVM.ViewModel.Interfaces;
 
 namespace TheExpanseRPG.Services.Interfaces

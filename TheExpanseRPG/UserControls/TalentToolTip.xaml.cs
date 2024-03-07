@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using TheExpanseRPG.Core.Model;
+﻿using System.Windows.Controls;
 
 namespace TheExpanseRPG.UserControls
 {

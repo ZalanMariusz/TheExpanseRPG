@@ -1,7 +1,9 @@
 ﻿using FluentAssertions;
 using Moq;
+using TheExpanseRPG.Core.Builders.Interfaces;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
+using TheExpanseRPG.Core.Model.Talents;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Core.Services.Interfaces;
 
@@ -9,167 +11,109 @@ namespace TheExpanseRPG.Core.Tests.Services
 {
     public class CharacterCreationServiceTests
     {
-        //    private readonly CharacterCreationService _sut;
-        //    private readonly Mock<ITalentListService> _talentListService = new();
-        //    private readonly Mock<IAbilityFocusListService> _abilityFocustListService = new();
-        //    private readonly Mock<ICharacterBackgroundListService> _backgroundListService = new();
-        //    private readonly Mock<IDiceRollService> _diceRollService = new();
-        //    private readonly Mock<ICharacterProfessionListService> _professionListService = new();
-        //    private readonly Mock<ICharacterDriveListService> _driveListService = new();
+        private readonly CharacterCreationService _sut;
+        private readonly Mock<ICharacterAbilityBlockBuilder> _abilityBlockBuilder = new();
+        private readonly Mock<ICharacterSocialAndBackgroundBuilder> _socialAndBackgroundBuilder = new();
+        private readonly Mock<ICharacterProfessionBuilder> _characterPofessionBuilder = new();
+        private readonly Mock<ICharacterDriveBuilder> _characterDriveBuilder = new();
+        private readonly Mock<ICharacterOriginBuilder> _characterOriginBuilder = new();
 
-        //    public CharacterCreationServiceTests()
-        //    {
-        //        _diceRollService.Setup(x => x.Roll3D6(false)).Returns(new RollResult(new()));
-        //        _professionListService.Setup(x => x.ProfessionList).Returns(new List<CharacterProfession>());
+        public CharacterCreationServiceTests()
+        {
 
-        //        _sut = new(
-        //            _talentListService.Object,
-        //            _abilityFocustListService.Object,
-        //            _backgroundListService.Object,
-        //            _diceRollService.Object,
-        //            _professionListService.Object,
-        //            _driveListService.Object
-        //            );
-        //    }
-        //    [InlineData(AbilityRollType.RollAndAssign)]
-        //    [InlineData(AbilityRollType.AllRandom)]
-        //    [Theory]
-        //    public void ResetAbilities_AllRandomAndAssignRollTypesClearsAbilitiesToNull(AbilityRollType rollType)
-        //    {
-        //        _sut.SelectedAbilityRollType = rollType;
-        //        _sut.ResetAbilities();
-        //        _sut.CharacterAbilityBlock.AbilityList.All(x => x.BaseValue is null).Should().BeTrue();
-        //    }
-        //    [Fact]
-        //    public void ResetAbilities_DistributeRollTypeClearsAbilitiesToZero()
-        //    {
-        //        _sut.SelectedAbilityRollType = AbilityRollType.DistributePoints;
-        //        _sut.ResetAbilities();
-        //        _sut.CharacterAbilityBlock.AbilityList.All(x => x.BaseValue == 0).Should().BeTrue();
-        //    }
-        //    [Fact]
-        //    public void RollAllRandomRollsBetweenMinusTwoAndFour()
-        //    {
-        //        _sut.RollAllRandom();
-        //        _sut.CharacterAbilityBlock.AbilityList.All(x => x.BaseValue < 5 && x.BaseValue > -3).Should().BeTrue();
-        //    }
-        //    [Fact]
-        //    public void RollAssignableAbilityList_RollsNineValues()
-        //    {
-        //        _sut.RollAssignableAbilityList();
-        //        _sut.AbilityValuesToAssign.Any(x => x is null).Should().BeFalse();
-        //    }
-        //    [Fact]
-        //    public void RollAssignableAbilityList_ClearsPreviousList()
-        //    {
-        //        _sut.RollAssignableAbilityList();
-        //        _sut.RollAssignableAbilityList();
-        //        _sut.AbilityValuesToAssign.Count().Should().Be(9);
-        //    }
-        //    [InlineData("Strength", 0, 0)]
-        //    [InlineData("Accuracy", -2, -2)]
-        //    [InlineData("Perception", 3, 3)]
-        //    [InlineData("Willpower", null, null)]
-        //    [Theory]
-        //    public void AssignAbilityScore_AssignsScoreToAbility(string abilityName, int? score, int? expected)
-        //    {
-        //        _sut.AssignAbilityScore(abilityName, score);
-        //        _sut.CharacterAbilityBlock.GetAbility(abilityName).BaseValue.Should().Be(expected);
-        //    }
+            _sut = new(
+               _abilityBlockBuilder.Object,
+               _socialAndBackgroundBuilder.Object,
+               _characterPofessionBuilder.Object,
+               _characterDriveBuilder.Object,
+               _characterOriginBuilder.Object
+                );
+        }
 
-        //    [Fact]
-        //    public void AssignAbilityScore_ClearsScoreFromAssignableList()
-        //    {
-        //        _sut.RollAssignableAbilityList();
-        //        int? score = _sut.AbilityValuesToAssign[0];
-        //        _sut.AssignAbilityScore("Strength", score);
-        //        _sut.AbilityValuesToAssign.Count().Should().Be(8);
-        //    }
-        //    [Fact]
-        //    public void AssignAbilityScore_PutsItemBackToAssignableListIfAssignmentIsReplacement()
-        //    {
-        //        _sut.RollAssignableAbilityList();
-        //        int? score = _sut.AbilityValuesToAssign[0];
-        //        _sut.AssignAbilityScore("Strength", score);
-        //        score = _sut.AbilityValuesToAssign[0];
-        //        _sut.AssignAbilityScore("Strength", score);
-        //        _sut.AbilityValuesToAssign.Count().Should().Be(8);
-        //    }
-        //    [Fact]
-        //    public void CanIncrease_ReturnsFalseByDefault()
-        //    {
-        //        _sut.CanIncrease("Strength").Should().BeFalse();
-        //    }
-        //    [Fact]
-        //    public void CanIncrease_ReturnsTrueWithDistributePointsAsRollTypeByDefault()
-        //    {
-        //        _sut.SelectedAbilityRollType = AbilityRollType.DistributePoints;
-        //        _sut.ResetAbilities();
-        //        _sut.CanIncrease("Strength").Should().BeTrue();
-        //    }
-        //    [Fact]
-        //    public void CanIncrease_ReturnsFalseIfAbilityIsThree()
-        //    {
-        //        _sut.CharacterAbilityBlock.GetStrength().BaseValue = 3;
-        //        _sut.CanIncrease("Strength").Should().BeFalse();
-        //    }
-        //    [Fact]
-        //    public void CanIncrease_ReturnsFalseIfPointsToDistributeIsZero()
-        //    {
-        //        _sut.SelectedAbilityRollType = AbilityRollType.DistributePoints;
-        //        _sut.ResetAbilities();
+        [Fact]
+        public void GetTotalIncome_ReturnsNoviceAffluentBonus()
+        {
+            _sut.TalentBonuses.Add(new Affluent(new(), string.Empty, string.Empty, string.Empty, string.Empty));
+            _sut.GetTotalIncome().Should().Be(2);
+        }
+        [Fact]
+        public void GetTotalIncome_ReturnsExpertAffluentBonus()
+        {
+            _sut.TalentBonuses.Add(new Affluent(new(), string.Empty, string.Empty, string.Empty, string.Empty));
+            _sut.TalentBonuses.ForEach(x => x.ImproveTalent());
+            _sut.GetTotalIncome().Should().Be(3);
+        }
+        [Fact]
+        public void GetTotalIncome_ReturnsMasterAffluentBonus()
+        {
+            _sut.TalentBonuses.Add(new Affluent(new(), string.Empty, string.Empty, string.Empty, string.Empty));
+            _sut.TalentBonuses.ForEach(x => x.ImproveTalent());
+            _sut.TalentBonuses.ForEach(x => x.ImproveTalent());
+            _sut.GetTotalIncome().Should().Be(4);
+        }
+        [InlineData(CharacterSocialClass.Outsider, 0)]
+        [InlineData(CharacterSocialClass.Lower, 2)]
+        [InlineData(CharacterSocialClass.Middle, 4)]
+        [InlineData(CharacterSocialClass.Upper, 6)]
+        [Theory]
+        public void GetTotalIncome_ReturnsProfessionBonus(CharacterSocialClass socialClass, int expected)
+        {
+            _characterPofessionBuilder.Setup(builder => builder.SelectedCharacterProfession).Returns(
+                () => new(string.Empty, string.Empty, socialClass, new(), new()));
+            _sut.GetTotalIncome().Should().Be(expected);
+        }
+        [InlineData(1, 1)]
+        [InlineData(2, 2)]
+        [InlineData(3, 3)]
+        [Theory]
+        public void GetTotalIncome_ReturnsIncomeBonuses(int incomeBonus, int expected)
+        {
+            _sut.IncomeBonuses.Add(new(incomeBonus));
+            _sut.GetTotalIncome().Should().Be(expected);
+        }
+        [InlineData(CharacterSocialClass.Outsider, CharacterSocialClass.Outsider, 0)] //0+(0-0)
+        [InlineData(CharacterSocialClass.Outsider, CharacterSocialClass.Upper, 3)] //0+(3-0)
+        [InlineData(CharacterSocialClass.Lower, CharacterSocialClass.Outsider, 1)] //2+(0-1)
+        [InlineData(CharacterSocialClass.Middle, CharacterSocialClass.Lower, 3)] //4+(1-2)
+        [InlineData(CharacterSocialClass.Lower, CharacterSocialClass.Upper, 4)] //2+(3-1)
+        [Theory]
+        public void GetTotalIncome_CalculatesProfessionAndSocialClassDiff(CharacterSocialClass professionSocialClass, CharacterSocialClass selectedCharacterSocialClass, int expected)
+        {
+            _characterPofessionBuilder.Setup(builder => builder.SelectedCharacterProfession).Returns(
+                () => new(string.Empty, string.Empty, professionSocialClass, new(), new()));
 
-        //        int iterations = _sut.PointsToDistribute;
-        //        for (int i = 0; i < iterations; i++)
-        //        {
-        //            _sut.CharacterAbilityBlock.GetStrength().BaseValue = 0;
-        //            _sut.IncreaseAbilityFromPool("Strength");
-        //        }
-        //        _sut.CanIncrease("Strength").Should().BeFalse();
-        //    }
-        //    [Fact]
-        //    public void IncreaseAttributeFromPool_IncreasesStrengthFromZeroToOne()
-        //    {
-        //        _sut.SelectedAbilityRollType = AbilityRollType.DistributePoints;
-        //        int expected = 1;
-        //        _sut.ResetAbilities();
-        //        _sut.IncreaseAbilityFromPool("Strength");
-        //        _sut.CharacterAbilityBlock.GetStrength().BaseValue.Should().Be(expected);
-        //    }
-        //    [Fact]
-        //    public void DecreaseAttributeFromPool_DecreasesStrengthFromOneToZero()
-        //    {
-        //        _sut.SelectedAbilityRollType = AbilityRollType.DistributePoints;
-        //        _sut.ResetAbilities();
-        //        _sut.IncreaseAbilityFromPool("Strength");
-        //        int expected = 0;
-        //        _sut.DecreaseAbilityFromPool("Strength");
-        //        _sut.CharacterAbilityBlock.GetStrength().BaseValue.Should().Be(expected);
-        //    }
-        //    [Fact]
-        //    public void IncreaseAttributeFromPool_IncreaseShouldDecreasePoolByOne()
-        //    {
-        //        _sut.SelectedAbilityRollType = AbilityRollType.DistributePoints;
-        //        _sut.ResetAbilities();
-        //        int expected = _sut.PointsToDistribute - 1;
-        //        _sut.IncreaseAbilityFromPool("Strength");
-        //        _sut.PointsToDistribute.Should().Be(expected);
-        //    }
-        //    [Fact]
-        //    public void DecreaseAttributeFromPool_DecreaseShouldIncreasePoolByOne()
-        //    {
-        //        _sut.SelectedAbilityRollType = AbilityRollType.DistributePoints;
-        //        _sut.ResetAbilities();
+            _socialAndBackgroundBuilder.Setup(builder => builder.SelectedCharacterSocialClass).Returns(
+                () => selectedCharacterSocialClass);
 
-        //        _sut.IncreaseAbilityFromPool("Strength");
-        //        _sut.IncreaseAbilityFromPool("Strength");
-        //        _sut.IncreaseAbilityFromPool("Strength");
+            _sut.GetTotalIncome().Should().Be(expected);
+        }
+        [InlineData(false, false, false, false, CharacterOrigin.Earth, "a", true)]
+        [InlineData(true, false, false, false, CharacterOrigin.Earth, "a", false)]
+        [InlineData(false, true, false, false, CharacterOrigin.Earth, "a", false)]
+        [InlineData(false, false, true, false, CharacterOrigin.Earth, "a", false)]
+        [InlineData(false, false, false, true, CharacterOrigin.Earth, "a", false)]
+        [InlineData(false, false, false, false, null, "a", false)]
+        [InlineData(false, false, false, false, CharacterOrigin.Earth, "", false)]
+        [InlineData(false, false, false, false, CharacterOrigin.Earth, null, false)]
+        [Theory]
+        public void CanCreateCharacter_ReturnsTrueWithEverythingSelectedAndNameAndNoConflicts(
+            bool isMissingBackgroundBonus,
+            bool isMissingProfessionBonus,
+            bool isMissingDriveBonus,
+            bool isMissingAbilityRoll,
+            CharacterOrigin? characterOrigin,
+            string characterName,
+            bool expected
+            )
+        {
+            _socialAndBackgroundBuilder.Setup(builder => builder.IsMissingBackgroundBonus()).Returns(() => isMissingBackgroundBonus);
+            _characterPofessionBuilder.Setup(builder => builder.IsMissingProfessionBonus()).Returns(() => isMissingProfessionBonus);
+            _characterDriveBuilder.Setup(builder => builder.IsMissingDriveBonus()).Returns(() => isMissingDriveBonus);
+            _abilityBlockBuilder.Setup(builder => builder.IsMissingAbilityRoll()).Returns(() => isMissingAbilityRoll);
+            _characterOriginBuilder.Setup(builder => builder.SelectedCharacterOrigin).Returns(() => characterOrigin);
 
-        //        int expected = _sut.PointsToDistribute + 1;
-        //        _sut.DecreaseAbilityFromPool("Strength");
-
-        //        _sut.PointsToDistribute.Should().Be(expected);
-        //    }
-        //}
+            _sut.CharacterName = characterName;
+            _sut.CanCreateCharacter().Should().Be(expected);
+        }
     }
 }

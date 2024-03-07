@@ -22,19 +22,9 @@ public class CharacterCreationService : ICharacterCreationService
     public string CharacterName { get; set; } = string.Empty;
     public string CharacterDescription { get; set; } = string.Empty;
     public string CharacterAvatar { get; set; } = string.Empty;
+    private CharacterCreationFocusConflictChecker ConflictChecker { get; set; }
 
-    public int? GetTotalIncome()
-    {
-        List<int?> totalIncome = new()
-        {
-            ProfessionBuilder.SelectedCharacterProfession?.IncomeBase,
-            SocialAndBackgroundBuilder.SelectedCharacterSocialClass - ProfessionBuilder.SelectedCharacterProfession?.ProfessionSocialClass,
-            IncomeBonuses.Sum(x => x.Value),
-            (int?)TalentBonuses.FirstOrDefault(x => x is Affluent)?.Degree + 2
-        };
 
-        return totalIncome.Sum();
-    }
 
     public CharacterCreationService(
         ICharacterAbilityBlockBuilder characterAbilityBlockBuilder,
@@ -55,7 +45,8 @@ public class CharacterCreationService : ICharacterCreationService
         SocialAndBackgroundBuilder.BonusSelectionChanged += SyncBonusDictionary;
         ProfessionBuilder.BonusSelectionChanged += SyncBonusDictionary;
         DriveBuilder.BonusSelectionChanged += SyncBonusDictionary;
-        CharacterCreationFocusConflictChecker.AllBonuses = AllBonuses;
+        ConflictChecker = CharacterCreationFocusConflictChecker.Instance;
+        ConflictChecker.AllBonuses = AllBonuses;
 
     }
     #region Bonus sync procs
@@ -80,7 +71,6 @@ public class CharacterCreationService : ICharacterCreationService
         RefreshFocusBonuses();
         RefreshIncomeBonuses();
     }
-
     private void RefreshIncomeBonuses()
     {
         IncomeBonuses.Clear();
@@ -92,7 +82,6 @@ public class CharacterCreationService : ICharacterCreationService
             }
         }
     }
-
     private void RefreshTalentBonuses()
     {
         TalentBonuses.Clear();
@@ -130,7 +119,7 @@ public class CharacterCreationService : ICharacterCreationService
             DriveBuilder.IsMissingDriveBonus(),
             AbilityBlockBuilder.IsMissingAbilityRoll(),
 
-            CharacterCreationFocusConflictChecker.HasConfclits(),
+            ConflictChecker.HasConfclits(),
 
             OriginBuilder.SelectedCharacterOrigin is null,
             string.IsNullOrEmpty(CharacterName)
@@ -179,7 +168,19 @@ public class CharacterCreationService : ICharacterCreationService
         {
             SocialAndBackgroundBuilder.GenerateRandom();
             ProfessionBuilder.GenerateRandom(SocialAndBackgroundBuilder.SelectedCharacterSocialClass);
-        } while (CharacterCreationFocusConflictChecker.HasConfclits());
+        } while (ConflictChecker.HasConfclits());
     }
     #endregion
+    public int? GetTotalIncome()
+    {
+        List<int?> totalIncome = new()
+        {
+            ProfessionBuilder.SelectedCharacterProfession?.IncomeBase,
+            SocialAndBackgroundBuilder.SelectedCharacterSocialClass - ProfessionBuilder.SelectedCharacterProfession?.ProfessionSocialClass,
+            IncomeBonuses.Sum(x => x.Value),
+            (int?)TalentBonuses.FirstOrDefault(x => x is Affluent)?.Degree + 2
+        };
+
+        return totalIncome.Sum();
+    }
 }

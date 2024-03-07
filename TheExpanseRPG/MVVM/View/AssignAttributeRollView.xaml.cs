@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Resources;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -31,7 +29,7 @@ namespace TheExpanseRPG.MVVM.View
                     label.Background = new SolidColorBrush(Colors.LightGreen);
                 }
             }
-            DragDrop.DoDragDrop(attributeValue, ((TextBlock)sender).Text, DragDropEffects.Link);
+            DragDrop.DoDragDrop(attributeValue, ((TextBlock)sender).Text, DragDropEffects.Copy);
 
 
             foreach (Label label in dropAcceptingLabels)
@@ -79,7 +77,7 @@ namespace TheExpanseRPG.MVVM.View
 
         private void Label_AbilityHeader_Drop(object sender, DragEventArgs e)
         {
-            string abilityName = ((Label)sender).Name.Replace("Header","");
+            string abilityName = ((Label)sender).Name.Replace("Header", "");
             var abilityValueLabel = (Label)FindName($"{abilityName}Value");
             Label_AbilityValue_Drop(abilityValueLabel, e);
         }

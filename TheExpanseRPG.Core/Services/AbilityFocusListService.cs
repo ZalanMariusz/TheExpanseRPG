@@ -25,12 +25,6 @@ namespace TheExpanseRPG.Core.Services
                 FocusList.Add(new AbilityFocus(abilityName, row[rawdata.Columns["FocusName"]!].ToString()!, row[rawdata.Columns["FocusDescription"]!].ToString()!));
             }
         }
-
-        private static CharacterAbilityName IntToAbilityName(int n)
-        {
-            return (CharacterAbilityName)n;
-        }
-
         public AbilityFocus GetFocusByName(CharacterAbilityName abilityName, string focusName)
         {
             AbilityFocus? retval = FocusList.FirstOrDefault(x => x.FocusName == focusName && x.AbilityName == abilityName);
@@ -39,6 +33,11 @@ namespace TheExpanseRPG.Core.Services
         public List<AbilityFocus> GetAbilityFocusList(CharacterAbilityName abilityName)
         {
             return FocusList.FindAll(x => x.AbilityName == abilityName);
+        }
+
+        private static CharacterAbilityName IntToAbilityName(int n)
+        {
+            return (CharacterAbilityName)n;
         }
     }
 }

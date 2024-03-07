@@ -34,7 +34,7 @@ public partial class AbilityFocusListBlock : UserControl
         get { return (ObservableCollection<AbilityFocus>)GetValue(FocusListProperty); }
         set { SetValue(FocusListProperty, value); }
     }
-    
+
     // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty FocusListProperty =
         DependencyProperty.Register(nameof(FocusList), typeof(ObservableCollection<AbilityFocus>), typeof(AbilityFocusListBlock), new PropertyMetadata(new ObservableCollection<AbilityFocus>()));

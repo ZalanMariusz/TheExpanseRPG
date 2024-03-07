@@ -18,7 +18,7 @@ public class EnumerableToCommaSeparatedStringConverter : IValueConverter
         IEnumerable<object> collection = (value as IEnumerable<object>)!;
 
         return string.Join(", ", collection.Select(x => x.ToString()));
-        
+
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -9,6 +9,7 @@ public interface ICharacterDriveBuilder
     ICharacterCreationBonus? SelectedDriveBonus { get; set; }
     CharacterTalent? SelectedDriveTalent { get; set; }
     string? DriveBonusDescription { get; set; }
+    int FortuneBonus { get; }
 
     event EventHandler? DriveSelectionChanged;
     event EventHandler<string>? BonusSelectionChanged;

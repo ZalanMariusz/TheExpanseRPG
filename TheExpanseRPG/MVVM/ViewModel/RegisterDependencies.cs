@@ -9,7 +9,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
             services.AddSingleton<WelcomeSplashViewModel>();
             services.AddTransient<PlayerMainViewModel>();
             services.AddSingleton<GmMainViewModel>();
-            
+
             services.AddTransient<TalentInfoViewModel>();
             services.AddTransient<CharacterCreationViewModelBase>();
             services.AddTransient<CharacterCreationViewModel>();

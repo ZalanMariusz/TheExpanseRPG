@@ -1,6 +1,7 @@
 ﻿using TheExpanseRPG.Core.Builders.Interfaces;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
+using TheExpanseRPG.Core.Model.Interfaces;
 using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.Core.Builders;
@@ -25,10 +26,11 @@ public class CharacterOriginBuilder : ICharacterOriginBuilder
     {
         get { return SelectedCharacterOrigin is null ? null : _originDescriptions[(CharacterOrigin)SelectedCharacterOrigin]; }
     }
-
-    public CharacterOriginBuilder(IAbilityFocusListService focusListService)
+    private IRandomGenerator RandomGenerator { get; set; }
+    public CharacterOriginBuilder(IAbilityFocusListService focusListService, IRandomGenerator randomGenerator)
     {
         FocusListService = focusListService;
+        RandomGenerator = randomGenerator;
         InitializeOriginDescriptions();
     }
 
@@ -52,6 +54,6 @@ public class CharacterOriginBuilder : ICharacterOriginBuilder
 
     public void GenerateRandom()
     {
-        SelectedCharacterOrigin = (CharacterOrigin)Random.Shared.Next(0, 3);
+        SelectedCharacterOrigin = (CharacterOrigin)RandomGenerator.GetRandomInteger(0, 3);
     }
 }

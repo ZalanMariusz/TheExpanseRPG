@@ -7,13 +7,13 @@ namespace TheExpanseRPG.Core.Services
 {
     public interface ICharacterCreationService : IExpanseService
     {
-        
+
         ICharacterOriginBuilder OriginBuilder { get; }
         ICharacterSocialAndBackgroundBuilder SocialAndBackgroundBuilder { get; }
         ICharacterProfessionBuilder ProfessionBuilder { get; }
         ICharacterDriveBuilder DriveBuilder { get; }
         ICharacterAbilityBlockBuilder AbilityBlockBuilder { get; }
-        
+
         int? GetTotalIncome();
         Dictionary<string, ICharacterCreationBonus> AllBonuses { get; set; }
         List<AbilityFocus> FocusBonuses { get; set; }
@@ -22,7 +22,7 @@ namespace TheExpanseRPG.Core.Services
         string CharacterAvatar { get; set; }
         string CharacterName { get; set; }
         string CharacterDescription { get; set; }
-        
+
 
         bool CanCreateCharacter();
         bool CharacterExists();

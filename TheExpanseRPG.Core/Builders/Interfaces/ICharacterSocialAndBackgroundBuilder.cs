@@ -1,6 +1,6 @@
 ﻿using TheExpanseRPG.Core.Enums;
-using TheExpanseRPG.Core.Model.Interfaces;
 using TheExpanseRPG.Core.Model;
+using TheExpanseRPG.Core.Model.Interfaces;
 
 namespace TheExpanseRPG.Core.Builders.Interfaces
 {
@@ -12,7 +12,7 @@ namespace TheExpanseRPG.Core.Builders.Interfaces
         ICharacterCreationBonus? SelectedBackgroundBenefit { get; set; }
         AbilityFocus? SelectedBackgroundFocus { get; set; }
         CharacterTalent? SelectedBackgroundTalent { get; set; }
-        
+
         //string? SelectedCharacterSocialClassDescription { get; }
         List<SocialClassWrapper> SocialClassesWithDescription { get; set; }
 

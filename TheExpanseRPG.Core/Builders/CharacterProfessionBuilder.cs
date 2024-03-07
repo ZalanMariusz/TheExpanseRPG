@@ -48,8 +48,10 @@ internal class CharacterProfessionBuilder : ICharacterProfessionBuilder
     public List<CharacterProfession> MiddleclassProfessions { get; private set; } = new();
     public List<CharacterProfession> UpperclassProfessions { get; private set; } = new();
 
-    public CharacterProfessionBuilder(ICharacterProfessionListService professionListService)
+    private IRandomGenerator RandomGenerator { get; set; }
+    public CharacterProfessionBuilder(ICharacterProfessionListService professionListService, IRandomGenerator randomGenerator)
     {
+        RandomGenerator = randomGenerator;
         ProfessionListService = professionListService;
         InitializeProfessionLists();
     }
@@ -90,8 +92,8 @@ internal class CharacterProfessionBuilder : ICharacterProfessionBuilder
     public void GenerateRandom(CharacterSocialClass? selectedCharacterSocialClass)
     {
         var possibleProfessions = ProfessionListService.ProfessionList.Where(p => p.ProfessionSocialClass <= selectedCharacterSocialClass).ToList();
-        SelectedCharacterProfession = possibleProfessions[Random.Shared.Next(0, possibleProfessions.Count)];
-        SelectedProfessionFocus = SelectedCharacterProfession.FocusChoices[Random.Shared.Next(0, SelectedCharacterProfession.FocusChoices.Count)];
-        SelectedProfessionTalent = SelectedCharacterProfession.TalentChoices[Random.Shared.Next(0, SelectedCharacterProfession.TalentChoices.Count)];
+        SelectedCharacterProfession = possibleProfessions[RandomGenerator.GetRandomInteger(0, possibleProfessions.Count)];
+        SelectedProfessionFocus = SelectedCharacterProfession.FocusChoices[RandomGenerator.GetRandomInteger(0, SelectedCharacterProfession.FocusChoices.Count)];
+        SelectedProfessionTalent = SelectedCharacterProfession.TalentChoices[RandomGenerator.GetRandomInteger(0, SelectedCharacterProfession.TalentChoices.Count)];
     }
 }

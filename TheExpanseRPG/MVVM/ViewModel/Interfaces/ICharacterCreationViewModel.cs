@@ -1,5 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using TheExpanseRPG.Core.Services;
+﻿using TheExpanseRPG.Core.Services;
 
 namespace TheExpanseRPG.MVVM.ViewModel.Interfaces
 {

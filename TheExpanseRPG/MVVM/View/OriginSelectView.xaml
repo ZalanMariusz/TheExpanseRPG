@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:converter="clr-namespace:TheExpanseRPG.Converters"
              xmlns:user="clr-namespace:TheExpanseRPG.UserControls"
-             xmlns:custom="clr-namespace:TheExpanseRPG.CustomControls"
              xmlns:enum="clr-namespace:TheExpanseRPG.Core.Enums;assembly=TheExpanseRPG.Core"
              xmlns:vm="clr-namespace:TheExpanseRPG.MVVM.ViewModel"
              d:DataContext="{d:DesignInstance Type=vm:OriginSelectViewModel}"
@@ -131,7 +130,7 @@
                     VerticalAlignment="Center"
                     TextWrapping="Wrap" 
                     TextAlignment="Center"
-                    Foreground="#444444"
+                    Foreground="#779999"
                     Visibility="{Binding SelectedOrigin, Converter={StaticResource NotNullToVisibilityConverter}}"
                     Margin="450,0,0,0"
                     />

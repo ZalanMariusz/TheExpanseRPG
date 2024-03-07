@@ -50,12 +50,18 @@ namespace TheExpanseRPG.MVVM.ViewModel
             }
         }
 
-        public bool HasProfessionFocusConflict
-        {
-            get { return CharacterCreationFocusConflictChecker.HasProfessionConflict(); }
-        }
+        public bool HasProfessionFocusConflict => ConflictChecker.HasProfessionConflict();
+
         private bool _isSelectionLocked;
-        public bool IsSelectionLocked { get => _isSelectionLocked; set { _isSelectionLocked = value; OnPropertyChanged(); } }
+        public bool IsSelectionLocked
+        {
+            get => _isSelectionLocked;
+            set
+            {
+                _isSelectionLocked = value;
+                OnPropertyChanged();
+            }
+        }
         public CharacterProfessionViewModel(ScopedServiceFactory scopedServiceFactory)
         {
             CharacterCreationService = scopedServiceFactory.GetScopedService<ICharacterCreationService>();

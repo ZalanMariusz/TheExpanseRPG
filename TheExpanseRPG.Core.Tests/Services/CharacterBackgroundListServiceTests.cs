@@ -12,7 +12,6 @@ public class CharacterBackgroundListServiceTests
     {
         Mock<IAbilityFocusListService> focustListService = new();
         Mock<ITalentListService> talentListService = new();
-        //Mock<ISqliteDatabaseConnectorService> dbConnector = new();
         SqliteDatabaseConnectorService dbConnector = new();
 
         _sut = new CharacterBackgroundListService(

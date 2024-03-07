@@ -1,11 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using TheExpanseRPG.Commands;
 using TheExpanseRPG.Core.Enums;
-using TheExpanseRPG.Core.Model;
 using TheExpanseRPG.Core.Services;
 using TheExpanseRPG.Factories;
 using TheExpanseRPG.Services;

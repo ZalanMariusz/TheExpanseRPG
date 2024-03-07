@@ -12,7 +12,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
         public IViewModelBase? CurrentInnerViewModel
         {
             get { return _currentInnerViewModel; }
-            set { _currentInnerViewModel = value; OnPropertyChanged(); }
+            private set { _currentInnerViewModel = value; OnPropertyChanged(); }
         }
 
         private INavigationService? _navigationService;
@@ -46,7 +46,7 @@ namespace TheExpanseRPG.MVVM.ViewModel
                 InnerViewModels.Add(viewModel);
             }
         }
-        public void SetCurrentInnerViewModel(IViewModelBase viewModel)
+        public void SetCurrentInnerViewModel(IViewModelBase? viewModel)
         {
             CurrentInnerViewModel = viewModel;
         }

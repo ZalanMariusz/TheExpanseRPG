@@ -15,7 +15,7 @@ namespace TheExpanseRPG.Converters
             }
             CharacterSocialClass toCheck = Enum.Parse<CharacterSocialClass>(parameter.ToString()!);
             CharacterSocialClass selectedClass = Enum.Parse<CharacterSocialClass>(value.ToString()!);
-            if (selectedClass<toCheck)
+            if (selectedClass < toCheck)
             {
                 return false;
             }

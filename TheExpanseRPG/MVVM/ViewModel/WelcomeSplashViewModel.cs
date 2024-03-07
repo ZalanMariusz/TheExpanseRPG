@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using TheExpanseRPG.Commands;
-using TheExpanseRPG.Core.MVVM.View;
 using TheExpanseRPG.MVVM.View;
 using TheExpanseRPG.Services.Interfaces;
 

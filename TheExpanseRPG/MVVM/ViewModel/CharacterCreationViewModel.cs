@@ -19,15 +19,15 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
     private ScopedServiceFactory ScopedServiceFactory { get; }
 
     public CharacterOrigin? SelectedOrigin => CharacterCreationService.OriginBuilder.SelectedCharacterOrigin;
-    public bool HasOriginSelectionConflict => CharacterCreationFocusConflictChecker.HasOriginConflict();
-    public bool HasSocialOrBackgroundSelectionConflict => CharacterCreationFocusConflictChecker.HasBackgroundConflict();
-    public bool HasProfessionSelectionConflict => CharacterCreationFocusConflictChecker.HasProfessionConflict();
+    public bool HasOriginSelectionConflict => ConflictChecker.HasOriginConflict();
+    public bool HasSocialOrBackgroundSelectionConflict => ConflictChecker.HasBackgroundConflict();
+    public bool HasProfessionSelectionConflict => ConflictChecker.HasProfessionConflict();
     public CharacterSocialClass? SelectedSocialClass => CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterSocialClass;
     public CharacterBackGround? SelectedBackground => CharacterCreationService.SocialAndBackgroundBuilder.SelectedCharacterBackground;
     public CharacterProfession? SelectedProfession => CharacterCreationService.ProfessionBuilder.SelectedCharacterProfession;
     public CharacterDrive? SelectedDrive => CharacterCreationService.DriveBuilder.SelectedCharacterDrive;
-    public string OriginConflicts => string.Join(", ", CharacterCreationFocusConflictChecker.GetOriginFocusConflicts());
-    public string ProfessionConflicts => string.Join(", ", CharacterCreationFocusConflictChecker.GetProfessionFocusConflicts());
+    public string OriginConflicts => string.Join(", ", ConflictChecker.OriginFocusConflicts());
+    public string ProfessionConflicts => string.Join(", ", ConflictChecker.ProfessionFocusConflicts());
     public string SocialOrBackgroundConflicts => AggregateBackgroundConflicts();
 
     public RelayCommand ShowTalentListCommand { get; set; }
@@ -55,8 +55,8 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
         NavigateBackToMainCommand = new RelayCommand(o => true, ExecNavigationToPlayerMain);
         ShowTalentListCommand = new RelayCommand(o => true, o => ShowTalenList());
         ShowFocusListCommand = new RelayCommand(o => true, o => ShowFocusList());
-        
-        
+
+
         OpenModals = new();
 
         CharacterCreationService.OriginBuilder.OriginChanged += (sender, args) => { OnPropertyChanged(nameof(SelectedOrigin)); };
@@ -77,10 +77,10 @@ public class CharacterCreationViewModel : CharacterCreationViewModelBase
         NavigationService.NavigateToModal<FocusListWindow>(this, false);
     }
 
-    private static string AggregateBackgroundConflicts()
+    private string AggregateBackgroundConflicts()
     {
-        return string.Join(", ", CharacterCreationFocusConflictChecker.GetBackgroundFocusConflicts()
-            .Union(CharacterCreationFocusConflictChecker.GetBackgroundBenefitConflicts()));
+        return string.Join(", ", ConflictChecker.BackgroundFocusConflicts()
+            .Union(ConflictChecker.BackgroundBenefitConflicts()));
     }
 
     private void RefreshConflictProperties(object? sender, string? e)
