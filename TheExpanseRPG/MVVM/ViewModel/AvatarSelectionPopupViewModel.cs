@@ -18,11 +18,7 @@ public class AvatarSelectionPopupViewModel : ViewModelBase
     public AvatarSelectionPopupViewModel(string currentAvatar)
     {
         SelectedAvatar = currentAvatar;
-        AvatarList = new(Directory.GetFiles($".{WPFStringResources.AvatarFolderPath}"));
-        for (int i = 0; i < AvatarList.Count; i++)
-        {
-            AvatarList[i] = AvatarList[i].Replace(".\\", "\\");
-        }
+        AvatarList = new(Directory.GetFiles($"{WPFStringResources.AvatarFolderPath}"));
         SelectAvatarCommand = new(o => true, SelectAvatar);
     }
     private void SelectAvatar(object param)

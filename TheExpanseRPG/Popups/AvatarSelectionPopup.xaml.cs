@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -52,11 +53,13 @@ namespace TheExpanseRPG.Popups
         {
             await Application.Current.Dispatcher.BeginInvoke(() =>
             {
+                string basePath = Directory.GetCurrentDirectory();
+                string fullPath = Path.Combine(basePath, avatarPath);
                 Button avatarButton = new();
 
                 BitmapImage bi = new();
                 bi.BeginInit();
-                bi.UriSource = new(avatarPath, UriKind.Relative);
+                bi.UriSource = new(fullPath, UriKind.Absolute);
                 bi.EndInit();
                 Image image = new()
                 {

@@ -61,7 +61,7 @@ namespace TheExpanseRPG {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to \Images\CharacterProfiles\.
+        ///   Looks up a localized string similar to Images\CharacterProfiles\.
         /// </summary>
         internal static string AvatarFolderPath {
             get {

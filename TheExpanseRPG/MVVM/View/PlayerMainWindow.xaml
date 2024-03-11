@@ -99,6 +99,7 @@
                                         </Image.Source>
                                     </Image>
                                     <user:CharacterAsListItem Character="{Binding}" 
+                                                              Height="80"
                                                               x:Name="listItem" 
                                                               Margin="5,1" 
                                                               DeleteCharacterCommand="{Binding DataContext.DeleteCharacterCommand, RelativeSource={RelativeSource AncestorType=Window}}"

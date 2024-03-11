@@ -174,9 +174,12 @@
                 </Grid>
 
                 <Border BorderBrush="{StaticResource EXPLightBlueBrush}" BorderThickness="1" Grid.ColumnSpan="2" RenderOptions.EdgeMode="Aliased"/>
-                <Button Grid.Column="1" Grid.RowSpan="10" Margin="5" x:Name="avatarSelectionButton" Command="{Binding SelectAvatarCommand}">
+                <Button Grid.Column="1" Grid.RowSpan="10" Margin="5" x:Name="avatarSelectionButton" Command="{Binding SelectAvatarCommand}"
+                        Height="190"
+                        Width="190"
+                        >
                     <Button.Content>
-                        <Image Source="{Binding Avatar}" x:Name="avatarImage" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        <Image Source="{Binding Avatar}" x:Name="avatarImage" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Fill"/>
                     </Button.Content>
                 </Button>
             </Grid>

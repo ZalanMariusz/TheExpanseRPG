@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using TheExpanseRPG.Commands;
@@ -113,7 +114,7 @@ public class CharacterFinalizationViewModel : CharacterCreationViewModelBase
         SelectAvatarCommand = new RelayCommand(o => true, o => ShowAvatarSelectionAndAssign());
         CreateCharacterCommand = new(o => CanCreateCharacter, CreateCharacter);
         RandomizeCharacterCommand = new(o => true, o => RandomizeCharacter());
-        Avatar = $"{WPFStringResources.AvatarFolderPath}000_blank.png";
+        Avatar = Path.Combine(Directory.GetCurrentDirectory(), WPFStringResources.AvatarFolderPath, "000_blank.png");
     }
 
     private void CreateCharacter(object? sender)
