@@ -53,7 +53,7 @@ namespace TheExpanseRPG.Core.Services
         {
             DriveBonuses.AddRange(
                 new List<ICharacterCreationBonus>() {
-                    new Fortune() { Value = 5},
+                    new Fortune() { Value = 5 },
                     new Membership(),
                     new Income(2),
                     new Relationship(),

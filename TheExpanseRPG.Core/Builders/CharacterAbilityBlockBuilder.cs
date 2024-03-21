@@ -13,8 +13,8 @@ namespace TheExpanseRPG.Core.Builders
         private const int MAXABILITYVALUE = 3;
         private const int MINABILITYVALUE = 0;
         private const int ABILITYPOOL = 12;
-        public int Speed => SPEEDBASE + GetDexterityTotal() ?? 0;
-        public int Defense => DEFENSEBASE + GetDexterityTotal() ?? 0;
+        public int Speed => SPEEDBASE + (GetDexterityTotal() ?? 0);
+        public int Defense => DEFENSEBASE + (GetDexterityTotal() ?? 0);
         public int Toughness => GetConstitutionTotal() ?? 0;
 
         public event EventHandler? AbilityRollTypeChanged;
@@ -51,6 +51,7 @@ namespace TheExpanseRPG.Core.Builders
             DiceRollService = diceRollService;
             CharacterAbilityBlock = new();
             AbilityBonuses = new();
+            ResetAbilities();
         }
 
         public void ResetAbilities()
@@ -121,14 +122,14 @@ namespace TheExpanseRPG.Core.Builders
         public bool CanIncrease(string abilityName)
         {
             int? propertyValue = CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
-            return PointsToDistribute > 0 && propertyValue < MAXABILITYVALUE && propertyValue != null;
+            return PointsToDistribute > 0 && propertyValue < MAXABILITYVALUE && propertyValue != null && LastUsedRollType == AbilityRollType.DistributePoints;
         }
         public bool CanDecrease(string abilityName)
         {
             int? propertyValue = CharacterAbilityBlock.GetAbility(abilityName).BaseValue;
-            return PointsToDistribute < ABILITYPOOL && propertyValue > MINABILITYVALUE && propertyValue != null;
+            return PointsToDistribute < ABILITYPOOL && propertyValue > MINABILITYVALUE && propertyValue != null && LastUsedRollType == AbilityRollType.DistributePoints;
         }
-        /*checks if abilities need to be reset when trying to "chose" roll type*/
+        /*checks if abilities need to be reset when trying to "choose" roll type*/
         public bool RollsShouldBeReset(AbilityRollType chosenRollType)
         {
             if (chosenRollType == LastUsedRollType)
@@ -169,7 +170,7 @@ namespace TheExpanseRPG.Core.Builders
             {
                 AbilityRollType.AllRandom or AbilityRollType.RollAndAssign => CharacterAbilityBlock.AbilityList.Any(x => x.AbilityValue is null),
                 AbilityRollType.DistributePoints => PointsToDistribute != 0,
-                _ => false,
+                _ => true,
             };
         }
 

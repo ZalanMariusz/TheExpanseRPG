@@ -9,7 +9,7 @@ namespace TheExpanseRPG.Core.Services.Interfaces
         List<string> BackgroundBenefitConflicts();
         List<string> BackgroundFocusConflicts();
         bool HasBackgroundConflict();
-        bool HasConfclits();
+        bool HasConflitcts();
         bool HasOriginConflict();
         bool HasProfessionConflict();
         List<string> OriginFocusConflicts();

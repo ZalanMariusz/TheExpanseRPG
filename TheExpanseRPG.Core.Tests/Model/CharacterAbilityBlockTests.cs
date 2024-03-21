@@ -58,6 +58,18 @@ namespace TheExpanseRPG.Core.Tests.Model
         {
             CharacterAbilityName.Willpower.Should().Be(_sut.GetWillpower().AbilityName);
         }
+        [Fact]
+        public void GetAbility_StringParamThrowsExceptionForNonExistentAbilityName()
+        {
+            Action get = () => _sut.GetAbility("x");
+            get.Should().Throw<KeyNotFoundException>();
+        }
+        [Fact]
+        public void GetAbility_EnumParamThrowsExceptionForNonExistentAbilityName()
+        {
+            Action get = () => _sut.GetAbility((CharacterAbilityName)37);
+            get.Should().Throw<KeyNotFoundException>();
+        }
 
     }
 }

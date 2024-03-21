@@ -15,7 +15,7 @@ namespace TheExpanseRPG.Core.Model
         {
             foreach (CharacterAbilityName ability in Enum.GetValues<CharacterAbilityName>())
             {
-                AbilityList.Add(new CharacterAbility(ability));
+                AbilityList.Add(new CharacterAbility(ability) { });
             }
         }
 
@@ -23,12 +23,15 @@ namespace TheExpanseRPG.Core.Model
         public CharacterAbility GetAbility(CharacterAbilityName attributeName)
         {
             CharacterAbility characterAttribute = AbilityList.FirstOrDefault(a => a.AbilityName == attributeName)!;
-            return characterAttribute ?? throw (new KeyNotFoundException());
+            return characterAttribute ?? throw (new KeyNotFoundException($"{attributeName} is not a valid Attribute Name."));
         }
         public CharacterAbility GetAbility(string attributeName)
         {
-            CharacterAbilityName abilityEnum = Enum.Parse<CharacterAbilityName>(attributeName);
-            return GetAbility(abilityEnum);
+            if (Enum.TryParse(attributeName, out CharacterAbilityName abilityEnum))
+            {
+                return GetAbility(abilityEnum);
+            }
+            throw new KeyNotFoundException($"{attributeName} is not a valid Attribute Name.");
         }
         public CharacterAbility GetStrength()
         {

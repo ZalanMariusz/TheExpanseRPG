@@ -4,10 +4,7 @@ namespace TheExpanseRPG.Core.Model;
 
 public class Membership : CharacterTie, ICharacterCreationBonus
 {
-    public string CreationBonusName => "Membership";
+    public override string CreationBonusName => "Membership";
 
-    public ICharacterCreationBonus ShallowCopy()
-    {
-        return (Membership)MemberwiseClone();
-    }
+    public override string Description { get; set; } = string.Empty;
 }

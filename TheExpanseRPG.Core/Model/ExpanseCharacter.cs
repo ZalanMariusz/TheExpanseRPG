@@ -5,12 +5,20 @@ namespace TheExpanseRPG.Core.Model
 {
     public class ExpanseCharacter
     {
-        private const int THOUGHNESSBASE = 0;
+        private const int TOUGHNESSBASE = 0;
         private const int DEFENSEBASE = 10;
         private const int SPEEDBASE = 10;
+        private int _incomeBase;
+        public int Income
+        {
+            get => _incomeBase + IncomeModifiers.Sum();
+            private set
+            {
+                _incomeBase = value;
+            }
+        }
         public ExpanseCharacter()
         {
-            Fortune = 15;
             Talents = new List<CharacterTalent>();
             Focuses = new List<AbilityFocus>();
         }
@@ -49,23 +57,26 @@ namespace TheExpanseRPG.Core.Model
         public string Profession { get; set; } = string.Empty;
         public string Drive { get; set; } = string.Empty;
         public int Fortune { get; set; }
-        public int? Income { get; set; }
         public List<int> IncomeModifiers { get; set; } = new();
         [JsonIgnore]
         public int? Speed => SPEEDBASE + SpeedModifiers.Sum();
         public List<int> SpeedModifiers { get; set; } = new();
         [JsonIgnore]
-        public int Thoughness => THOUGHNESSBASE + ThoughnessModifiers.Sum();
-        public List<int> ThoughnessModifiers { get; set; } = new();
+        public int Toughness => TOUGHNESSBASE + ToughnessModifiers.Sum();
+        public List<int> ToughnessModifiers { get; set; } = new();
         [JsonIgnore]
         public int Defense => DEFENSEBASE + DefenseModifiers.Sum();
         public List<int> DefenseModifiers { get; set; } = new();
-        public int Armor => Thoughness + ArmorModifiers.Sum();
+        public int Armor => Toughness + ArmorModifiers.Sum();
         public List<int> ArmorModifiers { get; set; } = new();
         public string Avatar { get; set; } = string.Empty;
         public List<Relationship> Relationships { get; set; } = new();
         public List<Membership> Memberships { get; set; } = new();
         public List<Reputation> Reputations { get; set; } = new();
+        public void ModifyIncomeByValue(int increase)
+        {
+            _incomeBase += increase;
+        }
         public bool CanLearnTalent(CharacterTalent talent)
         {
             return talent.AreRequirementsMet(Focuses, Abilities);

@@ -14,9 +14,9 @@ public class TalentListServiceTests
     {
         Mock<IAbilityFocusListService> focusListService = new();
         focusListService.Setup(x => x.GetFocusByName(It.IsAny<CharacterAbilityName>(), It.IsAny<string>()))
-            .Returns(new AbilityFocus(CharacterAbilityName.Strength,"focus"));
+            .Returns(new AbilityFocus(CharacterAbilityName.Strength, "focus"));
 
-        _sut = new TalentListService(focusListService.Object,new SqliteDatabaseConnectorService());
+        _sut = new TalentListService(focusListService.Object, new SqliteDatabaseConnectorService());
     }
     [Fact]
     public void Constructor_TalentListIsNotEmpty()
@@ -31,6 +31,6 @@ public class TalentListServiceTests
     [Fact]
     public void GetTalent_ThrowsKeyNotFoundExceptionIfTalentDoesNotExists()
     {
-        _sut.Invoking(x=>x.GetTalent("xx")).Should().Throw<KeyNotFoundException>();
+        _sut.Invoking(x => x.GetTalent("xx")).Should().Throw<KeyNotFoundException>();
     }
 }

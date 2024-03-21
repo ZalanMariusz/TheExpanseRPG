@@ -1,13 +1,8 @@
-﻿using TheExpanseRPG.Core.Model.Interfaces;
+﻿namespace TheExpanseRPG.Core.Model;
 
-namespace TheExpanseRPG.Core.Model;
-
-public class Reputation : CharacterTie, ICharacterCreationBonus
+public class Reputation : CharacterTie
 {
-    public string CreationBonusName => "Reputation";
+    public override string CreationBonusName => "Reputation";
 
-    public ICharacterCreationBonus ShallowCopy()
-    {
-        return (Reputation)MemberwiseClone();
-    }
+    public override string Description { get; set; } = string.Empty;
 }

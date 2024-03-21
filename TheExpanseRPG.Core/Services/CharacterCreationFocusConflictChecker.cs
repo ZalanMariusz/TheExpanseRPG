@@ -57,7 +57,7 @@ namespace TheExpanseRPG.Core.Services
         {
             return ProfessionFocusConflicts().Any();
         }
-        public bool HasConfclits()
+        public bool HasConflitcts()
         {
             return HasBackgroundConflict() || HasOriginConflict() || HasProfessionConflict();
         }

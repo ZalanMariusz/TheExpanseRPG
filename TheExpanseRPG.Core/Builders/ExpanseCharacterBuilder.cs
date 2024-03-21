@@ -18,7 +18,7 @@ namespace TheExpanseRPG.Core.Builders
         ICharacterNameCreationStage,
         ICharacterDescriptionCreationStage,
         ICharacterAvatarCreationStage,
-        IINcomeCreationStage
+        IIncomeCreationStage
     {
         private ExpanseCharacterBuilder() { }
         private readonly ExpanseCharacter _character = new();
@@ -55,21 +55,21 @@ namespace TheExpanseRPG.Core.Builders
         }
         public ICharacterAbilityBlockCreationStage WithDriveBonus(ICharacterCreationBonus? driveBonus)
         {
-            if (driveBonus is (Relationship))
+            if (driveBonus is Relationship)
             {
                 _character.Relationships.Add((driveBonus as Relationship)!);
             }
-            if (driveBonus is (Membership))
+            if (driveBonus is Membership)
             {
                 _character.Memberships.Add((driveBonus as Membership)!);
             }
-            if (driveBonus is (Reputation))
+            if (driveBonus is Reputation)
             {
                 _character.Reputations.Add((driveBonus as Reputation)!);
             }
-            if (driveBonus is (Fortune))
+            if (driveBonus is Fortune)
             {
-                _character.Fortune += 5;
+                _character.Fortune += (driveBonus as Fortune)!.Value;
             }
             return this;
         }
@@ -79,7 +79,7 @@ namespace TheExpanseRPG.Core.Builders
             _character.Abilities = abilityBlock;
             _character.SpeedModifiers.Add((int)abilityBlock.GetDexterity().AbilityValue!);
             _character.DefenseModifiers.Add((int)abilityBlock.GetDexterity().AbilityValue!);
-            _character.ThoughnessModifiers.Add((int)abilityBlock.GetConstitution().AbilityValue!);
+            _character.ToughnessModifiers.Add((int)abilityBlock.GetConstitution().AbilityValue!);
 
             return this;
         }
@@ -113,14 +113,14 @@ namespace TheExpanseRPG.Core.Builders
             _character.Description = description;
             return this;
         }
-        public IINcomeCreationStage AndAvatar(string avatarPath)
+        public IIncomeCreationStage AndAvatar(string avatarPath)
         {
             _character.Avatar = avatarPath;
             return this;
         }
         public ExpanseCharacter SetIncome(int income)
         {
-            _character.Income = income;
+            _character.ModifyIncomeByValue(income);
             return _character;
         }
 
@@ -177,9 +177,9 @@ namespace TheExpanseRPG.Core.Builders
     }
     public interface ICharacterAvatarCreationStage
     {
-        IINcomeCreationStage AndAvatar(string avatarPath);
+        IIncomeCreationStage AndAvatar(string avatarPath);
     }
-    public interface IINcomeCreationStage
+    public interface IIncomeCreationStage
     {
         ExpanseCharacter SetIncome(int income);
     }

@@ -14,6 +14,9 @@ public class CharacterTalentTests
     readonly string expertDescription = "expertdescription";
     readonly string masterDescription = "masterdescription";
     readonly CharacterTalent _talent;
+
+
+
     public CharacterTalentTests()
     {
         _talent = new(
@@ -135,221 +138,215 @@ public class CharacterTalentTests
         _talent.ImproveTalent();
         _talent.Degree.Should().Be(TalentDegree.Master);
     }
-    //[Fact]
-    //public void AreRequirementsMet_EmptyRequrementsAreAlwaysMet()
-    //{
-    //    CharacterAbilityBlock emptyBlock = new();
-    //    _talent.AreRequirementsMet(emptyBlock).Should().BeTrue();
-    //}
+    [Fact]
+    public void AreRequirementsMet_EmptyRequrementsAreAlwaysMet()
+    {
+        CharacterAbilityBlock emptyBlock = new();
+        _talent.AreRequirementsMet(new(), emptyBlock).Should().BeTrue();
+    }
 
-    //[Fact]
-    //public void AreRequirementsMet_SingleAbilityRequirementIsMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 1);
-    //    List<ICharacterCreationBonus> requirementList = new() { abilityRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
+    [Fact]
+    public void AreRequirementsMet_SingleAbilityRequirementIsMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 1);
+        List<ICharacterCreationBonus> requirementList = new() { abilityRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.GetStrength().BaseValue = 1;
+        CharacterAbilityBlock abilityBlock = new();
+        abilityBlock.GetStrength().BaseValue = 1;
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeTrue();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_SingleAbilityRequirementIsNotMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
-    //    List<ICharacterCreationBonus> requirementList = new() { abilityRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
+        _talent.AreRequirementsMet(new(), abilityBlock).Should().BeTrue();
+    }
+    [Fact]
+    public void AreRequirementsMet_SingleAbilityRequirementIsNotMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
+        List<ICharacterCreationBonus> requirementList = new() { abilityRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.GetStrength().BaseValue = 1;
+        CharacterAbilityBlock abilityBlock = new();
+        abilityBlock.GetStrength().BaseValue = 1;
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeFalse();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_SingleFocusRequirementIsMet()
-    //{
-    //    AbilityFocus abilityFocus = new(CharacterAbilityName.Strength, "focus");
-    //    List<ICharacterCreationBonus> requirementList = new() { abilityFocus };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(new(), abilityBlock).Should().BeFalse();
+    }
+    [Fact]
+    public void AreRequirementsMet_SingleFocusRequirementIsMet()
+    {
+        AbilityFocus abilityFocus = new(CharacterAbilityName.Strength, "focus");
+        List<AbilityFocus> focusList = new() { abilityFocus };
+        List<ICharacterCreationBonus> requirementList = new() { abilityFocus };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.AddFocus(new(CharacterAbilityName.Strength, "focus"));
+        CharacterAbilityBlock abilityBlock = new();
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeTrue();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_SingleFocusRequirementIsNotMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
-    //    List<ICharacterCreationBonus> requirementList = new() { abilityRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(focusList, abilityBlock).Should().BeTrue();
+    }
+    [Fact]
+    public void AreRequirementsMet_SingleFocusRequirementIsNotMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
+        List<ICharacterCreationBonus> requirementList = new() { abilityRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
 
-    //    CharacterAbilityBlock abilityBlock = new();
+        CharacterAbilityBlock abilityBlock = new();
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeFalse();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_TwoRequirementsInOneList_OnlyOneIsMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
-    //    AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
-    //    List<ICharacterCreationBonus> requirementList = new() { abilityRequirement, focusRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(new(), abilityBlock).Should().BeFalse();
+    }
+    [Fact]
+    public void AreRequirementsMet_TwoRequirementsInOneList_OnlyOneIsMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
+        AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
+        List<ICharacterCreationBonus> requirementList = new() { abilityRequirement, focusRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.GetStrength().BaseValue = 2;
+        CharacterAbilityBlock abilityBlock = new();
+        abilityBlock.GetStrength().BaseValue = 2;
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeTrue();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_TwoRequirementsInOneList_BothAreMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
-    //    AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
-    //    List<ICharacterCreationBonus> requirementList = new() { abilityRequirement, focusRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(new(), abilityBlock).Should().BeTrue();
+    }
+    [Fact]
+    public void AreRequirementsMet_TwoRequirementsInOneList_BothAreMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
+        AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
+        List<ICharacterCreationBonus> requirementList = new() { abilityRequirement, focusRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.GetStrength().BaseValue = 2;
-    //    abilityBlock.AddFocus(new AbilityFocus(CharacterAbilityName.Accuracy, "focus"));
+        CharacterAbilityBlock abilityBlock = new();
+        abilityBlock.GetStrength().BaseValue = 2;
+        List<AbilityFocus> focusList = new() { new AbilityFocus(CharacterAbilityName.Accuracy, "focus") };
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeTrue();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_TwoRequirementsInOneList_NoneAreMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
-    //    AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
-    //    List<ICharacterCreationBonus> requirementList = new() { abilityRequirement, focusRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(focusList, abilityBlock).Should().BeTrue();
+    }
+    [Fact]
+    public void AreRequirementsMet_TwoRequirementsInOneList_NoneAreMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
+        AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
+        List<ICharacterCreationBonus> requirementList = new() { abilityRequirement, focusRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.GetStrength().BaseValue = 1;
+        CharacterAbilityBlock abilityBlock = new();
+        abilityBlock.GetStrength().BaseValue = 1;
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeFalse();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_TwoRequirementLists_OneIsMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
-    //    AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
-    //    List<ICharacterCreationBonus> requirementList_1 = new() { focusRequirement };
-    //    List<ICharacterCreationBonus> requirementList_2 = new() { abilityRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList_1, requirementList_2 };
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(new(), abilityBlock).Should().BeFalse();
+    }
+    [Fact]
+    public void AreRequirementsMet_TwoRequirementLists_OneIsMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
+        AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
+        List<ICharacterCreationBonus> requirementList_1 = new() { focusRequirement };
+        List<ICharacterCreationBonus> requirementList_2 = new() { abilityRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList_1, requirementList_2 };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.GetStrength().BaseValue = 2;
+        CharacterAbilityBlock abilityBlock = new();
+        abilityBlock.GetStrength().BaseValue = 2;
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeFalse();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_TwoRequirementLists_AllAreMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
-    //    AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
-    //    List<ICharacterCreationBonus> requirementList_1 = new() { focusRequirement };
-    //    List<ICharacterCreationBonus> requirementList_2 = new() { abilityRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList_1, requirementList_2 };
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(new(), abilityBlock).Should().BeFalse();
+    }
+    [Fact]
+    public void AreRequirementsMet_TwoRequirementLists_AllAreMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
+        AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
+        List<ICharacterCreationBonus> requirementList_1 = new() { focusRequirement };
+        List<ICharacterCreationBonus> requirementList_2 = new() { abilityRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList_1, requirementList_2 };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.GetStrength().BaseValue = 2;
-    //    abilityBlock.AddFocus(new(CharacterAbilityName.Accuracy, "focus"));
+        CharacterAbilityBlock abilityBlock = new();
+        abilityBlock.GetStrength().BaseValue = 2;
+        List<AbilityFocus> focusList = new() { new(CharacterAbilityName.Accuracy, "focus") };
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeTrue();
-    //}
-    //[Fact]
-    //public void AreRequirementsMet_TwoRequirementLists_NoneAreMet()
-    //{
-    //    CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
-    //    AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
-    //    List<ICharacterCreationBonus> requirementList_1 = new() { focusRequirement };
-    //    List<ICharacterCreationBonus> requirementList_2 = new() { abilityRequirement };
-    //    List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList_1, requirementList_2 };
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(focusList, abilityBlock).Should().BeTrue();
+    }
+    [Fact]
+    public void AreRequirementsMet_TwoRequirementLists_NoneAreMet()
+    {
+        CharacterAbility abilityRequirement = new(CharacterAbilityName.Strength, 2);
+        AbilityFocus focusRequirement = new(CharacterAbilityName.Accuracy, "focus");
+        List<ICharacterCreationBonus> requirementList_1 = new() { focusRequirement };
+        List<ICharacterCreationBonus> requirementList_2 = new() { abilityRequirement };
+        List<List<ICharacterCreationBonus>> fullRequirements = new() { requirementList_1, requirementList_2 };
 
-    //    CharacterAbilityBlock abilityBlock = new();
-    //    abilityBlock.GetStrength().BaseValue = 1;
+        CharacterAbilityBlock abilityBlock = new();
+        abilityBlock.GetStrength().BaseValue = 1;
 
-    //    CharacterTalent talent = new(
-    //        talentName,
-    //        fullRequirements,
-    //        description,
-    //        noviceDescription,
-    //        expertDescription,
-    //        masterDescription
-    //    );
-    //    talent.AreRequirementsMet(abilityBlock).Should().BeFalse();
+        CharacterTalent talent = new(
+            talentName,
+            fullRequirements,
+            description,
+            noviceDescription,
+            expertDescription,
+            masterDescription
+        );
+        talent.AreRequirementsMet(new(), abilityBlock).Should().BeFalse();
+    }
 }
-    
+
+

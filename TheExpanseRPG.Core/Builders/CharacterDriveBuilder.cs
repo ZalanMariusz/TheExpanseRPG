@@ -41,7 +41,6 @@ namespace TheExpanseRPG.Core.Builders
             set
             {
                 _selectedDriveBonus = value;
-                SetDriveBonusDescription(null);
                 BonusSelectionChanged?.Invoke(this, nameof(SelectedDriveBonus));
             }
         }
@@ -62,7 +61,8 @@ namespace TheExpanseRPG.Core.Builders
         {
             return SelectedDriveBonus is null
                 || SelectedDriveTalent is null
-                || (SelectedDriveBonus is CharacterTie characterTie && string.IsNullOrEmpty(characterTie.Description));
+                || (SelectedDriveBonus is CharacterTie characterTie && string.IsNullOrEmpty(characterTie.Description))
+                || SelectedCharacterDrive is null;
         }
 
         public void GenerateRandom()
@@ -89,7 +89,5 @@ namespace TheExpanseRPG.Core.Builders
                 characterTie.Description = value ?? string.Empty;
             }
         }
-
-
     }
 }

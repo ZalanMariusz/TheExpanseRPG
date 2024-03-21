@@ -106,7 +106,8 @@ public class CharacterTalent : ICharacterCreationBonus
             return requiredAbility.BaseValue <= actualAbility.BaseValue;
         }
 
-        return focusList.Contains((AbilityFocus)requirement);
+        AbilityFocus requirementFocus = (AbilityFocus)requirement;
+        return focusList.FirstOrDefault(x => x.AbilityName == requirementFocus.AbilityName && x.FocusName == requirementFocus.FocusName) is not null;
     }
 
     public ICharacterCreationBonus ShallowCopy()

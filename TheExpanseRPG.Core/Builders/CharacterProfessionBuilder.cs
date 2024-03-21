@@ -6,7 +6,7 @@ using TheExpanseRPG.Core.Services.Interfaces;
 
 namespace TheExpanseRPG.Core.Builders;
 
-internal class CharacterProfessionBuilder : ICharacterProfessionBuilder
+public class CharacterProfessionBuilder : ICharacterProfessionBuilder
 {
     private ICharacterProfessionListService ProfessionListService { get; set; }
     private CharacterProfession? _selectedCharacterProfession;

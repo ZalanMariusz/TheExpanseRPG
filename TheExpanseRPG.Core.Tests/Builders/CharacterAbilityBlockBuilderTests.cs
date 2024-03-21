@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Moq;
+using System.Reflection;
 using TheExpanseRPG.Core.Builders;
 using TheExpanseRPG.Core.Enums;
 using TheExpanseRPG.Core.Model;
@@ -352,7 +353,7 @@ public class CharacterAbilityBlockBuilderTests
     public void AssignAbilityScore_AssignmentSwapsIfAlreadyAssigned()
     {
         _sut.SelectedAbilityRollType = AbilityRollType.RollAndAssign;
-        
+
         _sut.RollAssignableAbilityList();
         _sut.AssignAbilityScore("Accuracy", _sut.AbilityValuesToAssign[0]);
         _sut.AssignAbilityScore("Accuracy", _sut.AbilityValuesToAssign[0]);
@@ -416,5 +417,117 @@ public class CharacterAbilityBlockBuilderTests
         _sut.SetRollTypeToDistribute();
         _sut.RollsShouldBeReset(AbilityRollType.RollAndAssign).Should().BeFalse();
     }
+    [Fact]
+    public void RollsShouldBeReset_AllRandomReturnsTrueWhenAPointIsDistributed()
+    {
+        _sut.SelectedAbilityRollType = AbilityRollType.DistributePoints;
+        _sut.SetRollTypeToDistribute();
+        _sut.IncreaseAbilityFromPool("Willpower");
+        _sut.RollsShouldBeReset(AbilityRollType.AllRandom).Should().BeTrue();
+    }
+    [Fact]
+    public void RollsShouldBeReset_AllRandomReturnsTrueRollAndAssignedIsSet()
+    {
+        _sut.SelectedAbilityRollType = AbilityRollType.RollAndAssign;
+        _sut.RollAssignableAbilityList();
+        _sut.RollsShouldBeReset(AbilityRollType.AllRandom).Should().BeTrue();
+    }
 
+
+
+    [InlineData(3, -2)]
+    [InlineData(4, -1)]
+    [InlineData(5, -1)]
+    [InlineData(6, 0)]
+    [InlineData(7, 0)]
+    [InlineData(8, 0)]
+    [InlineData(9, 1)]
+    [InlineData(10, 1)]
+    [InlineData(11, 1)]
+    [InlineData(12, 2)]
+    [InlineData(13, 2)]
+    [InlineData(14, 2)]
+    [InlineData(15, 3)]
+    [InlineData(16, 3)]
+    [InlineData(17, 3)]
+    [InlineData(18, 4)]
+    [InlineData(39, 4)]
+    [Theory]
+    public void GetAbilityValueFromRollTests(int roll, int expected)
+    {
+        MethodInfo method = _sut.GetType().GetMethods(BindingFlags.NonPublic | BindingFlags.Static)
+            .Where(x => x.Name == "GetAbilityValueFromRoll" && x.IsPrivate)
+            .First();
+        var retval = method.Invoke(_sut, new object[] { roll });
+        retval.Should().Be(expected);
+    }
+    [Fact]
+    public void LastUsedRolLTypeChanged_EventFiring()
+    {
+        List<object> invocationCount = new();
+        _sut.LastUsedRollTypeChanged += (sender, args) => invocationCount.Add(sender!);
+        _sut.RollAllRandom();
+        invocationCount.Count.Should().Be(1);
+    }
+    [Fact]
+    public void AbilityRollTypeChanged_EventFiring()
+    {
+        List<object> invocationCount = new();
+        _sut.AbilityRollTypeChanged += (sender, args) => invocationCount.Add(sender!);
+        _sut.SelectedAbilityRollType = AbilityRollType.AllRandom;
+        invocationCount.Count.Should().Be(1);
+    }
+    [Fact]
+    public void Speed_ByDefaultIsTen()
+    {
+        _sut.Speed.Should().Be(10);
+    }
+    [Fact]
+    public void Defense_ByDefaultIsTen()
+    {
+        _sut.Defense.Should().Be(10);
+    }
+    [Fact]
+    public void Toughness_ByDefaultIsZero()
+    {
+        _sut.Toughness.Should().Be(0);
+    }
+    [Fact]
+    public void IsMissingAbilityRoll_NonDefinedAbilityRollTypeReturnsTrue()
+    {
+        PropertyInfo lastUsed = _sut.GetType().GetProperties().First(x => x.Name == nameof(CharacterAbilityBlockBuilder.LastUsedRollType));
+        lastUsed.SetValue(_sut, (AbilityRollType)23);
+        _sut.IsMissingAbilityRoll().Should().BeTrue();
+    }
+    [Fact]
+    public void GetAbilityNameTotal_ReturnsActualAbilityTotal()
+    {
+        _sut.ResetAbilities();
+        _sut.CharacterAbilityBlock.GetAccuracy().BaseValue = 0;
+        _sut.CharacterAbilityBlock.GetCommunication().BaseValue = 1;
+        _sut.CharacterAbilityBlock.GetConstitution().BaseValue = 2;
+        _sut.CharacterAbilityBlock.GetDexterity().BaseValue = 3;
+        _sut.CharacterAbilityBlock.GetFighting().BaseValue = 4;
+        _sut.CharacterAbilityBlock.GetIntelligence().BaseValue = 5;
+        _sut.CharacterAbilityBlock.GetPerception().BaseValue = 6;
+        _sut.CharacterAbilityBlock.GetStrength().BaseValue = 7;
+        _sut.CharacterAbilityBlock.GetWillpower().BaseValue = 8;
+
+        _sut.GetAccuracyTotal().Should().Be(0);
+        _sut.GetCommunicationTotal().Should().Be(1);
+        _sut.GetConstitutionTotal().Should().Be(2);
+        _sut.GetDexterityTotal().Should().Be(3);
+        _sut.GetFightingTotal().Should().Be(4);
+        _sut.GetIntelligenceTotal().Should().Be(5);
+        _sut.GetPerceptionTotal().Should().Be(6);
+        _sut.GetStrengthTotal().Should().Be(7);
+        _sut.GetWillpowerTotal().Should().Be(8);
+    }
+    [Fact]
+    public void GetAbilityBonuses_OnlyReturnsAbilityBonuses()
+    {
+        _sut.AbilityBonuses.Add(new Income(5));
+        _sut.AbilityBonuses.Add(new CharacterAbility(CharacterAbilityName.Accuracy));
+        _sut.GetAbilityBonuses(CharacterAbilityName.Accuracy).Should().Be(1);
+    }
 }

@@ -119,7 +119,7 @@ public class CharacterCreationService : ICharacterCreationService
             DriveBuilder.IsMissingDriveBonus(),
             AbilityBlockBuilder.IsMissingAbilityRoll(),
 
-            ConflictChecker.HasConfclits(),
+            ConflictChecker.HasConflitcts(),
 
             OriginBuilder.SelectedCharacterOrigin is null,
             string.IsNullOrEmpty(CharacterName)
@@ -168,7 +168,7 @@ public class CharacterCreationService : ICharacterCreationService
         {
             SocialAndBackgroundBuilder.GenerateRandom();
             ProfessionBuilder.GenerateRandom(SocialAndBackgroundBuilder.SelectedCharacterSocialClass);
-        } while (ConflictChecker.HasConfclits());
+        } while (ConflictChecker.HasConflitcts());
     }
     #endregion
     public int? GetTotalIncome()
